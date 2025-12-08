@@ -5,6 +5,7 @@ import {
   FlatList,
   Dimensions,
   ViewToken,
+  Animated,
 } from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {OnboardingScreen1} from './OnboardingScreen1';
@@ -57,24 +58,24 @@ export const OnboardingContainer: React.FC<OnboardingContainerProps> = ({
   const screens = [
     {
       key: 'screen1',
-      component: <OnboardingScreen1 />,
+      component: OnboardingScreen1,
     },
     {
       key: 'screen2',
-      component: <OnboardingScreen2 />,
+      component: OnboardingScreen2,
     },
     {
       key: 'screen3',
-      component: <OnboardingScreen3 />,
+      component: OnboardingScreen3,
     },
     {
       key: 'screen4',
-      component: <OnboardingScreen4 />,
+      component: OnboardingScreen4,
     },
   ];
 
   const getButtonTitle = () => {
-    return currentIndex === 3 ? 'Get Started' : 'Next';
+    return currentIndex === 3 ? 'Create Your First Book' : 'Next';
   };
 
   const handleButtonPress = () => {
@@ -90,30 +91,39 @@ export const OnboardingContainer: React.FC<OnboardingContainerProps> = ({
       <FlatList
         ref={flatListRef}
         data={screens}
-        renderItem={({item}) => (
-          <View style={styles.screenContainer}>{item.component}</View>
-        )}
+        renderItem={({item, index}) => {
+          const ScreenComponent = item.component;
+          return (
+            <View style={styles.screenContainer}>
+              <ScreenComponent isActive={currentIndex === index} />
+            </View>
+          );
+        }}
         horizontal
         pagingEnabled
         showsHorizontalScrollIndicator={false}
-        bounces={false}
+        bounces={true}
         keyExtractor={item => item.key}
         onViewableItemsChanged={onViewableItemsChanged}
         viewabilityConfig={viewabilityConfig}
         scrollEventThrottle={16}
+        decelerationRate="fast"
       />
 
       {/* Pagination Dots */}
       <View style={styles.pagination}>
-        {screens.map((_, index) => (
-          <View
-            key={index}
-            style={[
-              styles.dot,
-              currentIndex === index ? styles.activeDot : styles.inactiveDot,
-            ]}
-          />
-        ))}
+        {screens.map((_, index) => {
+          const isActive = currentIndex === index;
+          return (
+            <Animated.View
+              key={index}
+              style={[
+                styles.dot,
+                isActive ? styles.activeDot : styles.inactiveDot,
+              ]}
+            />
+          );
+        })}
       </View>
 
       {/* Fixed Button */}

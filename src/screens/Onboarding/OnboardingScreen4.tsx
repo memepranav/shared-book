@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import {
   View,
   Text,
@@ -6,14 +6,66 @@ import {
   Dimensions,
   StatusBar,
   Image,
+  Animated,
 } from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {colors, typography, spacing, borderRadius} from '../../theme';
 
 const {width, height} = Dimensions.get('window');
 
-export const OnboardingScreen4: React.FC = () => {
+interface OnboardingScreen4Props {
+  isActive?: boolean;
+}
+
+export const OnboardingScreen4: React.FC<OnboardingScreen4Props> = ({
+  isActive = true,
+}) => {
   const insets = useSafeAreaInsets();
+  const scaleAnim = useRef(new Animated.Value(1)).current;
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const slideAnim = useRef(new Animated.Value(30)).current;
+
+  useEffect(() => {
+    if (isActive) {
+      Animated.parallel([
+        Animated.spring(scaleAnim, {
+          toValue: 1,
+          friction: 8,
+          tension: 40,
+          useNativeDriver: true,
+        }),
+        Animated.timing(fadeAnim, {
+          toValue: 1,
+          duration: 600,
+          useNativeDriver: true,
+        }),
+        Animated.spring(slideAnim, {
+          toValue: 0,
+          friction: 8,
+          tension: 40,
+          useNativeDriver: true,
+        }),
+      ]).start();
+    } else {
+      Animated.parallel([
+        Animated.timing(scaleAnim, {
+          toValue: 0.95,
+          duration: 200,
+          useNativeDriver: true,
+        }),
+        Animated.timing(fadeAnim, {
+          toValue: 0,
+          duration: 200,
+          useNativeDriver: true,
+        }),
+        Animated.timing(slideAnim, {
+          toValue: 30,
+          duration: 200,
+          useNativeDriver: true,
+        }),
+      ]).start();
+    }
+  }, [isActive, scaleAnim, fadeAnim, slideAnim]);
 
   return (
     <View style={styles.container}>
@@ -24,20 +76,33 @@ export const OnboardingScreen4: React.FC = () => {
       />
 
       {/* Main Content */}
-      <View style={[styles.content, {marginTop: insets.top + height * 0.1}]}>
+      <Animated.View
+        style={[
+          styles.content,
+          {
+            marginTop: insets.top + height * 0.1,
+            opacity: fadeAnim,
+            transform: [{translateY: slideAnim}],
+          },
+        ]}>
         <Text style={styles.title}>
           Plan Trips,{'\n'}Not Spreadsheets
         </Text>
         <Text style={styles.subtitle}>
           Add expenses on the go. Split equally or custom. See who owes what in seconds.
         </Text>
-      </View>
+      </Animated.View>
 
       {/* Illustration Area */}
       <View style={styles.illustrationContainer}>
-        <Image
+        <Animated.Image
           source={require('../../assets/images/onboarding-4.png')}
-          style={styles.illustrationImage}
+          style={[
+            styles.illustrationImage,
+            {
+              transform: [{scale: scaleAnim}],
+            },
+          ]}
           resizeMode="contain"
         />
       </View>

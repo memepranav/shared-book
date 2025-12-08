@@ -6,11 +6,13 @@ import {
   Dimensions,
   ViewToken,
 } from 'react-native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {OnboardingScreen1} from './OnboardingScreen1';
 import {OnboardingScreen2} from './OnboardingScreen2';
 import {OnboardingScreen3} from './OnboardingScreen3';
 import {OnboardingScreen4} from './OnboardingScreen4';
-import {colors} from '../../theme';
+import {Button} from '../../components/Button';
+import {colors, spacing} from '../../theme';
 
 const {width} = Dimensions.get('window');
 
@@ -23,6 +25,7 @@ export const OnboardingContainer: React.FC<OnboardingContainerProps> = ({
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const flatListRef = useRef<FlatList>(null);
+  const insets = useSafeAreaInsets();
 
   const onViewableItemsChanged = useRef(
     ({viewableItems}: {viewableItems: ViewToken[]}) => {
@@ -54,29 +57,33 @@ export const OnboardingContainer: React.FC<OnboardingContainerProps> = ({
   const screens = [
     {
       key: 'screen1',
-      component: (
-        <OnboardingScreen1 onNext={scrollToNext} onSkip={handleSkip} />
-      ),
+      component: <OnboardingScreen1 />,
     },
     {
       key: 'screen2',
-      component: (
-        <OnboardingScreen2 onNext={scrollToNext} onSkip={handleSkip} />
-      ),
+      component: <OnboardingScreen2 />,
     },
     {
       key: 'screen3',
-      component: (
-        <OnboardingScreen3 onNext={scrollToNext} onSkip={handleSkip} />
-      ),
+      component: <OnboardingScreen3 />,
     },
     {
       key: 'screen4',
-      component: (
-        <OnboardingScreen4 onGetStarted={onComplete} onSkip={handleSkip} />
-      ),
+      component: <OnboardingScreen4 />,
     },
   ];
+
+  const getButtonTitle = () => {
+    return currentIndex === 3 ? 'Get Started' : 'Next';
+  };
+
+  const handleButtonPress = () => {
+    if (currentIndex === 3) {
+      onComplete();
+    } else {
+      scrollToNext();
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -107,6 +114,15 @@ export const OnboardingContainer: React.FC<OnboardingContainerProps> = ({
             ]}
           />
         ))}
+      </View>
+
+      {/* Fixed Button */}
+      <View
+        style={[
+          styles.buttonContainer,
+          {bottom: insets.bottom + spacing.xl + spacing.lg},
+        ]}>
+        <Button title={getButtonTitle()} onPress={handleButtonPress} />
       </View>
     </View>
   );
@@ -141,5 +157,10 @@ const styles = StyleSheet.create({
   inactiveDot: {
     width: 8,
     backgroundColor: colors.background.app,
+  },
+  buttonContainer: {
+    position: 'absolute',
+    left: spacing.xl,
+    right: spacing.xl,
   },
 });

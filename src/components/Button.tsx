@@ -113,7 +113,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
-    paddingHorizontal: spacing.xl,
+    paddingHorizontal: spacing.lg,
+    alignSelf: 'center',
+    width: '80%',
   },
   primaryButton: {
     backgroundColor: colors.primary.pink,

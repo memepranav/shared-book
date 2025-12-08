@@ -9,19 +9,10 @@ import {
 } from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {colors, typography, spacing, borderRadius} from '../../theme';
-import {Button} from '../../components/Button';
 
 const {width, height} = Dimensions.get('window');
 
-interface OnboardingScreen1Props {
-  onNext: () => void;
-  onSkip: () => void;
-}
-
-export const OnboardingScreen1: React.FC<OnboardingScreen1Props> = ({
-  onNext,
-  onSkip,
-}) => {
+export const OnboardingScreen1: React.FC = () => {
   const insets = useSafeAreaInsets();
 
   return (
@@ -49,11 +40,6 @@ export const OnboardingScreen1: React.FC<OnboardingScreen1Props> = ({
           style={styles.illustrationImage}
           resizeMode="contain"
         />
-      </View>
-
-      {/* Bottom Button */}
-      <View style={[styles.bottomButtonContainer, {bottom: insets.bottom + spacing.xl + spacing.lg}]}>
-        <Button title="Next" onPress={onNext} />
       </View>
     </View>
   );
@@ -93,10 +79,5 @@ const styles = StyleSheet.create({
   illustrationImage: {
     width: width,
     height: '100%',
-  },
-  bottomButtonContainer: {
-    position: 'absolute',
-    left: spacing.xl,
-    right: spacing.xl,
   },
 });

@@ -5,8 +5,9 @@ import {
   StyleSheet,
   Dimensions,
   StatusBar,
+  Image,
 } from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {colors, typography, spacing, borderRadius} from '../../theme';
 import {Button} from '../../components/Button';
 
@@ -21,41 +22,39 @@ export const OnboardingScreen2: React.FC<OnboardingScreen2Props> = ({
   onNext,
   onSkip,
 }) => {
+  const insets = useSafeAreaInsets();
+
   return (
     <View style={styles.container}>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView style={styles.safeArea} edges={['top', 'bottom']}>
-        {/* Main Content */}
-        <View style={styles.content}>
-          <Text style={styles.title}>
-            Budget is{'\n'}Smarter, Not{'\n'}Harder
-          </Text>
-          <Text style={styles.subtitle}>
-            Instantly categorize your spending,{'\n'}set personalized budgets
-          </Text>
-        </View>
+      <StatusBar
+        barStyle="dark-content"
+        backgroundColor={colors.background.card}
+        translucent={true}
+      />
 
-        {/* Illustration Area */}
-        <View style={styles.illustrationContainer}>
-          <View style={styles.characterCircle}>
-            <Text style={styles.illustrationEmoji}>📊</Text>
-          </View>
-          <View style={styles.chartIcon}>
-            <Text style={styles.chartEmoji}>📈</Text>
-          </View>
-          <View style={styles.starIcon1}>
-            <Text style={styles.starEmoji}>⭐</Text>
-          </View>
-          <View style={styles.starIcon2}>
-            <Text style={styles.starEmoji}>✨</Text>
-          </View>
-        </View>
+      {/* Main Content */}
+      <View style={[styles.content, {marginTop: insets.top + height * 0.1}]}>
+        <Text style={styles.title}>
+          Collect Funds{'\n'}the Smart Way
+        </Text>
+        <Text style={styles.subtitle}>
+          Birthday parties, group gifts, or any cause - track every rupee collected with full transparency.
+        </Text>
+      </View>
 
-        {/* Bottom Button */}
-        <View style={styles.bottomButtonContainer}>
-          <Button title="Next" onPress={onNext} />
-        </View>
-      </SafeAreaView>
+      {/* Illustration Area */}
+      <View style={styles.illustrationContainer}>
+        <Image
+          source={require('../../assets/images/onboarding-2.png')}
+          style={styles.illustrationImage}
+          resizeMode="contain"
+        />
+      </View>
+
+      {/* Bottom Button */}
+      <View style={[styles.bottomButtonContainer, {bottom: insets.bottom + spacing.xl + spacing.lg}]}>
+        <Button title="Next" onPress={onNext} />
+      </View>
     </View>
   );
 };
@@ -64,69 +63,39 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.background.card,
-  },
-  safeArea: {
-    flex: 1,
     paddingHorizontal: spacing.xl,
   },
-  content: {
-    marginTop: height * 0.1,
-  },
+  content: {},
   title: {
-    fontSize: typography.sizes['4xl'],
-    fontWeight: typography.weights.bold,
+    fontSize: typography.sizes['3xl'],
+    fontFamily: typography.fonts.semibold,
+    fontWeight: typography.weights.semibold,
     color: colors.text.primary,
-    lineHeight: typography.lineHeights['4xl'] + 8,
+    lineHeight: typography.lineHeights['3xl'],
     marginBottom: spacing.md,
   },
   subtitle: {
     fontSize: typography.sizes.base,
-    color: colors.text.secondary,
+    fontFamily: typography.fonts.regular,
+    color: colors.text.primary,
+    opacity: 0.7,
     marginBottom: spacing.xl,
   },
   illustrationContainer: {
     position: 'absolute',
-    bottom: height * 0.25,
+    bottom: height * 0.12,
     left: 0,
     right: 0,
     alignItems: 'center',
     justifyContent: 'center',
+    height: height * 0.6,
   },
-  characterCircle: {
-    width: 140,
-    height: 140,
-    borderRadius: 70,
-    backgroundColor: colors.accent.lightBlue,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  illustrationEmoji: {
-    fontSize: 70,
-  },
-  chartIcon: {
-    position: 'absolute',
-    top: 20,
-    left: width * 0.2,
-  },
-  chartEmoji: {
-    fontSize: 40,
-  },
-  starIcon1: {
-    position: 'absolute',
-    top: 10,
-    right: width * 0.25,
-  },
-  starEmoji: {
-    fontSize: 30,
-  },
-  starIcon2: {
-    position: 'absolute',
-    bottom: 10,
-    right: width * 0.15,
+  illustrationImage: {
+    width: width,
+    height: '100%',
   },
   bottomButtonContainer: {
     position: 'absolute',
-    bottom: spacing.xl + spacing.lg,
     left: spacing.xl,
     right: spacing.xl,
   },

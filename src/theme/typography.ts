@@ -2,26 +2,10 @@ import {Platform} from 'react-native';
 
 export const typography = {
   fonts: {
-    regular: Platform.select({
-      ios: 'System',
-      android: 'Roboto',
-      default: 'System',
-    }),
-    medium: Platform.select({
-      ios: 'System',
-      android: 'Roboto-Medium',
-      default: 'System',
-    }),
-    semibold: Platform.select({
-      ios: 'System',
-      android: 'Roboto-Medium',
-      default: 'System',
-    }),
-    bold: Platform.select({
-      ios: 'System',
-      android: 'Roboto-Bold',
-      default: 'System',
-    }),
+    regular: 'Poppins-Regular',
+    medium: 'Poppins-Medium',
+    semibold: 'Poppins-SemiBold',
+    bold: 'Poppins-Bold',
   },
 
   sizes: {

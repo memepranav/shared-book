@@ -13,13 +13,13 @@ import {Button} from '../../components/Button';
 
 const {width, height} = Dimensions.get('window');
 
-interface OnboardingScreen3Props {
-  onNext: () => void;
+interface OnboardingScreen4Props {
+  onGetStarted: () => void;
   onSkip: () => void;
 }
 
-export const OnboardingScreen3: React.FC<OnboardingScreen3Props> = ({
-  onNext,
+export const OnboardingScreen4: React.FC<OnboardingScreen4Props> = ({
+  onGetStarted,
   onSkip,
 }) => {
   const insets = useSafeAreaInsets();
@@ -35,17 +35,17 @@ export const OnboardingScreen3: React.FC<OnboardingScreen3Props> = ({
       {/* Main Content */}
       <View style={[styles.content, {marginTop: insets.top + height * 0.1}]}>
         <Text style={styles.title}>
-          One Family,{'\n'}One Account Book
+          Plan Trips,{'\n'}Not Spreadsheets
         </Text>
         <Text style={styles.subtitle}>
-          No more 'who paid the electricity bill?' Share expense sheets instantly with all family members.
+          Add expenses on the go. Split equally or custom. See who owes what in seconds.
         </Text>
       </View>
 
       {/* Illustration Area */}
       <View style={styles.illustrationContainer}>
         <Image
-          source={require('../../assets/images/onboarding-3.png')}
+          source={require('../../assets/images/onboarding-4.png')}
           style={styles.illustrationImage}
           resizeMode="contain"
         />
@@ -53,7 +53,7 @@ export const OnboardingScreen3: React.FC<OnboardingScreen3Props> = ({
 
       {/* Bottom Button */}
       <View style={[styles.bottomButtonContainer, {bottom: insets.bottom + spacing.xl + spacing.lg}]}>
-        <Button title="Next" onPress={onNext} />
+        <Button title="Get Started" onPress={onGetStarted} />
       </View>
     </View>
   );

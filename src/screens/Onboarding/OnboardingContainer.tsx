@@ -9,6 +9,7 @@ import {
 import {OnboardingScreen1} from './OnboardingScreen1';
 import {OnboardingScreen2} from './OnboardingScreen2';
 import {OnboardingScreen3} from './OnboardingScreen3';
+import {OnboardingScreen4} from './OnboardingScreen4';
 import {colors} from '../../theme';
 
 const {width} = Dimensions.get('window');
@@ -36,7 +37,7 @@ export const OnboardingContainer: React.FC<OnboardingContainerProps> = ({
   }).current;
 
   const scrollToNext = () => {
-    if (currentIndex < 2) {
+    if (currentIndex < 3) {
       flatListRef.current?.scrollToIndex({
         index: currentIndex + 1,
         animated: true,
@@ -66,7 +67,13 @@ export const OnboardingContainer: React.FC<OnboardingContainerProps> = ({
     {
       key: 'screen3',
       component: (
-        <OnboardingScreen3 onGetStarted={onComplete} onSkip={handleSkip} />
+        <OnboardingScreen3 onNext={scrollToNext} onSkip={handleSkip} />
+      ),
+    },
+    {
+      key: 'screen4',
+      component: (
+        <OnboardingScreen4 onGetStarted={onComplete} onSkip={handleSkip} />
       ),
     },
   ];

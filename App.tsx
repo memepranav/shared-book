@@ -1,44 +1,55 @@
 /**
- * Sample React Native App
- * https://github.com/facebook/react-native
+ * SharedBook - Financial Management App
  *
  * @format
  */
 
-import { NewAppScreen } from '@react-native/new-app-screen';
-import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
-import {
-  SafeAreaProvider,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
+import React, {useState} from 'react';
+import {StyleSheet, View, Text} from 'react-native';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
+import {OnboardingContainer} from './src/screens/Onboarding';
 
 function App() {
-  const isDarkMode = useColorScheme() === 'dark';
+  const [showOnboarding, setShowOnboarding] = useState(true);
+
+  const handleOnboardingComplete = () => {
+    setShowOnboarding(false);
+  };
 
   return (
     <SafeAreaProvider>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <AppContent />
+      {showOnboarding ? (
+        <OnboardingContainer onComplete={handleOnboardingComplete} />
+      ) : (
+        <View style={styles.container}>
+          <Text style={styles.text}>Main App Screen</Text>
+          <Text style={styles.subtext}>
+            Onboarding completed! Home screen will go here.
+          </Text>
+        </View>
+      )}
     </SafeAreaProvider>
-  );
-}
-
-function AppContent() {
-  const safeAreaInsets = useSafeAreaInsets();
-
-  return (
-    <View style={styles.container}>
-      <NewAppScreen
-        templateFileName="App.tsx"
-        safeAreaInsets={safeAreaInsets}
-      />
-    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#E8EAF0',
+  },
+  text: {
+    fontSize: 24,
+    fontWeight: '600',
+    color: '#2D3142',
+    marginBottom: 8,
+  },
+  subtext: {
+    fontSize: 16,
+    color: '#8F92A1',
+    textAlign: 'center',
+    paddingHorizontal: 40,
   },
 });
 

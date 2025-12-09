@@ -7,6 +7,11 @@ export const colors = {
     purple: '#A259FF',
   },
 
+  // Secondary Colors
+  secondary: {
+    darkBlueGray: '#2c3e50',
+  },
+
   // Onboarding Gradient Colors
   gradients: {
     purple: {

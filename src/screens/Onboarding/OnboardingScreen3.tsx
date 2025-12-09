@@ -118,11 +118,11 @@ const styles = StyleSheet.create({
   },
   content: {},
   title: {
-    fontSize: typography.sizes['3xl'],
+    fontSize: typography.sizes['2xl'],
     fontFamily: typography.fonts.semibold,
     fontWeight: typography.weights.semibold,
     color: colors.text.primary,
-    lineHeight: typography.lineHeights['3xl'],
+    lineHeight: typography.lineHeights['2xl'],
     marginBottom: spacing.md,
   },
   subtitle: {

@@ -3,6 +3,7 @@ import {View, StyleSheet, StatusBar} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
 import {BottomNavigation} from '../../components/BottomNavigation';
+import {BooksScreen} from '../Books';
 import {colors} from '../../theme';
 
 export const HomeScreen: React.FC = () => {
@@ -12,6 +13,23 @@ export const HomeScreen: React.FC = () => {
     setActiveTab(tabId);
     // Handle navigation based on tabId
     console.log('Tab pressed:', tabId);
+  };
+
+  const renderContent = () => {
+    switch (activeTab) {
+      case 'books':
+        return <BooksScreen />;
+      case 'notifications':
+        return null; // Placeholder for notifications screen
+      case 'add':
+        return null; // Placeholder for add screen
+      case 'balance':
+        return null; // Placeholder for balance screen
+      case 'profile':
+        return null; // Placeholder for profile screen
+      default:
+        return <BooksScreen />;
+    }
   };
 
   return (
@@ -27,6 +45,9 @@ export const HomeScreen: React.FC = () => {
             backgroundColor="transparent"
             translucent
           />
+
+          {/* Content Area */}
+          {renderContent()}
 
           {/* Bottom Navigation */}
           <BottomNavigation activeTab={activeTab} onTabPress={handleTabPress} />

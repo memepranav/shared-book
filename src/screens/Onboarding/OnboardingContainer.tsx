@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import {
   View,
   StyleSheet,
@@ -28,6 +28,14 @@ export const OnboardingContainer: React.FC<OnboardingContainerProps> = ({
   const flatListRef = useRef<FlatList>(null);
   const insets = useSafeAreaInsets();
 
+  // Animation values for each dot
+  const dotAnimations = useRef([
+    new Animated.Value(0),
+    new Animated.Value(0),
+    new Animated.Value(0),
+    new Animated.Value(0),
+  ]).current;
+
   const onViewableItemsChanged = useRef(
     ({viewableItems}: {viewableItems: ViewToken[]}) => {
       if (viewableItems.length > 0 && viewableItems[0].index !== null) {
@@ -39,6 +47,18 @@ export const OnboardingContainer: React.FC<OnboardingContainerProps> = ({
   const viewabilityConfig = useRef({
     itemVisiblePercentThreshold: 50,
   }).current;
+
+  // Animate dots when currentIndex changes
+  useEffect(() => {
+    dotAnimations.forEach((anim, index) => {
+      Animated.spring(anim, {
+        toValue: currentIndex === index ? 1 : 0,
+        friction: 6,
+        tension: 40,
+        useNativeDriver: false, // Can't use native driver for width
+      }).start();
+    });
+  }, [currentIndex, dotAnimations]);
 
   const scrollToNext = () => {
     if (currentIndex < 3) {
@@ -113,13 +133,27 @@ export const OnboardingContainer: React.FC<OnboardingContainerProps> = ({
       {/* Pagination Dots */}
       <View style={styles.pagination}>
         {screens.map((_, index) => {
-          const isActive = currentIndex === index;
+          const animatedValue = dotAnimations[index];
+
+          const width = animatedValue.interpolate({
+            inputRange: [0, 1],
+            outputRange: [8, 24],
+          });
+
+          const backgroundColor = animatedValue.interpolate({
+            inputRange: [0, 1],
+            outputRange: [colors.background.app, colors.primary.pink],
+          });
+
           return (
             <Animated.View
               key={index}
               style={[
                 styles.dot,
-                isActive ? styles.activeDot : styles.inactiveDot,
+                {
+                  width,
+                  backgroundColor,
+                },
               ]}
             />
           );
@@ -159,14 +193,6 @@ const styles = StyleSheet.create({
   dot: {
     height: 8,
     borderRadius: 4,
-  },
-  activeDot: {
-    width: 24,
-    backgroundColor: colors.primary.pink,
-  },
-  inactiveDot: {
-    width: 8,
-    backgroundColor: colors.background.app,
   },
   buttonContainer: {
     position: 'absolute',

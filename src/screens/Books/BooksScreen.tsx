@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {
   View,
   Text,
@@ -292,8 +292,18 @@ const booksData: Book[] = [
   },
 ];
 
-// Bar chart data (7 days)
-const chartData = [
+// Bar chart data for different periods
+const dayChartData = [
+  {value: 150, label: '6am'},
+  {value: 0, label: '9am'},
+  {value: 450, label: '12pm'},
+  {value: 800, label: '3pm'},
+  {value: 200, label: '6pm'},
+  {value: 650, label: '9pm'},
+  {value: 300, label: '12am'},
+];
+
+const weekChartData = [
   {value: 2500, label: 'Sat'},
   {value: 1800, label: 'Sun'},
   {value: 2200, label: 'Mon'},
@@ -301,6 +311,13 @@ const chartData = [
   {value: 1200, label: 'Wed'},
   {value: 1600, label: 'Thu'},
   {value: 2800, label: 'Fri'},
+];
+
+const monthChartData = [
+  {value: 5200, label: 'W1'},
+  {value: 8500, label: 'W2'},
+  {value: 6800, label: 'W3'},
+  {value: 9200, label: 'W4'},
 ];
 
 interface BooksScreenProps {
@@ -319,6 +336,25 @@ export const BooksScreen: React.FC<BooksScreenProps> = ({onScrollDirectionChange
   const handleBarPress = (index: number) => {
     setSelectedBar(index);
   };
+
+  // Get chart data based on selected period
+  const getChartData = () => {
+    switch (selectedPeriod) {
+      case 'Day':
+        return dayChartData;
+      case 'Week':
+        return weekChartData;
+      case 'Month':
+        return monthChartData;
+      default:
+        return weekChartData;
+    }
+  };
+
+  // Reset selected bar when period changes
+  useEffect(() => {
+    setSelectedBar(null);
+  }, [selectedPeriod]);
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const currentScrollY = event.nativeEvent.contentOffset.y;
@@ -394,14 +430,9 @@ export const BooksScreen: React.FC<BooksScreenProps> = ({onScrollDirectionChange
         {/* Header */}
         <View style={styles.header}>
           <Text style={styles.headerTitle}>My Books</Text>
-          <View style={styles.headerIcons}>
-            <TouchableOpacity style={styles.iconButton}>
-              <DownloadIcon />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.iconButton}>
-              <CalendarIcon />
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity style={styles.addBookButton}>
+            <Text style={styles.addBookButtonText}>+</Text>
+          </TouchableOpacity>
         </View>
 
         {/* Bar Chart */}
@@ -438,7 +469,7 @@ export const BooksScreen: React.FC<BooksScreenProps> = ({onScrollDirectionChange
 
           {/* Chart */}
           <CustomBarChart
-            data={chartData}
+            data={getChartData()}
             selectedIndex={selectedBar}
             onBarPress={handleBarPress}
             primaryColor={colors.primary.pink}
@@ -553,17 +584,20 @@ const styles = StyleSheet.create({
     fontWeight: typography.weights.bold,
     color: colors.text.primary,
   },
-  headerIcons: {
-    flexDirection: 'row',
-    gap: spacing.sm,
-  },
-  iconButton: {
-    width: 48,
-    height: 48,
-    backgroundColor: 'rgba(255, 255, 255, 0.5)',
-    borderRadius: 12,
+  addBookButton: {
+    backgroundColor: colors.secondary.darkBlueGray,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  addBookButtonText: {
+    color: 'white',
+    fontSize: 24,
+    fontFamily: typography.fonts.regular,
+    fontWeight: typography.weights.regular,
+    lineHeight: 24,
   },
   filterSection: {
     flexDirection: 'row',

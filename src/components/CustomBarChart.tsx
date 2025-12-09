@@ -75,7 +75,7 @@ export const CustomBarChart: React.FC<CustomBarChartProps> = ({
           styles.barContainer,
           {
             left: xPosition,
-            bottom: 30,
+            bottom: 5,
             width: barWidth,
           },
         ]}>
@@ -98,15 +98,13 @@ export const CustomBarChart: React.FC<CustomBarChartProps> = ({
             {
               height: barHeight,
               overflow: 'hidden',
-              borderWidth: isSelected ? 3 : 0,
-              borderColor: isSelected ? barColor : 'transparent',
             },
           ]}>
           <Svg width={barWidth} height={barHeight}>
             <Defs>
               <SvgLinearGradient id={`gradient-${index}`} x1="0" y1="0" x2="0" y2="1">
-                <Stop offset="0" stopColor={barColor} stopOpacity="1" />
-                <Stop offset="1" stopColor={barColor} stopOpacity="0.1" />
+                <Stop offset="0" stopColor={barColor} stopOpacity={isSelected ? 0.8 : 0.3} />
+                <Stop offset="1" stopColor={barColor} stopOpacity="0.05" />
               </SvgLinearGradient>
             </Defs>
             <Rect
@@ -141,7 +139,7 @@ export const CustomBarChart: React.FC<CustomBarChartProps> = ({
   const selectedBarHeight = getBarHeight(data[selectedIndex].value);
 
   return (
-    <View style={[styles.chartContainer, {height: height + 60}]}>
+    <View style={[styles.chartContainer, {height: height + 40, marginTop: 10}]}>
       {/* Grid Lines */}
       <View style={[styles.gridContainer, {height}]}>{renderGridLines()}</View>
 
@@ -157,11 +155,12 @@ export const CustomBarChart: React.FC<CustomBarChartProps> = ({
             styles.tooltipContainer,
             {
               left: selectedXPosition + barWidth / 2,
-              bottom: 30 + selectedBarHeight + 20,
+              bottom: 5 + selectedBarHeight + 61,
+              transform: [{translateX: -32}],
             },
           ]}>
           <View style={[styles.tooltip, {backgroundColor: primaryColor}]}>
-            <Text style={styles.tooltipText}>${selectedBar.value}</Text>
+            <Text style={[styles.tooltipText, {color: '#FFFFFF'}]}>₹ {selectedBar.value}</Text>
           </View>
           <View style={[styles.tooltipArrow, {borderTopColor: primaryColor}]} />
         </View>
@@ -178,7 +177,7 @@ const styles = StyleSheet.create({
   gridContainer: {
     position: 'absolute',
     width: '100%',
-    top: 50,
+    top: 15,
   },
   gridLine: {
     position: 'absolute',
@@ -192,7 +191,7 @@ const styles = StyleSheet.create({
   barsWrapper: {
     position: 'relative',
     width: '100%',
-    marginTop: 50,
+    marginTop: 15,
   },
   barContainer: {
     position: 'absolute',
@@ -207,7 +206,7 @@ const styles = StyleSheet.create({
   barLabel: {
     fontSize: typography.sizes.xs,
     textAlign: 'center',
-    marginTop: 8,
+    marginTop: 4,
   },
   tooltipContainer: {
     position: 'absolute',
@@ -225,7 +224,6 @@ const styles = StyleSheet.create({
     minWidth: 60,
   },
   tooltipText: {
-    color: '#FFFFFF',
     fontSize: typography.sizes.md,
     fontFamily: typography.fonts.bold,
     fontWeight: typography.weights.bold,

@@ -86,20 +86,19 @@ const ChevronDownIcon = () => (
   </Svg>
 );
 
-// Book Icons
-const BookIcon = ({color}: {color: string}) => (
-  <Svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+// Book Type Icons
+const TripIcon = () => (
+  <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
     <Path
-      d="M6 4H20C20.5304 4 21.0391 4.21071 21.4142 4.58579C21.7893 4.96086 22 5.46957 22 6V26C22 26.5304 21.7893 27.0391 21.4142 27.4142C21.0391 27.7893 20.5304 28 20 28H6C5.46957 28 4.96086 27.7893 4.58579 27.4142C4.21071 27.0391 4 26.5304 4 26V6C4 5.46957 4.21071 4.96086 4.58579 4.58579C4.96086 4.21071 5.46957 4 6 4Z"
-      fill={color}
-      stroke={color}
+      d="M21 16V8C21 6.9 20.1 6 19 6H5C3.9 6 3 6.9 3 8V16C3 17.1 3.9 18 5 18H19C20.1 18 21 17.1 21 16Z"
+      stroke={colors.text.secondary}
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <Path
-      d="M16 4V28"
-      stroke="white"
+      d="M3 10H21M8 6V18"
+      stroke={colors.text.secondary}
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -107,48 +106,122 @@ const BookIcon = ({color}: {color: string}) => (
   </Svg>
 );
 
+const GroupIcon = () => (
+  <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+    <Path
+      d="M17 21V19C17 17.9391 16.5786 16.9217 15.8284 16.1716C15.0783 15.4214 14.0609 15 13 15H5C3.93913 15 2.92172 15.4214 2.17157 16.1716C1.42143 16.9217 1 17.9391 1 19V21"
+      stroke={colors.text.secondary}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M9 11C11.2091 11 13 9.20914 13 7C13 4.79086 11.2091 3 9 3C6.79086 3 5 4.79086 5 7C5 9.20914 6.79086 11 9 11Z"
+      stroke={colors.text.secondary}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M23 21V19C22.9993 18.1137 22.7044 17.2528 22.1614 16.5523C21.6184 15.8519 20.8581 15.3516 20 15.13"
+      stroke={colors.text.secondary}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M16 3.13C16.8604 3.35031 17.623 3.85071 18.1676 4.55232C18.7122 5.25392 19.0078 6.11683 19.0078 7.005C19.0078 7.89318 18.7122 8.75608 18.1676 9.45769C17.623 10.1593 16.8604 10.6597 16 10.88"
+      stroke={colors.text.secondary}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </Svg>
+);
+
+const PersonalIcon = () => (
+  <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+    <Path
+      d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21"
+      stroke={colors.text.secondary}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M12 11C14.2091 11 16 9.20914 16 7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7C8 9.20914 9.79086 11 12 11Z"
+      stroke={colors.text.secondary}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </Svg>
+);
+
+const getBookTypeIcon = (type: 'trip' | 'group' | 'personal') => {
+  switch (type) {
+    case 'trip':
+      return <TripIcon />;
+    case 'group':
+      return <GroupIcon />;
+    case 'personal':
+      return <PersonalIcon />;
+  }
+};
+
+// Avatar component
+const Avatar = ({color, initials, size = 36}: {color: string; initials?: string; size?: number}) => (
+  <View style={[styles.avatar, {width: size, height: size, backgroundColor: color}]}>
+    {initials && <Text style={styles.avatarText}>{initials}</Text>}
+  </View>
+);
+
 interface Book {
   id: string;
   name: string;
   dateAdded: string;
   amount: number;
+  youOwe: number;
   type: 'spent' | 'saved';
   color: string;
+  participants: number; // Number of participants for avatar display
+  bookType: 'trip' | 'group' | 'personal'; // Type of book
 }
 
 // Sample data
 const booksData: Book[] = [
   {
     id: '1',
-    name: 'Trip to Goa',
+    name: 'You and Lena',
     dateAdded: '15 June, 2024',
     amount: 12500,
+    youOwe: 280,
     type: 'spent',
     color: '#ed5f57',
+    participants: 2,
+    bookType: 'personal',
   },
   {
     id: '2',
-    name: 'Family Expenses',
+    name: 'Vacation in Rome',
     dateAdded: '13 June, 2024',
     amount: 8750,
-    type: 'spent',
+    youOwe: 502,
+    type: 'saved',
     color: '#5B9EFF',
+    participants: 5,
+    bookType: 'trip',
   },
   {
     id: '3',
-    name: 'Office Lunch',
+    name: 'Household',
     dateAdded: '7 June, 2024',
     amount: 3200,
+    youOwe: 72,
     type: 'saved',
     color: '#4ECDC4',
-  },
-  {
-    id: '4',
-    name: 'Monthly Savings',
-    dateAdded: '1 June, 2024',
-    amount: 25000,
-    type: 'saved',
-    color: '#A259FF',
+    participants: 2,
+    bookType: 'group',
   },
 ];
 
@@ -180,7 +253,7 @@ export const BooksScreen: React.FC = () => {
         contentContainerStyle={styles.contentContainer}>
         {/* Header */}
         <View style={styles.header}>
-          <Text style={styles.headerTitle}>Books</Text>
+          <Text style={styles.headerTitle}>My Books</Text>
           <View style={styles.headerIcons}>
             <TouchableOpacity style={styles.iconButton}>
               <DownloadIcon />
@@ -228,35 +301,82 @@ export const BooksScreen: React.FC = () => {
             data={chartData}
             selectedIndex={selectedBar}
             onBarPress={handleBarPress}
-            primaryColor="#D979A0"
-            secondaryColor="#7DB8FF"
-            height={200}
-            barWidth={42}
+            primaryColor={colors.primary.pink}
+            secondaryColor={colors.secondary.darkBlueGray}
+            height={160}
+            barWidth={30}
           />
         </View>
 
         {/* Books List */}
         <View style={styles.booksList}>
-          <Text style={styles.booksListTitle}>June</Text>
+          <Text style={styles.booksListTitle}>All Books</Text>
 
           {booksData.map(book => (
             <View key={book.id} style={styles.bookItem}>
-              <View style={styles.bookIconContainer}>
-                <BookIcon color={book.color} />
+              {/* Top Section: Avatars and Book Type Icon */}
+              <View style={styles.bookHeader}>
+                <View style={styles.avatarsContainer}>
+                  {Array.from({length: Math.min(book.participants, 3)}).map((_, index) => {
+                    const initials = ['AR', 'LE', 'GI'][index];
+                    return (
+                      <View
+                        key={index}
+                        style={[
+                          styles.avatarWrapper,
+                          index > 0 && {marginLeft: -10}
+                        ]}
+                      >
+                        <Avatar
+                          color={index === 0 ? book.color : index === 1 ? '#B4B4C4' : '#8F92A1'}
+                          initials={initials}
+                          size={36}
+                        />
+                      </View>
+                    );
+                  })}
+                  {book.participants > 3 && (
+                    <View
+                      style={[
+                        styles.avatarWrapper,
+                        {marginLeft: -10}
+                      ]}
+                    >
+                      <Avatar
+                        color="#6B6D7A"
+                        initials={`+${book.participants - 3}`}
+                        size={36}
+                      />
+                    </View>
+                  )}
+                </View>
+                {getBookTypeIcon(book.bookType)}
               </View>
 
-              <View style={styles.bookInfo}>
-                <Text style={styles.bookName}>{book.name}</Text>
-                <Text style={styles.bookDate}>{book.dateAdded}</Text>
-              </View>
+              {/* Book Name */}
+              <Text style={styles.bookName}>{book.name}</Text>
 
-              <View style={styles.bookAmount}>
-                <Text style={styles.amountText}>
-                  {book.type === 'spent' ? '-' : '+'} ₹{book.amount.toLocaleString('en-IN')}
-                </Text>
-                <Text style={styles.bookType}>
-                  {book.type === 'spent' ? 'Total Spent' : 'Total Saved'}
-                </Text>
+              {/* Bottom Section: Amount and Total */}
+              <View style={styles.bookFooter}>
+                <View style={styles.amountSection}>
+                  <Text style={styles.youOweLabel}>
+                    {book.type === 'spent' ? 'You owe' : 'You are owed'}
+                  </Text>
+                  <Text style={[styles.amountText, {color: book.type === 'spent' ? '#ed5f57' : colors.text.primary}]}>
+                    ₹{book.youOwe}
+                  </Text>
+                  {book.type === 'saved' && (
+                    <Text style={styles.equalToText}>equal to ${Math.round(book.youOwe / 83)}</Text>
+                  )}
+                </View>
+                <View style={styles.totalSection}>
+                  <Text style={styles.totalAmount}>
+                    - ₹{book.amount.toLocaleString('en-IN')}
+                  </Text>
+                  <Text style={styles.totalLabel}>
+                    {book.type === 'spent' ? 'Total Spent' : 'Total Saved'}
+                  </Text>
+                </View>
               </View>
             </View>
           ))}
@@ -284,10 +404,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingBottom: spacing.lg,
+    paddingBottom: spacing.xxl,
   },
   headerTitle: {
-    fontSize: typography.sizes['3xl'],
+    fontSize: typography.sizes['2xl'],
     fontFamily: typography.fonts.bold,
     fontWeight: typography.weights.bold,
     color: colors.text.primary,
@@ -371,7 +491,8 @@ const styles = StyleSheet.create({
   chartContainer: {
     backgroundColor: 'rgba(255, 255, 255, 0.7)',
     borderRadius: 20,
-    paddingVertical: spacing.lg,
+    paddingTop: spacing.sm,
+    paddingBottom: spacing.xs,
     paddingHorizontal: spacing.md,
     marginBottom: spacing.xl,
   },
@@ -386,47 +507,85 @@ const styles = StyleSheet.create({
     marginBottom: spacing.md,
   },
   bookItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.7)',
-    borderRadius: 16,
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    borderRadius: 20,
     padding: spacing.md,
+    marginBottom: spacing.md,
+  },
+  bookHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     marginBottom: spacing.sm,
   },
-  bookIconContainer: {
-    width: 56,
-    height: 56,
+  avatarsContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  avatarWrapper: {
+    borderWidth: 2,
+    borderColor: 'white',
+    borderRadius: 18,
+  },
+  avatar: {
+    borderRadius: 18,
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: spacing.md,
   },
-  bookInfo: {
-    flex: 1,
-  },
-  bookName: {
-    fontSize: typography.sizes.base,
+  avatarText: {
+    color: 'white',
+    fontSize: typography.sizes.xs,
     fontFamily: typography.fonts.semibold,
     fontWeight: typography.weights.semibold,
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    includeFontPadding: false,
+  },
+  bookName: {
+    fontSize: typography.sizes.lg,
+    fontFamily: typography.fonts.bold,
+    fontWeight: typography.weights.bold,
     color: colors.text.primary,
+    marginBottom: spacing.md,
+  },
+  bookFooter: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+  },
+  amountSection: {
+    flex: 1,
+  },
+  youOweLabel: {
+    fontSize: typography.sizes.xs,
+    fontFamily: typography.fonts.regular,
+    fontWeight: typography.weights.regular,
+    color: colors.text.secondary,
     marginBottom: 4,
   },
-  bookDate: {
+  amountText: {
+    fontSize: typography.sizes.xl,
+    fontFamily: typography.fonts.bold,
+    fontWeight: typography.weights.bold,
+    marginBottom: 4,
+  },
+  equalToText: {
     fontSize: typography.sizes.sm,
     fontFamily: typography.fonts.regular,
     fontWeight: typography.weights.regular,
     color: colors.text.secondary,
   },
-  bookAmount: {
+  totalSection: {
     alignItems: 'flex-end',
   },
-  amountText: {
-    fontSize: typography.sizes.base,
-    fontFamily: typography.fonts.bold,
-    fontWeight: typography.weights.bold,
+  totalAmount: {
+    fontSize: typography.sizes.sm,
+    fontFamily: typography.fonts.semibold,
+    fontWeight: typography.weights.semibold,
     color: colors.text.primary,
     marginBottom: 4,
   },
-  bookType: {
+  totalLabel: {
     fontSize: typography.sizes.xs,
     fontFamily: typography.fonts.regular,
     fontWeight: typography.weights.regular,

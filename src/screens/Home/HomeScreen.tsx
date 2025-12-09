@@ -8,6 +8,7 @@ import {colors} from '../../theme';
 
 export const HomeScreen: React.FC = () => {
   const [activeTab, setActiveTab] = useState('books');
+  const [isNavVisible, setIsNavVisible] = useState(true);
 
   const handleTabPress = (tabId: string) => {
     setActiveTab(tabId);
@@ -15,10 +16,14 @@ export const HomeScreen: React.FC = () => {
     console.log('Tab pressed:', tabId);
   };
 
+  const handleScrollDirectionChange = (isScrollingDown: boolean) => {
+    setIsNavVisible(!isScrollingDown);
+  };
+
   const renderContent = () => {
     switch (activeTab) {
       case 'books':
-        return <BooksScreen />;
+        return <BooksScreen onScrollDirectionChange={handleScrollDirectionChange} />;
       case 'notifications':
         return null; // Placeholder for notifications screen
       case 'add':
@@ -28,7 +33,7 @@ export const HomeScreen: React.FC = () => {
       case 'profile':
         return null; // Placeholder for profile screen
       default:
-        return <BooksScreen />;
+        return <BooksScreen onScrollDirectionChange={handleScrollDirectionChange} />;
     }
   };
 
@@ -50,7 +55,11 @@ export const HomeScreen: React.FC = () => {
           {renderContent()}
 
           {/* Bottom Navigation */}
-          <BottomNavigation activeTab={activeTab} onTabPress={handleTabPress} />
+          <BottomNavigation
+            activeTab={activeTab}
+            onTabPress={handleTabPress}
+            isVisible={isNavVisible}
+          />
         </SafeAreaView>
       </LinearGradient>
     </View>

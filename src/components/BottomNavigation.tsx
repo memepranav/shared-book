@@ -1,5 +1,5 @@
-import React from 'react';
-import {View, TouchableOpacity, StyleSheet, Text} from 'react-native';
+import React, {useEffect, useRef} from 'react';
+import {View, TouchableOpacity, StyleSheet, Text, Animated} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Svg, {Path, Rect} from 'react-native-svg';
 import {colors, spacing} from '../theme';
@@ -13,6 +13,7 @@ interface NavItem {
 interface BottomNavigationProps {
   activeTab: string;
   onTabPress: (tabId: string) => void;
+  isVisible?: boolean;
 }
 
 // Icon Components
@@ -132,8 +133,10 @@ const ProfileIcon = ({isActive}: {isActive: boolean}) => (
 export const BottomNavigation: React.FC<BottomNavigationProps> = ({
   activeTab,
   onTabPress,
+  isVisible = true,
 }) => {
   const insets = useSafeAreaInsets();
+  const translateY = useRef(new Animated.Value(0)).current;
 
   const navItems: NavItem[] = [
     {id: 'books', label: 'Books', icon: AccountingIcon},
@@ -143,13 +146,23 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
     {id: 'profile', label: 'Profile', icon: ProfileIcon},
   ];
 
+  useEffect(() => {
+    Animated.spring(translateY, {
+      toValue: isVisible ? 0 : 150,
+      useNativeDriver: true,
+      tension: 65,
+      friction: 11,
+    }).start();
+  }, [isVisible, translateY]);
+
   return (
-    <View
+    <Animated.View
       style={[
         styles.container,
         {
           paddingBottom: insets.bottom + spacing.sm,
           bottom: insets.bottom + spacing.lg,
+          transform: [{translateY}],
         },
       ]}>
       <View style={styles.navContainer}>
@@ -178,7 +191,7 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
           );
         })}
       </View>
-    </View>
+    </Animated.View>
   );
 };
 

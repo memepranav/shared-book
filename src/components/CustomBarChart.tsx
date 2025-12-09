@@ -10,7 +10,7 @@ interface BarData {
 
 interface CustomBarChartProps {
   data: BarData[];
-  selectedIndex: number;
+  selectedIndex: number | null;
   onBarPress: (index: number) => void;
   primaryColor?: string;
   secondaryColor?: string;
@@ -29,18 +29,29 @@ export const CustomBarChart: React.FC<CustomBarChartProps> = ({
 }) => {
   const maxValue = Math.max(...data.map(item => item.value));
   const chartWidth = Dimensions.get('window').width - spacing.lg * 4;
-  const availableWidth = chartWidth;
+  const yAxisWidth = 40; // Width for y-axis labels
+  const availableWidth = chartWidth - yAxisWidth;
   const totalBars = data.length;
   const spacing_between = (availableWidth - (barWidth * totalBars)) / (totalBars + 1);
 
+  // Format y-axis labels
+  const formatYAxisLabel = (value: number) => {
+    if (value >= 1000) {
+      return `${Math.round(value / 1000)}K`;
+    }
+    return value.toString();
+  };
+
   const getBarHeight = (value: number) => {
-    return (value / maxValue) * (height - 40); // Leave space for cap and label
+    const chartHeight = height - 30; // Leave space for day labels
+    return (value / maxValue) * chartHeight;
   };
 
   const renderGridLines = () => {
     const lines = [];
-    const numberOfLines = 5;
-    const lineSpacing = height / numberOfLines;
+    const numberOfLines = 4;
+    const chartHeight = height - 30; // Match the bar chart height
+    const lineSpacing = chartHeight / numberOfLines;
 
     for (let i = 0; i <= numberOfLines; i++) {
       lines.push(
@@ -58,10 +69,47 @@ export const CustomBarChart: React.FC<CustomBarChartProps> = ({
     return lines;
   };
 
+  const renderYAxisLabels = () => {
+    const labels = [];
+    const numberOfLabels = 4;
+    const chartHeight = height - 30; // Match the bar chart height
+    const labelSpacing = chartHeight / numberOfLabels;
+    const valueStep = maxValue / numberOfLabels;
+
+    // Start from bottom (0) to top (maxValue)
+    for (let i = 0; i <= numberOfLabels; i++) {
+      const value = i * valueStep;
+      const yPosition = chartHeight - (i * labelSpacing);
+
+      // Format the label, ensuring 0 displays as "0"
+      let labelText;
+      if (i === 0) {
+        labelText = '0';
+      } else {
+        labelText = formatYAxisLabel(Math.round(value));
+      }
+
+      labels.push(
+        <Text
+          key={i}
+          style={[
+            styles.yAxisLabel,
+            {
+              top: yPosition - 8, // Center align with grid line
+            },
+          ]}
+        >
+          {labelText}
+        </Text>,
+      );
+    }
+    return labels;
+  };
+
   const renderBar = (item: BarData, index: number) => {
     const isSelected = index === selectedIndex;
     const barHeight = getBarHeight(item.value);
-    const xPosition = spacing_between + index * (barWidth + spacing_between);
+    const xPosition = yAxisWidth + spacing_between + index * (barWidth + spacing_between);
     const capHeight = 6;
     const capGap = 2;
     const barColor = isSelected ? primaryColor : secondaryColor;
@@ -133,34 +181,34 @@ export const CustomBarChart: React.FC<CustomBarChartProps> = ({
     );
   };
 
-  // Calculate tooltip position for selected bar
-  const selectedBar = data[selectedIndex];
-  const selectedXPosition = spacing_between + selectedIndex * (barWidth + spacing_between);
-  const selectedBarHeight = getBarHeight(data[selectedIndex].value);
-
   return (
     <View style={[styles.chartContainer, {height: height + 40, marginTop: 10}]}>
+      {/* Y-Axis Labels */}
+      <View style={[styles.yAxisContainer, {height, width: yAxisWidth}]}>
+        {renderYAxisLabels()}
+      </View>
+
       {/* Grid Lines */}
-      <View style={[styles.gridContainer, {height}]}>{renderGridLines()}</View>
+      <View style={[styles.gridContainer, {height, left: yAxisWidth}]}>{renderGridLines()}</View>
 
       {/* Bars */}
       <View style={[styles.barsWrapper, {height}]}>
         {data.map((item, index) => renderBar(item, index))}
       </View>
 
-      {/* Tooltip - Separate Entity */}
-      {selectedBar && (
+      {/* Tooltip - Only show when a bar is selected */}
+      {selectedIndex !== null && (
         <View
           style={[
             styles.tooltipContainer,
             {
-              left: selectedXPosition + barWidth / 2,
-              bottom: 5 + selectedBarHeight + 61,
-              transform: [{translateX: -32}],
+              left: yAxisWidth + spacing_between + selectedIndex * (barWidth + spacing_between) + barWidth / 2,
+              bottom: 5 + getBarHeight(data[selectedIndex].value) + 60,
+              transform: [{translateX: -30}],
             },
           ]}>
           <View style={[styles.tooltip, {backgroundColor: primaryColor}]}>
-            <Text style={[styles.tooltipText, {color: '#FFFFFF'}]}>₹ {selectedBar.value}</Text>
+            <Text style={[styles.tooltipText, {color: '#FFFFFF'}]}>₹ {data[selectedIndex].value}</Text>
           </View>
           <View style={[styles.tooltipArrow, {borderTopColor: primaryColor}]} />
         </View>
@@ -173,6 +221,20 @@ const styles = StyleSheet.create({
   chartContainer: {
     width: '100%',
     position: 'relative',
+  },
+  yAxisContainer: {
+    position: 'absolute',
+    left: 0,
+    top: 15,
+  },
+  yAxisLabel: {
+    position: 'absolute',
+    fontSize: typography.sizes.xs,
+    fontFamily: typography.fonts.regular,
+    fontWeight: typography.weights.regular,
+    color: '#8F92A1',
+    textAlign: 'right',
+    width: 35,
   },
   gridContainer: {
     position: 'absolute',
@@ -214,22 +276,21 @@ const styles = StyleSheet.create({
     zIndex: 1000,
   },
   tooltip: {
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 12,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
     flexWrap: 'nowrap',
-    minWidth: 60,
+    minWidth: 50,
   },
   tooltipText: {
-    fontSize: typography.sizes.md,
+    fontSize: typography.sizes.sm,
     fontFamily: typography.fonts.bold,
     fontWeight: typography.weights.bold,
     textAlign: 'center',
     includeFontPadding: false,
-    numberOfLines: 1,
   },
   tooltipArrow: {
     width: 0,

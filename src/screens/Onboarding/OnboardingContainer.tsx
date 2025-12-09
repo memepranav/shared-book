@@ -45,7 +45,7 @@ export const OnboardingContainer: React.FC<OnboardingContainerProps> = ({
   ).current;
 
   const viewabilityConfig = useRef({
-    itemVisiblePercentThreshold: 50,
+    itemVisiblePercentThreshold: 15,
   }).current;
 
   // Animate dots when currentIndex changes
@@ -127,7 +127,9 @@ export const OnboardingContainer: React.FC<OnboardingContainerProps> = ({
         onViewableItemsChanged={onViewableItemsChanged}
         viewabilityConfig={viewabilityConfig}
         scrollEventThrottle={16}
-        decelerationRate="fast"
+        decelerationRate={0.92}
+        snapToInterval={width}
+        snapToAlignment="center"
       />
 
       {/* Pagination Dots */}

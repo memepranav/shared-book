@@ -16,6 +16,10 @@
     {
       "path": "src/assets/fonts/Poppins-SemiBold.ttf",
       "sha1": "622ca6ccbe2f22c5611dffa016b745bd26be154c"
+    },
+    {
+      "path": "src/assets/fonts/SpaceGrotesk-Bold.ttf",
+      "sha1": "f0de6a0f5e0fba816351e324ea74d226d2e4c6c3"
     }
   ]
 }

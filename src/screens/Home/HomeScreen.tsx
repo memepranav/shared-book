@@ -3,15 +3,17 @@ import {View, StyleSheet, StatusBar} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
 import {BottomNavigation} from '../../components/BottomNavigation';
-import {BooksScreen} from '../Books';
+import {BooksScreen, BookDetailsScreen} from '../Books';
 import {colors} from '../../theme';
 
 export const HomeScreen: React.FC = () => {
   const [activeTab, setActiveTab] = useState('books');
   const [isNavVisible, setIsNavVisible] = useState(true);
+  const [currentScreen, setCurrentScreen] = useState<'books' | 'bookDetails'>('books');
 
   const handleTabPress = (tabId: string) => {
     setActiveTab(tabId);
+    setCurrentScreen('books'); // Reset to books list when changing tabs
     // Handle navigation based on tabId
     console.log('Tab pressed:', tabId);
   };
@@ -20,10 +22,25 @@ export const HomeScreen: React.FC = () => {
     setIsNavVisible(!isScrollingDown);
   };
 
+  const handleBookPress = (bookId: string) => {
+    console.log('Book pressed:', bookId);
+    setCurrentScreen('bookDetails');
+    setIsNavVisible(false); // Hide navigation on details screen
+  };
+
+  const handleBackFromDetails = () => {
+    setCurrentScreen('books');
+    setIsNavVisible(true); // Show navigation when back to list
+  };
+
   const renderContent = () => {
+    if (currentScreen === 'bookDetails') {
+      return <BookDetailsScreen onBack={handleBackFromDetails} />;
+    }
+
     switch (activeTab) {
       case 'books':
-        return <BooksScreen onScrollDirectionChange={handleScrollDirectionChange} />;
+        return <BooksScreen onScrollDirectionChange={handleScrollDirectionChange} onBookPress={handleBookPress} />;
       case 'notifications':
         return null; // Placeholder for notifications screen
       case 'add':
@@ -33,7 +50,7 @@ export const HomeScreen: React.FC = () => {
       case 'profile':
         return null; // Placeholder for profile screen
       default:
-        return <BooksScreen onScrollDirectionChange={handleScrollDirectionChange} />;
+        return <BooksScreen onScrollDirectionChange={handleScrollDirectionChange} onBookPress={handleBookPress} />;
     }
   };
 

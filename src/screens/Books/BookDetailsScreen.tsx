@@ -92,9 +92,10 @@ const ExpenseIcon = () => (
 interface BookDetailsScreenProps {
   onBack?: () => void;
   onPendingRecordsPress?: () => void;
+  onRecordDetailsPress?: () => void;
 }
 
-export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({onBack, onPendingRecordsPress}) => {
+export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({onBack, onPendingRecordsPress, onRecordDetailsPress}) => {
   const [selectedMonth, setSelectedMonth] = useState('Jan 2024');
   const [totalExpenses] = useState(2578000);
   const [budgetLimit] = useState(5500);
@@ -348,65 +349,73 @@ export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({onBack, onP
 
               {/* Dec 08, 2023 */}
               <Text style={styles.dateHeader}>Dec 08, 2023</Text>
-              <View style={styles.transactionCard}>
-                <View style={styles.avatarColumn}>
-                  <Image source={avatarImages[0]} style={styles.transactionAvatarImage} resizeMode="cover" />
+              <TouchableOpacity activeOpacity={0.7} onPress={onRecordDetailsPress}>
+                <View style={styles.transactionCard}>
+                  <View style={styles.avatarColumn}>
+                    <Image source={avatarImages[0]} style={styles.transactionAvatarImage} resizeMode="cover" />
+                  </View>
+                  <View style={styles.transactionInfo}>
+                    <Text style={styles.transactionTitle}>Hotel Booking</Text>
+                    <Text style={styles.transactionMeta}>Added by Arun @ 2:30 PM</Text>
+                  </View>
+                  <View style={styles.transactionRight}>
+                    <ExpenseIcon />
+                    <Text style={styles.transactionAmount}>{formatINR(15450)}</Text>
+                  </View>
                 </View>
-                <View style={styles.transactionInfo}>
-                  <Text style={styles.transactionTitle}>Hotel Booking</Text>
-                  <Text style={styles.transactionMeta}>Added by Arun @ 2:30 PM</Text>
-                </View>
-                <View style={styles.transactionRight}>
-                  <ExpenseIcon />
-                  <Text style={styles.transactionAmount}>{formatINR(15450)}</Text>
-                </View>
-              </View>
+              </TouchableOpacity>
 
               {/* Dec 07, 2023 */}
               <Text style={styles.dateHeader}>Dec 07, 2023</Text>
-              <View style={styles.transactionCard}>
-                <View style={styles.avatarColumn}>
-                  <Image source={avatarImages[1]} style={styles.transactionAvatarImage} resizeMode="cover" />
+              <TouchableOpacity activeOpacity={0.7} onPress={onRecordDetailsPress}>
+                <View style={styles.transactionCard}>
+                  <View style={styles.avatarColumn}>
+                    <Image source={avatarImages[1]} style={styles.transactionAvatarImage} resizeMode="cover" />
+                  </View>
+                  <View style={styles.transactionInfo}>
+                    <Text style={styles.transactionTitle}>Dinner Split Payment</Text>
+                    <Text style={styles.transactionMeta}>Added by Sanjay @ 8:45 PM</Text>
+                  </View>
+                  <View style={styles.transactionRight}>
+                    <IncomeIcon />
+                    <Text style={[styles.transactionAmount, {color: '#22c55e'}]}>{formatINR(2340)}</Text>
+                  </View>
                 </View>
-                <View style={styles.transactionInfo}>
-                  <Text style={styles.transactionTitle}>Dinner Split Payment</Text>
-                  <Text style={styles.transactionMeta}>Added by Sanjay @ 8:45 PM</Text>
-                </View>
-                <View style={styles.transactionRight}>
-                  <IncomeIcon />
-                  <Text style={[styles.transactionAmount, {color: '#22c55e'}]}>{formatINR(2340)}</Text>
-                </View>
-              </View>
+              </TouchableOpacity>
 
-              <View style={styles.transactionCard}>
-                <View style={styles.avatarColumn}>
-                  <Image source={avatarImages[3]} style={styles.transactionAvatarImage} resizeMode="cover" />
+              <TouchableOpacity activeOpacity={0.7} onPress={onRecordDetailsPress}>
+                <View style={styles.transactionCard}>
+                  <View style={styles.avatarColumn}>
+                    <Image source={avatarImages[3]} style={styles.transactionAvatarImage} resizeMode="cover" />
+                  </View>
+                  <View style={styles.transactionInfo}>
+                    <Text style={styles.transactionTitle}>Fuel Expense</Text>
+                    <Text style={styles.transactionMeta}>Added by Manoj @ 3:15 PM</Text>
+                  </View>
+                  <View style={styles.transactionRight}>
+                    <ExpenseIcon />
+                    <Text style={styles.transactionAmount}>{formatINR(3200)}</Text>
+                  </View>
                 </View>
-                <View style={styles.transactionInfo}>
-                  <Text style={styles.transactionTitle}>Fuel Expense</Text>
-                  <Text style={styles.transactionMeta}>Added by Manoj @ 3:15 PM</Text>
-                </View>
-                <View style={styles.transactionRight}>
-                  <ExpenseIcon />
-                  <Text style={styles.transactionAmount}>{formatINR(3200)}</Text>
-                </View>
-              </View>
+              </TouchableOpacity>
 
               {/* Dec 06, 2023 */}
               <Text style={styles.dateHeader}>Dec 06, 2023</Text>
-              <View style={styles.transactionCard}>
-                <View style={styles.avatarColumn}>
-                  <Image source={avatarImages[4]} style={styles.transactionAvatarImage} resizeMode="cover" />
+              <TouchableOpacity activeOpacity={0.7} onPress={onRecordDetailsPress}>
+                <View style={styles.transactionCard}>
+                  <View style={styles.avatarColumn}>
+                    <Image source={avatarImages[4]} style={styles.transactionAvatarImage} resizeMode="cover" />
+                  </View>
+                  <View style={styles.transactionInfo}>
+                    <Text style={styles.transactionTitle}>Cab Fare Reimbursement</Text>
+                    <Text style={styles.transactionMeta}>Added by John @ 11:20 AM</Text>
+                  </View>
+                  <View style={styles.transactionRight}>
+                    <IncomeIcon />
+                    <Text style={[styles.transactionAmount, {color: '#22c55e'}]}>{formatINR(850)}</Text>
+                  </View>
                 </View>
-                <View style={styles.transactionInfo}>
-                  <Text style={styles.transactionTitle}>Cab Fare Reimbursement</Text>
-                  <Text style={styles.transactionMeta}>Added by John @ 11:20 AM</Text>
-                </View>
-                <View style={styles.transactionRight}>
-                  <IncomeIcon />
-                  <Text style={[styles.transactionAmount, {color: '#22c55e'}]}>{formatINR(850)}</Text>
-                </View>
-              </View>
+              </TouchableOpacity>
             </View>
 
         {/* Bottom padding */}

@@ -73,9 +73,10 @@ const IncomeArrow = () => (
 
 interface PendingRecordsScreenProps {
   onBack?: () => void;
+  onRecordPress?: () => void;
 }
 
-export const PendingRecordsScreen: React.FC<PendingRecordsScreenProps> = ({onBack}) => {
+export const PendingRecordsScreen: React.FC<PendingRecordsScreenProps> = ({onBack, onRecordPress}) => {
   const [showStickyHeader, setShowStickyHeader] = useState(false);
   const stickyHeaderThreshold = 100;
 
@@ -131,180 +132,188 @@ export const PendingRecordsScreen: React.FC<PendingRecordsScreenProps> = ({onBac
         </View>
 
             {/* Detailed Card 1 */}
-            <View style={styles.detailedCard}>
-              <View style={styles.cardHeader}>
-                <View style={styles.userInfo}>
-                  <View style={styles.avatarContainer}>
-                    <Image source={avatarImages[0]} style={styles.avatarImage} resizeMode="cover" />
+            <TouchableOpacity activeOpacity={0.7} onPress={onRecordPress}>
+              <View style={styles.detailedCard}>
+                <View style={styles.cardHeader}>
+                  <View style={styles.userInfo}>
+                    <View style={styles.avatarContainer}>
+                      <Image source={avatarImages[0]} style={styles.avatarImage} resizeMode="cover" />
+                    </View>
+                    <View style={styles.userDetails}>
+                      <Text style={styles.userName}>Arun Kumar</Text>
+                      <Text style={styles.userDepartment}>Added at: 2:30 PM</Text>
+                    </View>
                   </View>
-                  <View style={styles.userDetails}>
-                    <Text style={styles.userName}>Arun Kumar</Text>
-                    <Text style={styles.userDepartment}>Added at: 2:30 PM</Text>
+                  <View style={styles.dateBadge}>
+                    <Text style={styles.dateDay}>08</Text>
+                    <Text style={styles.dateMonth}>Dec</Text>
                   </View>
                 </View>
-                <View style={styles.dateBadge}>
-                  <Text style={styles.dateDay}>08</Text>
-                  <Text style={styles.dateMonth}>Dec</Text>
-                </View>
-              </View>
 
-              <View style={styles.transactionHeader}>
-                <Text style={styles.transactionTitle}>Hotel Booking</Text>
-                <View style={styles.amountRow}>
-                  <ExpenseArrow />
-                  <Text style={styles.expenseAmount}>{formatINR(15450)}</Text>
+                <View style={styles.transactionHeader}>
+                  <Text style={styles.transactionTitle}>Hotel Booking</Text>
+                  <View style={styles.amountRow}>
+                    <ExpenseArrow />
+                    <Text style={styles.expenseAmount}>{formatINR(15450)}</Text>
+                  </View>
                 </View>
-              </View>
 
-              <TouchableOpacity style={styles.linkRow}>
-                <View style={styles.linkLeft}>
-                  <AttachmentIcon />
-                  <Text style={styles.linkText}>Attachments (1)</Text>
-                </View>
-                <Text style={styles.viewLink}>View</Text>
-              </TouchableOpacity>
-
-              <View style={styles.actionButtons}>
-                <TouchableOpacity style={styles.rejectButton}>
-                  <Text style={styles.rejectText}>✕ Reject</Text>
+                <TouchableOpacity style={styles.linkRow}>
+                  <View style={styles.linkLeft}>
+                    <AttachmentIcon />
+                    <Text style={styles.linkText}>Attachments (1)</Text>
+                  </View>
+                  <Text style={styles.viewLink}>View</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.approveButton}>
-                  <Text style={styles.approveText}>✓ Approve</Text>
-                </TouchableOpacity>
+
+                <View style={styles.actionButtons}>
+                  <TouchableOpacity style={styles.rejectButton}>
+                    <Text style={styles.rejectText}>✕ Reject</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.approveButton}>
+                    <Text style={styles.approveText}>✓ Approve</Text>
+                  </TouchableOpacity>
+                </View>
               </View>
-            </View>
+            </TouchableOpacity>
 
             {/* Card 2 */}
-            <View style={styles.detailedCard}>
-              <View style={styles.cardHeader}>
-                <View style={styles.userInfo}>
-                  <View style={styles.avatarContainer}>
-                    <Image source={avatarImages[1]} style={styles.avatarImage} resizeMode="cover" />
+            <TouchableOpacity activeOpacity={0.7} onPress={onRecordPress}>
+              <View style={styles.detailedCard}>
+                <View style={styles.cardHeader}>
+                  <View style={styles.userInfo}>
+                    <View style={styles.avatarContainer}>
+                      <Image source={avatarImages[1]} style={styles.avatarImage} resizeMode="cover" />
+                    </View>
+                    <View style={styles.userDetails}>
+                      <Text style={styles.userName}>Priya Sharma</Text>
+                      <Text style={styles.userDepartment}>Added at: 11:15 AM</Text>
+                    </View>
                   </View>
-                  <View style={styles.userDetails}>
-                    <Text style={styles.userName}>Priya Sharma</Text>
-                    <Text style={styles.userDepartment}>Added at: 11:15 AM</Text>
+                  <View style={styles.dateBadge}>
+                    <Text style={styles.dateDay}>07</Text>
+                    <Text style={styles.dateMonth}>Dec</Text>
                   </View>
                 </View>
-                <View style={styles.dateBadge}>
-                  <Text style={styles.dateDay}>07</Text>
-                  <Text style={styles.dateMonth}>Dec</Text>
-                </View>
-              </View>
 
-              <View style={styles.transactionHeader}>
-                <Text style={styles.transactionTitle}>Team Dinner</Text>
-                <View style={styles.amountRow}>
-                  <ExpenseArrow />
-                  <Text style={styles.expenseAmount}>{formatINR(4500)}</Text>
+                <View style={styles.transactionHeader}>
+                  <Text style={styles.transactionTitle}>Team Dinner</Text>
+                  <View style={styles.amountRow}>
+                    <ExpenseArrow />
+                    <Text style={styles.expenseAmount}>{formatINR(4500)}</Text>
+                  </View>
                 </View>
-              </View>
 
-              <TouchableOpacity style={styles.linkRow}>
-                <View style={styles.linkLeft}>
-                  <AttachmentIcon />
-                  <Text style={styles.linkText}>Attachments (2)</Text>
-                </View>
-                <Text style={styles.viewLink}>View</Text>
-              </TouchableOpacity>
-
-              <View style={styles.actionButtons}>
-                <TouchableOpacity style={styles.rejectButton}>
-                  <Text style={styles.rejectText}>✕ Reject</Text>
+                <TouchableOpacity style={styles.linkRow}>
+                  <View style={styles.linkLeft}>
+                    <AttachmentIcon />
+                    <Text style={styles.linkText}>Attachments (2)</Text>
+                  </View>
+                  <Text style={styles.viewLink}>View</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.approveButton}>
-                  <Text style={styles.approveText}>✓ Approve</Text>
-                </TouchableOpacity>
+
+                <View style={styles.actionButtons}>
+                  <TouchableOpacity style={styles.rejectButton}>
+                    <Text style={styles.rejectText}>✕ Reject</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.approveButton}>
+                    <Text style={styles.approveText}>✓ Approve</Text>
+                  </TouchableOpacity>
+                </View>
               </View>
-            </View>
+            </TouchableOpacity>
 
             {/* Card 3 */}
-            <View style={styles.detailedCard}>
-              <View style={styles.cardHeader}>
-                <View style={styles.userInfo}>
-                  <View style={styles.avatarContainer}>
-                    <Image source={avatarImages[2]} style={styles.avatarImage} resizeMode="cover" />
+            <TouchableOpacity activeOpacity={0.7} onPress={onRecordPress}>
+              <View style={styles.detailedCard}>
+                <View style={styles.cardHeader}>
+                  <View style={styles.userInfo}>
+                    <View style={styles.avatarContainer}>
+                      <Image source={avatarImages[2]} style={styles.avatarImage} resizeMode="cover" />
+                    </View>
+                    <View style={styles.userDetails}>
+                      <Text style={styles.userName}>Rajesh Patel</Text>
+                      <Text style={styles.userDepartment}>Added at: 9:45 AM</Text>
+                    </View>
                   </View>
-                  <View style={styles.userDetails}>
-                    <Text style={styles.userName}>Rajesh Patel</Text>
-                    <Text style={styles.userDepartment}>Added at: 9:45 AM</Text>
+                  <View style={styles.dateBadge}>
+                    <Text style={styles.dateDay}>06</Text>
+                    <Text style={styles.dateMonth}>Dec</Text>
                   </View>
                 </View>
-                <View style={styles.dateBadge}>
-                  <Text style={styles.dateDay}>06</Text>
-                  <Text style={styles.dateMonth}>Dec</Text>
-                </View>
-              </View>
 
-              <View style={styles.transactionHeader}>
-                <Text style={styles.transactionTitle}>Office Supplies</Text>
-                <View style={styles.amountRow}>
-                  <ExpenseArrow />
-                  <Text style={styles.expenseAmount}>{formatINR(2800)}</Text>
+                <View style={styles.transactionHeader}>
+                  <Text style={styles.transactionTitle}>Office Supplies</Text>
+                  <View style={styles.amountRow}>
+                    <ExpenseArrow />
+                    <Text style={styles.expenseAmount}>{formatINR(2800)}</Text>
+                  </View>
                 </View>
-              </View>
 
-              <TouchableOpacity style={styles.linkRow}>
-                <View style={styles.linkLeft}>
-                  <AttachmentIcon />
-                  <Text style={styles.linkText}>Attachments (3)</Text>
-                </View>
-                <Text style={styles.viewLink}>View</Text>
-              </TouchableOpacity>
-
-              <View style={styles.actionButtons}>
-                <TouchableOpacity style={styles.rejectButton}>
-                  <Text style={styles.rejectText}>✕ Reject</Text>
+                <TouchableOpacity style={styles.linkRow}>
+                  <View style={styles.linkLeft}>
+                    <AttachmentIcon />
+                    <Text style={styles.linkText}>Attachments (3)</Text>
+                  </View>
+                  <Text style={styles.viewLink}>View</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.approveButton}>
-                  <Text style={styles.approveText}>✓ Approve</Text>
-                </TouchableOpacity>
+
+                <View style={styles.actionButtons}>
+                  <TouchableOpacity style={styles.rejectButton}>
+                    <Text style={styles.rejectText}>✕ Reject</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.approveButton}>
+                    <Text style={styles.approveText}>✓ Approve</Text>
+                  </TouchableOpacity>
+                </View>
               </View>
-            </View>
+            </TouchableOpacity>
 
             {/* Card 4 */}
-            <View style={styles.detailedCard}>
-              <View style={styles.cardHeader}>
-                <View style={styles.userInfo}>
-                  <View style={styles.avatarContainer}>
-                    <Image source={avatarImages[3]} style={styles.avatarImage} resizeMode="cover" />
+            <TouchableOpacity activeOpacity={0.7} onPress={onRecordPress}>
+              <View style={styles.detailedCard}>
+                <View style={styles.cardHeader}>
+                  <View style={styles.userInfo}>
+                    <View style={styles.avatarContainer}>
+                      <Image source={avatarImages[3]} style={styles.avatarImage} resizeMode="cover" />
+                    </View>
+                    <View style={styles.userDetails}>
+                      <Text style={styles.userName}>Sneha Reddy</Text>
+                      <Text style={styles.userDepartment}>Added at: 4:20 PM</Text>
+                    </View>
                   </View>
-                  <View style={styles.userDetails}>
-                    <Text style={styles.userName}>Sneha Reddy</Text>
-                    <Text style={styles.userDepartment}>Added at: 4:20 PM</Text>
+                  <View style={styles.dateBadge}>
+                    <Text style={styles.dateDay}>05</Text>
+                    <Text style={styles.dateMonth}>Dec</Text>
                   </View>
                 </View>
-                <View style={styles.dateBadge}>
-                  <Text style={styles.dateDay}>05</Text>
-                  <Text style={styles.dateMonth}>Dec</Text>
-                </View>
-              </View>
 
-              <View style={styles.transactionHeader}>
-                <Text style={styles.transactionTitle}>Client Meeting Lunch</Text>
-                <View style={styles.amountRow}>
-                  <ExpenseArrow />
-                  <Text style={styles.expenseAmount}>{formatINR(6750)}</Text>
+                <View style={styles.transactionHeader}>
+                  <Text style={styles.transactionTitle}>Client Meeting Lunch</Text>
+                  <View style={styles.amountRow}>
+                    <ExpenseArrow />
+                    <Text style={styles.expenseAmount}>{formatINR(6750)}</Text>
+                  </View>
                 </View>
-              </View>
 
-              <TouchableOpacity style={styles.linkRow}>
-                <View style={styles.linkLeft}>
-                  <AttachmentIcon />
-                  <Text style={styles.linkText}>Attachments (1)</Text>
-                </View>
-                <Text style={styles.viewLink}>View</Text>
-              </TouchableOpacity>
-
-              <View style={styles.actionButtons}>
-                <TouchableOpacity style={styles.rejectButton}>
-                  <Text style={styles.rejectText}>✕ Reject</Text>
+                <TouchableOpacity style={styles.linkRow}>
+                  <View style={styles.linkLeft}>
+                    <AttachmentIcon />
+                    <Text style={styles.linkText}>Attachments (1)</Text>
+                  </View>
+                  <Text style={styles.viewLink}>View</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.approveButton}>
-                  <Text style={styles.approveText}>✓ Approve</Text>
-                </TouchableOpacity>
+
+                <View style={styles.actionButtons}>
+                  <TouchableOpacity style={styles.rejectButton}>
+                    <Text style={styles.rejectText}>✕ Reject</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.approveButton}>
+                    <Text style={styles.approveText}>✓ Approve</Text>
+                  </TouchableOpacity>
+                </View>
               </View>
-            </View>
+            </TouchableOpacity>
 
         {/* Bottom padding */}
         <View style={{height: 100}} />

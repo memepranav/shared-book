@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import {
   View,
   Text,
@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
   Image,
   Dimensions,
+  NativeSyntheticEvent,
+  NativeScrollEvent,
 } from 'react-native';
 import Svg, {Path, Rect} from 'react-native-svg';
 import {colors, typography, spacing} from '../../theme';
@@ -83,9 +85,10 @@ const BillIcon = () => (
 
 interface RecordDetailsScreenProps {
   onBack?: () => void;
+  onScrollDirectionChange?: (isScrollingDown: boolean) => void;
 }
 
-export const RecordDetailsScreen: React.FC<RecordDetailsScreenProps> = ({onBack}) => {
+export const RecordDetailsScreen: React.FC<RecordDetailsScreenProps> = ({onBack, onScrollDirectionChange}) => {
   const [totalAmount] = useState(5000);
   const [paymentDate] = useState('20 Dec 2024');
   const [billId] = useState('DAS124');
@@ -97,6 +100,20 @@ export const RecordDetailsScreen: React.FC<RecordDetailsScreenProps> = ({onBack}
   const screenWidth = Dimensions.get('window').width;
   const semicircleWidth = 10;
   const semicircleCount = Math.ceil(screenWidth / semicircleWidth);
+
+  const lastScrollY = useRef(0);
+
+  const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const scrollY = event.nativeEvent.contentOffset.y;
+
+    // Notify parent about scroll direction for navigation visibility
+    const scrollDiff = scrollY - lastScrollY.current;
+    if (Math.abs(scrollDiff) > 5) {
+      const isScrollingDown = scrollDiff > 0;
+      onScrollDirectionChange?.(isScrollingDown);
+      lastScrollY.current = scrollY;
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -135,7 +152,9 @@ export const RecordDetailsScreen: React.FC<RecordDetailsScreenProps> = ({onBack}
       <ScrollView
         style={styles.scrollView}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.contentContainer}>
+        contentContainerStyle={styles.contentContainer}
+        onScroll={handleScroll}
+        scrollEventThrottle={16}>
         <View style={styles.detailsContainer}>
           {/* User Info Section */}
           <View style={styles.userInfoSection}>
@@ -199,7 +218,16 @@ export const RecordDetailsScreen: React.FC<RecordDetailsScreenProps> = ({onBack}
                 </View>
               </View>
             </View>
+
+            {/* Details Row - Full Width */}
+            <View style={styles.billRowFullWidth}>
+              <Text style={styles.billLabel}>Details</Text>
+              <Text style={styles.billDetailsValue}>
+                This expense was incurred for ordering food from Foodpanda. The bill includes 2 main courses, 1 dessert, and delivery charges.
+              </Text>
+            </View>
           </View>
+
         </View>
       </ScrollView>
     </View>
@@ -301,7 +329,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.lg,
     paddingTop: spacing.xl,
     paddingBottom: spacing.xxl,
-    minHeight: 500,
+    flex: 1,
   },
   userInfoSection: {
     flexDirection: 'row',
@@ -402,6 +430,9 @@ const styles = StyleSheet.create({
   billRow: {
     marginBottom: spacing.lg,
   },
+  billRowFullWidth: {
+    marginTop: spacing.lg,
+  },
   billLabel: {
     fontSize: typography.sizes.sm,
     fontFamily: typography.fonts.regular,
@@ -412,6 +443,13 @@ const styles = StyleSheet.create({
     fontSize: typography.sizes.lg,
     fontFamily: typography.fonts.semibold,
     color: colors.text.primary,
+  },
+  billDetailsValue: {
+    fontSize: typography.sizes.base,
+    fontFamily: typography.fonts.regular,
+    color: colors.text.secondary,
+    lineHeight: typography.sizes.base * 1.5,
+    marginTop: spacing.xs,
   },
   vendorRow: {
     flexDirection: 'row',

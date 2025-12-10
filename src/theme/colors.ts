@@ -1,7 +1,7 @@
 export const colors = {
   // Primary Colors
   primary: {
-    pink: '#ed5f57',
+    pink: '#bf5e5b',
     blue: '#5B9EFF',
     teal: '#4ECDC4',
     purple: '#A259FF',
@@ -36,6 +36,11 @@ export const colors = {
       start: '#FFB86C',
       middle: '#FFA652',
       end: '#FF9438',
+    },
+    home: {
+      start: '#fdd4d2',
+      middle: '#fef9f9',
+      end: '#e8e8e8',
     },
   },
 

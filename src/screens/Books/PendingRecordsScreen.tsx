@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import {
   View,
   Text,
@@ -74,18 +74,30 @@ const IncomeArrow = () => (
 interface PendingRecordsScreenProps {
   onBack?: () => void;
   onRecordPress?: () => void;
+  onScrollDirectionChange?: (isScrollingDown: boolean) => void;
 }
 
-export const PendingRecordsScreen: React.FC<PendingRecordsScreenProps> = ({onBack, onRecordPress}) => {
+export const PendingRecordsScreen: React.FC<PendingRecordsScreenProps> = ({onBack, onRecordPress, onScrollDirectionChange}) => {
   const [showStickyHeader, setShowStickyHeader] = useState(false);
   const stickyHeaderThreshold = 100;
+  const lastScrollY = useRef(0);
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const scrollY = event.nativeEvent.contentOffset.y;
+
+    // Show/hide sticky header
     if (scrollY >= stickyHeaderThreshold && !showStickyHeader) {
       setShowStickyHeader(true);
     } else if (scrollY < stickyHeaderThreshold && showStickyHeader) {
       setShowStickyHeader(false);
+    }
+
+    // Notify parent about scroll direction for navigation visibility
+    const scrollDiff = scrollY - lastScrollY.current;
+    if (Math.abs(scrollDiff) > 5) {
+      const isScrollingDown = scrollDiff > 0;
+      onScrollDirectionChange?.(isScrollingDown);
+      lastScrollY.current = scrollY;
     }
   };
 
@@ -152,10 +164,7 @@ export const PendingRecordsScreen: React.FC<PendingRecordsScreenProps> = ({onBac
 
                 <View style={styles.transactionHeader}>
                   <Text style={styles.transactionTitle}>Hotel Booking</Text>
-                  <View style={styles.amountRow}>
-                    <ExpenseArrow />
-                    <Text style={styles.expenseAmount}>{formatINR(15450)}</Text>
-                  </View>
+                  <Text style={styles.expenseAmount}>{formatINR(15450)}</Text>
                 </View>
 
                 <TouchableOpacity style={styles.linkRow}>
@@ -198,10 +207,7 @@ export const PendingRecordsScreen: React.FC<PendingRecordsScreenProps> = ({onBac
 
                 <View style={styles.transactionHeader}>
                   <Text style={styles.transactionTitle}>Team Dinner</Text>
-                  <View style={styles.amountRow}>
-                    <ExpenseArrow />
-                    <Text style={styles.expenseAmount}>{formatINR(4500)}</Text>
-                  </View>
+                  <Text style={styles.expenseAmount}>{formatINR(4500)}</Text>
                 </View>
 
                 <TouchableOpacity style={styles.linkRow}>
@@ -244,10 +250,7 @@ export const PendingRecordsScreen: React.FC<PendingRecordsScreenProps> = ({onBac
 
                 <View style={styles.transactionHeader}>
                   <Text style={styles.transactionTitle}>Office Supplies</Text>
-                  <View style={styles.amountRow}>
-                    <ExpenseArrow />
-                    <Text style={styles.expenseAmount}>{formatINR(2800)}</Text>
-                  </View>
+                  <Text style={styles.expenseAmount}>{formatINR(2800)}</Text>
                 </View>
 
                 <TouchableOpacity style={styles.linkRow}>
@@ -290,10 +293,7 @@ export const PendingRecordsScreen: React.FC<PendingRecordsScreenProps> = ({onBac
 
                 <View style={styles.transactionHeader}>
                   <Text style={styles.transactionTitle}>Client Meeting Lunch</Text>
-                  <View style={styles.amountRow}>
-                    <ExpenseArrow />
-                    <Text style={styles.expenseAmount}>{formatINR(6750)}</Text>
-                  </View>
+                  <Text style={styles.expenseAmount}>{formatINR(6750)}</Text>
                 </View>
 
                 <TouchableOpacity style={styles.linkRow}>

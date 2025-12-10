@@ -81,15 +81,15 @@ export const HomeScreen: React.FC = () => {
 
   const renderContent = () => {
     if (currentScreen === 'recordDetails') {
-      return <RecordDetailsScreen onBack={handleBackFromRecordDetails} />;
+      return <RecordDetailsScreen onBack={handleBackFromRecordDetails} onScrollDirectionChange={handleScrollDirectionChange} />;
     }
 
     if (currentScreen === 'pendingRecords') {
-      return <PendingRecordsScreen onBack={handleBackFromPendingRecords} onRecordPress={handleRecordPress} />;
+      return <PendingRecordsScreen onBack={handleBackFromPendingRecords} onRecordPress={handleRecordPress} onScrollDirectionChange={handleScrollDirectionChange} />;
     }
 
     if (currentScreen === 'bookDetails') {
-      return <BookDetailsScreen onBack={handleBackFromDetails} onPendingRecordsPress={handlePendingRecordsPress} onRecordDetailsPress={handleRecordDetailsFromBookDetails} />;
+      return <BookDetailsScreen onBack={handleBackFromDetails} onPendingRecordsPress={handlePendingRecordsPress} onRecordDetailsPress={handleRecordDetailsFromBookDetails} onScrollDirectionChange={handleScrollDirectionChange} />;
     }
 
     switch (activeTab) {
@@ -111,7 +111,7 @@ export const HomeScreen: React.FC = () => {
   return (
     <View style={styles.container}>
       <LinearGradient
-        colors={['#fdd4d2', '#fef9f9', '#e8e8e8']}
+        colors={[colors.gradients.home.start, colors.gradients.home.middle, colors.gradients.home.end]}
         start={{x: 1, y: 0}}
         end={{x: 0, y: 1}}
         style={styles.gradient}>

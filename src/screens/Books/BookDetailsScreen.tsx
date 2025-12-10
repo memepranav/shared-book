@@ -89,13 +89,37 @@ const ExpenseIcon = () => (
   </Svg>
 );
 
+const ExclamationIcon = () => (
+  <Svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+    <Path
+      d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+      fill="#EF4444"
+    />
+    <Path
+      d="M12 8V12"
+      stroke="white"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M12 16H12.01"
+      stroke="white"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </Svg>
+);
+
 interface BookDetailsScreenProps {
   onBack?: () => void;
   onPendingRecordsPress?: () => void;
   onRecordDetailsPress?: () => void;
+  onScrollDirectionChange?: (isScrollingDown: boolean) => void;
 }
 
-export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({onBack, onPendingRecordsPress, onRecordDetailsPress}) => {
+export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({onBack, onPendingRecordsPress, onRecordDetailsPress, onScrollDirectionChange}) => {
   const [selectedMonth, setSelectedMonth] = useState('Jan 2024');
   const [totalExpenses] = useState(2578000);
   const [budgetLimit] = useState(5500);
@@ -125,6 +149,13 @@ export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({onBack, onP
       setShowStickyHeader(true);
     } else if (scrollY < stickyHeaderThreshold && showStickyHeader) {
       setShowStickyHeader(false);
+    }
+
+    // Notify parent about scroll direction for navigation visibility
+    const scrollDiff = scrollY - lastScrollY.current;
+    if (Math.abs(scrollDiff) > 5) {
+      const isScrollingDown = scrollDiff > 0;
+      onScrollDirectionChange?.(isScrollingDown);
     }
 
     // Don't interrupt ongoing animation
@@ -334,7 +365,10 @@ export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({onBack, onP
 
             {/* Pending Transactions Card */}
             <TouchableOpacity style={styles.pendingCard} onPress={onPendingRecordsPress}>
-              <Text style={styles.pendingCardText}>Pending Records (10)</Text>
+              <View style={styles.pendingCardLeft}>
+                <ExclamationIcon />
+                <Text style={styles.pendingCardText}>Pending Records (10)</Text>
+              </View>
               <Text style={styles.viewAllText}>View All</Text>
             </TouchableOpacity>
 
@@ -483,6 +517,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: spacing.md,
+    height: 40,
   },
   stickyHeaderTitle: {
     fontSize: typography.sizes.xl,
@@ -514,6 +549,7 @@ const styles = StyleSheet.create({
     paddingTop: 0,
     paddingBottom: spacing.xs,
     marginBottom: spacing.xs,
+    height: 40,
   },
   headerButton: {
     width: 40,
@@ -673,11 +709,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
+  pendingCardLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
+  },
   pendingCardText: {
     fontSize: typography.sizes.base,
     fontFamily: typography.fonts.medium,
     color: colors.text.primary,
-    flex: 1,
+    lineHeight: typography.sizes.base * 1.2,
+    includeFontPadding: false,
+    textAlignVertical: 'center',
   },
   viewAllText: {
     fontSize: typography.sizes.base,
@@ -760,7 +803,7 @@ const styles = StyleSheet.create({
   },
   floatingButton: {
     position: 'absolute',
-    bottom: spacing.xl,
+    bottom: 90,
     right: spacing.lg,
     backgroundColor: colors.secondary.darkBlueGray,
     height: 40,

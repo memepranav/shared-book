@@ -120,7 +120,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: typography.sizes['2xl'],
     fontFamily: typography.fonts.semibold,
-    fontWeight: typography.weights.semibold,
     color: colors.text.primary,
     lineHeight: typography.lineHeights['2xl'],
     marginBottom: spacing.md,

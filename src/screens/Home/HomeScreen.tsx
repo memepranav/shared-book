@@ -3,13 +3,13 @@ import {View, StyleSheet, StatusBar, Animated} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
 import {BottomNavigation} from '../../components/BottomNavigation';
-import {BooksScreen, BookDetailsScreen} from '../Books';
+import {BooksScreen, BookDetailsScreen, PendingRecordsScreen} from '../Books';
 import {colors} from '../../theme';
 
 export const HomeScreen: React.FC = () => {
   const [activeTab, setActiveTab] = useState('books');
   const [isNavVisible, setIsNavVisible] = useState(true);
-  const [currentScreen, setCurrentScreen] = useState<'books' | 'bookDetails'>('books');
+  const [currentScreen, setCurrentScreen] = useState<'books' | 'bookDetails' | 'pendingRecords'>('books');
   const fadeAnim = useRef(new Animated.Value(1)).current;
   const isFirstMount = useRef(true);
 
@@ -51,9 +51,23 @@ export const HomeScreen: React.FC = () => {
     setIsNavVisible(true); // Show navigation when back to list
   };
 
+  const handlePendingRecordsPress = () => {
+    setCurrentScreen('pendingRecords');
+    setIsNavVisible(false); // Hide navigation on pending records screen
+  };
+
+  const handleBackFromPendingRecords = () => {
+    setCurrentScreen('bookDetails');
+    setIsNavVisible(false); // Keep navigation hidden on details screen
+  };
+
   const renderContent = () => {
+    if (currentScreen === 'pendingRecords') {
+      return <PendingRecordsScreen onBack={handleBackFromPendingRecords} />;
+    }
+
     if (currentScreen === 'bookDetails') {
-      return <BookDetailsScreen onBack={handleBackFromDetails} />;
+      return <BookDetailsScreen onBack={handleBackFromDetails} onPendingRecordsPress={handlePendingRecordsPress} />;
     }
 
     switch (activeTab) {

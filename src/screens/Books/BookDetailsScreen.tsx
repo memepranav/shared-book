@@ -91,9 +91,10 @@ const ExpenseIcon = () => (
 
 interface BookDetailsScreenProps {
   onBack?: () => void;
+  onPendingRecordsPress?: () => void;
 }
 
-export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({onBack}) => {
+export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({onBack, onPendingRecordsPress}) => {
   const [selectedMonth, setSelectedMonth] = useState('Jan 2024');
   const [totalExpenses] = useState(2578000);
   const [budgetLimit] = useState(5500);
@@ -174,7 +175,6 @@ export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({onBack}) =>
               </Svg>
             </TouchableOpacity>
             <Text style={styles.stickyHeaderTitle}>{tripName}</Text>
-            <View style={styles.headerButton} />
           </View>
         </LinearGradient>
       </View>
@@ -215,7 +215,6 @@ export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({onBack}) =>
                 </Svg>
               </TouchableOpacity>
               <Text style={styles.headerTitle}>{tripName}</Text>
-              <View style={styles.headerButton} />
             </View>
 
             {/* Expenses Section */}
@@ -333,7 +332,7 @@ export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({onBack}) =>
             </View>
 
             {/* Pending Transactions Card */}
-            <TouchableOpacity style={styles.pendingCard}>
+            <TouchableOpacity style={styles.pendingCard} onPress={onPendingRecordsPress}>
               <Text style={styles.pendingCardText}>Pending Records (10)</Text>
               <Text style={styles.viewAllText}>View All</Text>
             </TouchableOpacity>
@@ -467,19 +466,20 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
   },
   stickyHeaderGradient: {
-    paddingTop: spacing.xl + 10,
-    paddingBottom: spacing.md,
+    paddingTop: spacing.lg,
+    paddingBottom: spacing.lg,
     paddingHorizontal: spacing.lg,
   },
   stickyHeaderContent: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
+    gap: spacing.md,
   },
   stickyHeaderTitle: {
-    fontSize: typography.sizes.lg,
+    fontSize: typography.sizes.xl,
     fontFamily: typography.fonts.bold,
     color: 'white',
+    lineHeight: typography.sizes.xl * 1.2,
   },
   scrollView: {
     flex: 1,
@@ -500,8 +500,8 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
+    gap: spacing.md,
     paddingTop: 0,
     paddingBottom: spacing.xs,
     marginBottom: spacing.xs,
@@ -517,6 +517,7 @@ const styles = StyleSheet.create({
     fontSize: typography.sizes.xl,
     fontFamily: typography.fonts.bold,
     color: 'white',
+    lineHeight: typography.sizes.xl * 1.2,
   },
   expensesSection: {
     marginBottom: spacing.xs,

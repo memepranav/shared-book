@@ -115,7 +115,7 @@ export const RecordDetailsScreen: React.FC<RecordDetailsScreenProps> = ({onBack}
           {/* Status Badge */}
           <View style={styles.statusBadge}>
             <View style={styles.statusDot} />
-            <Text style={styles.statusText}>Pending</Text>
+            <Text style={styles.statusText}>Cash</Text>
           </View>
           <Text style={styles.totalAmount}>{formatINR(totalAmount)}</Text>
           <Text style={styles.paymentDate}>Payment Date: {paymentDate}</Text>
@@ -137,10 +137,19 @@ export const RecordDetailsScreen: React.FC<RecordDetailsScreenProps> = ({onBack}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.contentContainer}>
         <View style={styles.detailsContainer}>
-          <Text style={styles.sectionHeading}>Mobile Recharge Expanse Details</Text>
+          {/* User Info Section */}
+          <View style={styles.userInfoSection}>
+            <View style={styles.avatarContainer}>
+              <Image source={require('../../assets/images/avatars/1.png')} style={styles.avatarImage} resizeMode="cover" />
+            </View>
+            <View style={styles.userDetails}>
+              <Text style={styles.userName}>Arun Kumar</Text>
+              <Text style={styles.userSubtext}>Added at: 2:30 PM</Text>
+            </View>
+          </View>
 
-          {/* Schedule Payment Section */}
-          <View style={styles.scheduleSection}>
+          {/* Schedule Payment Section - Hidden for now, will be used in future */}
+          {/* <View style={styles.scheduleSection}>
             <View style={styles.scheduleHeader}>
               <CalendarIcon />
               <Text style={styles.scheduleTitle}>Schedule Payment</Text>
@@ -151,7 +160,7 @@ export const RecordDetailsScreen: React.FC<RecordDetailsScreenProps> = ({onBack}
             <TouchableOpacity style={styles.changeScheduleButton}>
               <Text style={styles.changeScheduleText}>Change Schedule</Text>
             </TouchableOpacity>
-          </View>
+          </View> */}
 
           {/* Bills Details Section */}
           <View style={styles.billsSection}>
@@ -169,14 +178,11 @@ export const RecordDetailsScreen: React.FC<RecordDetailsScreenProps> = ({onBack}
 
                 <View style={styles.billRow}>
                   <Text style={styles.billLabel}>Vendor</Text>
-                  <View style={styles.vendorRow}>
-                    <Text style={styles.billValue}>{vendor}</Text>
-                    <Text style={styles.splitLabel}>Split</Text>
-                  </View>
+                  <Text style={styles.billValue}>{vendor}</Text>
                 </View>
 
                 <View style={styles.billRow}>
-                  <Text style={styles.billLabel}>Amount</Text>
+                  <Text style={styles.billLabel}>Total Spent</Text>
                   <Text style={styles.billValue}>{formatINR(amount)}</Text>
                 </View>
               </View>
@@ -184,7 +190,7 @@ export const RecordDetailsScreen: React.FC<RecordDetailsScreenProps> = ({onBack}
               <View style={styles.billsRight}>
                 <View style={styles.receiptContainer}>
                   <Image
-                    source={require('../../assets/images/avatars/1.png')}
+                    source={require('../../assets/images/bill-preview.png')}
                     style={styles.receiptImage}
                   />
                   <View style={styles.attachmentBadge}>
@@ -272,10 +278,12 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   totalAmount: {
-    fontSize: 56,
+    fontSize: 30,
     fontFamily: typography.fonts.bold,
     color: 'white',
     marginBottom: spacing.xs,
+    includeFontPadding: false,
+    textAlignVertical: 'center',
   },
   paymentDate: {
     fontSize: typography.sizes.base,
@@ -295,11 +303,40 @@ const styles = StyleSheet.create({
     paddingBottom: spacing.xxl,
     minHeight: 500,
   },
-  sectionHeading: {
-    fontSize: typography.sizes.xl,
+  userInfoSection: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: spacing.lg,
+  },
+  avatarContainer: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    borderWidth: 2,
+    borderColor: 'rgba(44, 62, 80, 0.2)',
+    marginRight: spacing.md,
+    backgroundColor: 'white',
+    overflow: 'hidden',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  avatarImage: {
+    width: 60,
+    height: 60,
+  },
+  userDetails: {
+    flex: 1,
+  },
+  userName: {
+    fontSize: typography.sizes.lg,
     fontFamily: typography.fonts.bold,
     color: colors.text.primary,
-    marginBottom: spacing.lg,
+  },
+  userSubtext: {
+    fontSize: typography.sizes.sm,
+    fontFamily: typography.fonts.regular,
+    color: colors.text.secondary,
+    marginTop: 2,
   },
   scheduleSection: {
     backgroundColor: '#F8F9FA',
@@ -396,6 +433,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     overflow: 'hidden',
     backgroundColor: '#F0F0F0',
+    borderWidth: 1,
+    borderColor: 'rgba(44, 62, 80, 0.2)',
   },
   receiptImage: {
     width: '100%',

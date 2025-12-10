@@ -112,12 +112,22 @@ export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({onBack}) =>
   const buttonWidth = useRef(new Animated.Value(1)).current; // 0 = collapsed, 1 = expanded
   const lastScrollY = useRef(0);
   const isAnimating = useRef(false);
+  const [showStickyHeader, setShowStickyHeader] = useState(false);
+  const stickyHeaderThreshold = 100;
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const scrollY = event.nativeEvent.contentOffset.y;
 
+    // Show/hide sticky header
+    if (scrollY >= stickyHeaderThreshold && !showStickyHeader) {
+      setShowStickyHeader(true);
+    } else if (scrollY < stickyHeaderThreshold && showStickyHeader) {
+      setShowStickyHeader(false);
+    }
+
     // Don't interrupt ongoing animation
     if (isAnimating.current) {
+      lastScrollY.current = scrollY;
       return;
     }
 
@@ -145,8 +155,41 @@ export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({onBack}) =>
     lastScrollY.current = scrollY;
   };
 
+  const renderStickyHeader = () => {
+    return (
+      <View style={styles.stickyHeaderContainer}>
+        <LinearGradient
+          colors={[colors.primary.pink, colors.primary.pink]}
+          style={styles.stickyHeaderGradient}>
+          <View style={styles.stickyHeaderContent}>
+            <TouchableOpacity onPress={onBack} style={styles.headerButton}>
+              <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <Path
+                  d="M15 18L9 12L15 6"
+                  stroke="white"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </Svg>
+            </TouchableOpacity>
+            <Text style={styles.stickyHeaderTitle}>{tripName}</Text>
+            <View style={styles.headerButton} />
+          </View>
+        </LinearGradient>
+      </View>
+    );
+  };
+
   return (
     <View style={styles.container}>
+      {/* Sticky Header - Only shown when scrolled */}
+      {showStickyHeader && (
+        <View style={styles.stickyHeaderFixed}>
+          {renderStickyHeader()}
+        </View>
+      )}
+
       <ScrollView
         style={styles.scrollView}
         showsVerticalScrollIndicator={false}
@@ -407,6 +450,36 @@ export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({onBack}) =>
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  stickyHeaderFixed: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 1000,
+  },
+  stickyHeaderContainer: {
+    backgroundColor: colors.primary.pink,
+    elevation: 4,
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+  },
+  stickyHeaderGradient: {
+    paddingTop: spacing.xl + 10,
+    paddingBottom: spacing.md,
+    paddingHorizontal: spacing.lg,
+  },
+  stickyHeaderContent: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  stickyHeaderTitle: {
+    fontSize: typography.sizes.lg,
+    fontFamily: typography.fonts.bold,
+    color: 'white',
   },
   scrollView: {
     flex: 1,

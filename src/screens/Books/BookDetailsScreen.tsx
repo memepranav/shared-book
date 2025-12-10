@@ -1,16 +1,32 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import {
   View,
   Text,
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  Image,
+  Animated,
+  NativeSyntheticEvent,
+  NativeScrollEvent,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
 import Svg, {Path} from 'react-native-svg';
 import {colors, typography, spacing} from '../../theme';
 import {BookTypeIcon} from '../../components/BookTypeIcons';
+import {AvatarGroup} from '../../components/AvatarGroup';
+import {formatINR} from '../../utils/currency';
+
+// Avatar images
+const avatarImages = [
+  require('../../assets/images/avatars/1.png'),
+  require('../../assets/images/avatars/2.png'),
+  require('../../assets/images/avatars/3.png'),
+  require('../../assets/images/avatars/4.png'),
+  require('../../assets/images/avatars/5.png'),
+  require('../../assets/images/avatars/6.png'),
+];
 
 // Icons
 const BackIcon = () => (
@@ -50,7 +66,7 @@ const ChevronDownIcon = () => (
 );
 
 const IncomeIcon = () => (
-  <Svg width="24" height="24" viewBox="0 0 64 64" fill="none">
+  <Svg width="20" height="20" viewBox="0 0 64 64" fill="none">
     <Path
       d="M42.5 21.5L53.5 32.5L42.5 43.5M52.5 32.5H21.5M21.5 10.5V54.5"
       stroke={colors.primary.pink}
@@ -62,7 +78,7 @@ const IncomeIcon = () => (
 );
 
 const ExpenseIcon = () => (
-  <Svg width="24" height="24" viewBox="0 0 64 64" fill="none">
+  <Svg width="20" height="20" viewBox="0 0 64 64" fill="none">
     <Path
       d="M21.5 21.5L10.5 32.5L21.5 43.5M11.5 32.5H42.5M42.5 10.5V54.5"
       stroke={colors.primary.pink}
@@ -79,7 +95,7 @@ interface BookDetailsScreenProps {
 
 export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({onBack}) => {
   const [selectedMonth, setSelectedMonth] = useState('Jan 2024');
-  const [totalExpenses] = useState(3578);
+  const [totalExpenses] = useState(2578000);
   const [budgetLimit] = useState(5500);
   const [cashIncome] = useState(6524656);
   const [bankIncome] = useState(7512278);
@@ -92,11 +108,54 @@ export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({onBack}) =>
   const budgetPercentage = (totalExpenses / budgetLimit) * 100;
   const percentageIncrease = 10;
 
+  // Animated value for button width
+  const buttonWidth = useRef(new Animated.Value(1)).current; // 0 = collapsed, 1 = expanded
+  const lastScrollY = useRef(0);
+  const isAnimating = useRef(false);
+
+  const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const scrollY = event.nativeEvent.contentOffset.y;
+
+    // Don't interrupt ongoing animation
+    if (isAnimating.current) {
+      return;
+    }
+
+    // Collapse button when scrolling down past 50px
+    if (scrollY > 50 && lastScrollY.current <= 50) {
+      isAnimating.current = true;
+      Animated.timing(buttonWidth, {
+        toValue: 0,
+        duration: 150,
+        useNativeDriver: false,
+      }).start(() => {
+        isAnimating.current = false;
+      });
+    } else if (scrollY <= 50 && lastScrollY.current > 50) {
+      isAnimating.current = true;
+      Animated.timing(buttonWidth, {
+        toValue: 1,
+        duration: 150,
+        useNativeDriver: false,
+      }).start(() => {
+        isAnimating.current = false;
+      });
+    }
+
+    lastScrollY.current = scrollY;
+  };
+
   return (
-    <ScrollView
-      style={styles.container}
-      showsVerticalScrollIndicator={false}
-      contentContainerStyle={styles.contentContainer}>
+    <View style={styles.container}>
+      <ScrollView
+        style={styles.scrollView}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.contentContainer}
+        onScroll={handleScroll}
+        scrollEventThrottle={16}
+        bounces={false}
+        alwaysBounceVertical={false}
+        overScrollMode="never">
       {/* Top Section with Primary Color Background */}
       <View style={styles.topSection}>
             {/* Header */}
@@ -131,11 +190,22 @@ export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({onBack}) =>
 
               <View style={styles.expensesAmountRow}>
                 <Text style={styles.expensesAmount}>
-                  ₹{totalExpenses.toLocaleString()}
+                  {formatINR(totalExpenses)}
                 </Text>
-                <View style={styles.percentageBadge}>
-                  <Text style={styles.percentageText}>↑ {percentageIncrease}%</Text>
-                </View>
+                <AvatarGroup
+                  members={[
+                    {image: avatarImages[0], color: '#FF6B9D'},
+                    {image: avatarImages[1], color: '#4ECDC4'},
+                    {image: avatarImages[2], color: '#FFE66D'},
+                    {image: avatarImages[3], color: '#B4B4C4'},
+                    {image: avatarImages[4], color: '#8F92A1'},
+                    {image: avatarImages[5], color: '#6B6D7A'},
+                  ]}
+                  maxVisible={3}
+                  size={44}
+                  borderColor={colors.primary.pink}
+                  overlap={22}
+                />
               </View>
 
               {/* Budget Progress Bar */}
@@ -145,7 +215,7 @@ export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({onBack}) =>
                 </View>
               </View>
               <Text style={styles.budgetLimitText}>
-                Monthly Budget Limit : ₹{budgetLimit.toLocaleString()}
+                Monthly Budget Limit : {formatINR(budgetLimit)}
               </Text>
             </View>
           </View>
@@ -172,7 +242,7 @@ export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({onBack}) =>
                       <Text style={styles.amountLabel}>Cash</Text>
                     </View>
                     <Text style={styles.amountValue}>
-                      ₹{cashIncome.toLocaleString()}
+                      {formatINR(cashIncome)}
                     </Text>
                   </View>
 
@@ -182,7 +252,7 @@ export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({onBack}) =>
                       <Text style={styles.amountLabel}>Bank</Text>
                     </View>
                     <Text style={styles.amountValue}>
-                      ₹{bankIncome.toLocaleString()}
+                      {formatINR(bankIncome)}
                     </Text>
                   </View>
                 </View>
@@ -202,7 +272,7 @@ export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({onBack}) =>
                       <Text style={styles.amountLabel}>Cash</Text>
                     </View>
                     <Text style={styles.amountValue}>
-                      ₹{cashExpense.toLocaleString()}
+                      {formatINR(cashExpense)}
                     </Text>
                   </View>
 
@@ -212,79 +282,18 @@ export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({onBack}) =>
                       <Text style={styles.amountLabel}>Bank</Text>
                     </View>
                     <Text style={styles.amountValue}>
-                      ₹{bankExpense.toLocaleString()}
+                      {formatINR(bankExpense)}
                     </Text>
                   </View>
                 </View>
               </View>
             </View>
 
-            {/* Add Record Button */}
-            <TouchableOpacity style={styles.addRecordButton}>
-              <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <Path
-                  d="M9 12H15M12 9V15M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
-                  stroke="#8b5cf6"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </Svg>
-              <Text style={styles.addRecordText}>Add Record</Text>
+            {/* Pending Transactions Card */}
+            <TouchableOpacity style={styles.pendingCard}>
+              <Text style={styles.pendingCardText}>Pending Records (10)</Text>
+              <Text style={styles.viewAllText}>View All</Text>
             </TouchableOpacity>
-
-            {/* Action Required Section */}
-            <View style={styles.actionSection}>
-              <Text style={styles.sectionTitle}>Action Required</Text>
-
-              <TouchableOpacity style={styles.actionItem}>
-                <View style={styles.actionIconContainer}>
-                  <Text style={styles.actionIcon}>🔒</Text>
-                </View>
-                <Text style={styles.actionText}>31 Expense Need Review</Text>
-                <Svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                  <Path
-                    d="M9 6L15 12L9 18"
-                    stroke="#9ca3af"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </Svg>
-              </TouchableOpacity>
-
-              <TouchableOpacity style={styles.actionItem}>
-                <View style={styles.actionIconContainer}>
-                  <Text style={styles.actionIcon}>💰</Text>
-                </View>
-                <Text style={styles.actionText}>32 Reimburse Request</Text>
-                <Svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                  <Path
-                    d="M9 6L15 12L9 18"
-                    stroke="#9ca3af"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </Svg>
-              </TouchableOpacity>
-
-              <TouchableOpacity style={styles.actionItem}>
-                <View style={styles.actionIconContainer}>
-                  <Text style={styles.actionIcon}>📄</Text>
-                </View>
-                <Text style={styles.actionText}>24 Next Bill</Text>
-                <Svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                  <Path
-                    d="M9 6L15 12L9 18"
-                    stroke="#9ca3af"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </Svg>
-              </TouchableOpacity>
-            </View>
 
             {/* Recent Record Section */}
             <View style={styles.recentSection}>
@@ -294,17 +303,112 @@ export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({onBack}) =>
                   <Text style={styles.seeAllText}>See All ›</Text>
                 </TouchableOpacity>
               </View>
+
+              {/* Dec 08, 2023 */}
+              <Text style={styles.dateHeader}>Dec 08, 2023</Text>
+              <View style={styles.transactionCard}>
+                <View style={styles.avatarColumn}>
+                  <Image source={avatarImages[0]} style={styles.transactionAvatarImage} resizeMode="cover" />
+                </View>
+                <View style={styles.transactionInfo}>
+                  <Text style={styles.transactionTitle}>Hotel Booking</Text>
+                  <Text style={styles.transactionMeta}>Added by Arun @ 2:30 PM</Text>
+                </View>
+                <View style={styles.transactionRight}>
+                  <ExpenseIcon />
+                  <Text style={styles.transactionAmount}>{formatINR(15450)}</Text>
+                </View>
+              </View>
+
+              {/* Dec 07, 2023 */}
+              <Text style={styles.dateHeader}>Dec 07, 2023</Text>
+              <View style={styles.transactionCard}>
+                <View style={styles.avatarColumn}>
+                  <Image source={avatarImages[1]} style={styles.transactionAvatarImage} resizeMode="cover" />
+                </View>
+                <View style={styles.transactionInfo}>
+                  <Text style={styles.transactionTitle}>Dinner Split Payment</Text>
+                  <Text style={styles.transactionMeta}>Added by Sanjay @ 8:45 PM</Text>
+                </View>
+                <View style={styles.transactionRight}>
+                  <IncomeIcon />
+                  <Text style={[styles.transactionAmount, {color: '#22c55e'}]}>{formatINR(2340)}</Text>
+                </View>
+              </View>
+
+              <View style={styles.transactionCard}>
+                <View style={styles.avatarColumn}>
+                  <Image source={avatarImages[3]} style={styles.transactionAvatarImage} resizeMode="cover" />
+                </View>
+                <View style={styles.transactionInfo}>
+                  <Text style={styles.transactionTitle}>Fuel Expense</Text>
+                  <Text style={styles.transactionMeta}>Added by Manoj @ 3:15 PM</Text>
+                </View>
+                <View style={styles.transactionRight}>
+                  <ExpenseIcon />
+                  <Text style={styles.transactionAmount}>{formatINR(3200)}</Text>
+                </View>
+              </View>
+
+              {/* Dec 06, 2023 */}
+              <Text style={styles.dateHeader}>Dec 06, 2023</Text>
+              <View style={styles.transactionCard}>
+                <View style={styles.avatarColumn}>
+                  <Image source={avatarImages[4]} style={styles.transactionAvatarImage} resizeMode="cover" />
+                </View>
+                <View style={styles.transactionInfo}>
+                  <Text style={styles.transactionTitle}>Cab Fare Reimbursement</Text>
+                  <Text style={styles.transactionMeta}>Added by John @ 11:20 AM</Text>
+                </View>
+                <View style={styles.transactionRight}>
+                  <IncomeIcon />
+                  <Text style={[styles.transactionAmount, {color: '#22c55e'}]}>{formatINR(850)}</Text>
+                </View>
+              </View>
             </View>
 
         {/* Bottom padding */}
         <View style={{height: 100}} />
       </LinearGradient>
-    </ScrollView>
+      </ScrollView>
+
+      {/* Floating Add Button */}
+      <Animated.View
+        style={[
+          styles.floatingButton,
+          {
+            width: buttonWidth.interpolate({
+              inputRange: [0, 1],
+              outputRange: [40, 140], // 40px collapsed, 140px expanded
+            }),
+          },
+        ]}>
+        <TouchableOpacity style={styles.floatingButtonInner}>
+          <View style={styles.plusCircle}>
+            <Text style={styles.floatingButtonText}>+</Text>
+          </View>
+          <Animated.View
+            style={{
+              opacity: buttonWidth,
+              overflow: 'hidden',
+              maxWidth: buttonWidth.interpolate({
+                inputRange: [0, 1],
+                outputRange: [0, 100],
+              }),
+            }}>
+            <Text style={styles.floatingButtonLabel}> Add Record</Text>
+          </Animated.View>
+        </TouchableOpacity>
+      </Animated.View>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+  },
+  scrollView: {
     flex: 1,
   },
   contentContainer: {
@@ -334,11 +438,11 @@ const styles = StyleSheet.create({
     height: 40,
     justifyContent: 'center',
     alignItems: 'center',
+    borderRadius: 20,
   },
   headerTitle: {
     fontSize: typography.sizes.xl,
     fontFamily: typography.fonts.bold,
-    fontWeight: typography.weights.bold,
     color: 'white',
   },
   expensesSection: {
@@ -358,7 +462,6 @@ const styles = StyleSheet.create({
   expensesLabel: {
     fontSize: typography.sizes.lg,
     fontFamily: typography.fonts.semibold,
-    fontWeight: typography.weights.semibold,
     color: 'white',
   },
   monthSelector: {
@@ -369,7 +472,6 @@ const styles = StyleSheet.create({
   monthText: {
     fontSize: typography.sizes.base,
     fontFamily: typography.fonts.medium,
-    fontWeight: typography.weights.medium,
     color: 'rgba(255, 255, 255, 0.7)',
   },
   expensesAmountRow: {
@@ -379,23 +481,11 @@ const styles = StyleSheet.create({
     marginBottom: spacing.sm,
   },
   expensesAmount: {
-    fontSize: 48,
+    fontSize: 30,
     fontFamily: typography.fonts.bold,
-    fontWeight: typography.weights.bold,
     color: 'white',
-  },
-  percentageBadge: {
-    backgroundColor: colors.secondary.darkBlueGray,
-    paddingHorizontal: spacing.sm,
-    paddingVertical: 6,
-    borderRadius: 12,
-    alignSelf: 'center',
-  },
-  percentageText: {
-    fontSize: typography.sizes.sm,
-    fontFamily: typography.fonts.semibold,
-    fontWeight: typography.weights.semibold,
-    color: 'white',
+    includeFontPadding: false,
+    textAlignVertical: 'center',
   },
   progressBarContainer: {
     marginBottom: 4,
@@ -414,7 +504,6 @@ const styles = StyleSheet.create({
   budgetLimitText: {
     fontSize: typography.sizes.sm,
     fontFamily: typography.fonts.medium,
-    fontWeight: typography.weights.medium,
     color: 'rgba(255, 255, 255, 0.8)',
     textAlign: 'center',
   },
@@ -442,7 +531,6 @@ const styles = StyleSheet.create({
   cardTitle: {
     fontSize: typography.sizes.lg,
     fontFamily: typography.fonts.semibold,
-    fontWeight: typography.weights.semibold,
     color: colors.text.primary,
   },
   pieChart: {
@@ -486,70 +574,38 @@ const styles = StyleSheet.create({
   amountLabel: {
     fontSize: typography.sizes.sm,
     fontFamily: typography.fonts.medium,
-    fontWeight: typography.weights.medium,
     color: colors.text.secondary,
   },
   amountValue: {
     fontSize: typography.sizes.lg,
     fontFamily: typography.fonts.bold,
-    fontWeight: typography.weights.bold,
     color: colors.text.primary,
   },
-  addRecordButton: {
+  pendingCard: {
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    borderRadius: 16,
+    padding: spacing.lg,
+    marginBottom: spacing.xl,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    gap: spacing.sm,
-    backgroundColor: 'rgba(255, 255, 255, 0.5)',
-    borderRadius: 16,
-    borderWidth: 2,
-    borderColor: '#e9d5ff',
-    borderStyle: 'dashed',
-    paddingVertical: spacing.lg,
-    marginBottom: spacing.xl,
+    justifyContent: 'space-between',
   },
-  addRecordText: {
+  pendingCardText: {
+    fontSize: typography.sizes.base,
+    fontFamily: typography.fonts.medium,
+    color: colors.text.primary,
+    flex: 1,
+  },
+  viewAllText: {
     fontSize: typography.sizes.base,
     fontFamily: typography.fonts.semibold,
-    fontWeight: typography.weights.semibold,
-    color: '#8b5cf6',
-  },
-  actionSection: {
-    marginBottom: spacing.xl,
+    color: colors.primary.pink,
   },
   sectionTitle: {
     fontSize: typography.sizes.lg,
     fontFamily: typography.fonts.bold,
-    fontWeight: typography.weights.bold,
     color: colors.text.primary,
-    marginBottom: spacing.md,
-  },
-  actionItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.7)',
-    borderRadius: 16,
-    padding: spacing.md,
-    marginBottom: spacing.sm,
-  },
-  actionIconContainer: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: 'rgba(255, 255, 255, 0.8)',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: spacing.md,
-  },
-  actionIcon: {
-    fontSize: 20,
-  },
-  actionText: {
-    flex: 1,
-    fontSize: typography.sizes.base,
-    fontFamily: typography.fonts.medium,
-    fontWeight: typography.weights.medium,
-    color: colors.text.primary,
+    marginBottom: 0,
   },
   recentSection: {
     marginBottom: spacing.xl,
@@ -558,11 +614,108 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    marginBottom: spacing.md,
   },
   seeAllText: {
     fontSize: typography.sizes.base,
     fontFamily: typography.fonts.medium,
-    fontWeight: typography.weights.medium,
     color: colors.text.secondary,
+  },
+  dateHeader: {
+    fontSize: typography.sizes.base,
+    fontFamily: typography.fonts.bold,
+    color: colors.text.primary,
+    marginTop: spacing.md,
+    marginBottom: spacing.md,
+    backgroundColor: `${colors.secondary.darkBlueGray}15`,
+    paddingVertical: spacing.xs,
+    paddingHorizontal: spacing.md,
+    marginHorizontal: -spacing.lg,
+    includeFontPadding: false,
+    textAlignVertical: 'center',
+  },
+  transactionCard: {
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    borderRadius: 16,
+    padding: spacing.sm,
+    marginBottom: spacing.md,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
+  },
+  avatarColumn: {
+    alignItems: 'center',
+  },
+  transactionAvatarImage: {
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+  },
+  transactionInfo: {
+    flex: 1,
+  },
+  transactionTitle: {
+    fontSize: typography.sizes.base,
+    fontFamily: typography.fonts.semibold,
+    color: colors.text.primary,
+    marginBottom: 2,
+  },
+  transactionMeta: {
+    fontSize: typography.sizes.xs,
+    fontFamily: typography.fonts.regular,
+    color: colors.text.secondary,
+    marginBottom: 2,
+  },
+  transactionRight: {
+    alignItems: 'flex-end',
+    gap: spacing.xs,
+  },
+  transactionAmount: {
+    fontSize: typography.sizes.lg,
+    fontFamily: typography.fonts.bold,
+    color: colors.primary.pink,
+  },
+  floatingButton: {
+    position: 'absolute',
+    bottom: spacing.xl,
+    right: spacing.lg,
+    backgroundColor: colors.secondary.darkBlueGray,
+    height: 40,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 4,
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+  },
+  floatingButtonInner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    height: 40,
+    width: '100%',
+  },
+  plusCircle: {
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  floatingButtonText: {
+    color: 'white',
+    fontSize: 24,
+    fontFamily: typography.fonts.regular,
+    lineHeight: 24,
+    includeFontPadding: false,
+    textAlignVertical: 'center',
+  },
+  floatingButtonLabel: {
+    color: 'white',
+    fontSize: typography.sizes.sm,
+    fontFamily: typography.fonts.medium,
+    includeFontPadding: false,
+    textAlignVertical: 'center',
   },
 });

@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {View, StyleSheet, StatusBar} from 'react-native';
+import React, {useState, useRef, useEffect} from 'react';
+import {View, StyleSheet, StatusBar, Animated} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
 import {BottomNavigation} from '../../components/BottomNavigation';
@@ -10,6 +10,24 @@ export const HomeScreen: React.FC = () => {
   const [activeTab, setActiveTab] = useState('books');
   const [isNavVisible, setIsNavVisible] = useState(true);
   const [currentScreen, setCurrentScreen] = useState<'books' | 'bookDetails'>('books');
+  const fadeAnim = useRef(new Animated.Value(1)).current;
+  const isFirstMount = useRef(true);
+
+  useEffect(() => {
+    // Skip animation on initial mount
+    if (isFirstMount.current) {
+      isFirstMount.current = false;
+      return;
+    }
+
+    // Animate on screen changes
+    fadeAnim.setValue(0);
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 200,
+      useNativeDriver: true,
+    }).start();
+  }, [currentScreen]);
 
   const handleTabPress = (tabId: string) => {
     setActiveTab(tabId);
@@ -69,7 +87,9 @@ export const HomeScreen: React.FC = () => {
           />
 
           {/* Content Area */}
-          {renderContent()}
+          <Animated.View style={[styles.contentArea, {opacity: fadeAnim}]}>
+            {renderContent()}
+          </Animated.View>
 
           {/* Bottom Navigation */}
           <BottomNavigation
@@ -91,6 +111,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   safeArea: {
+    flex: 1,
+  },
+  contentArea: {
     flex: 1,
   },
 });

@@ -1,7 +1,8 @@
-import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Dimensions} from 'react-native';
+import React, {useEffect, useRef} from 'react';
+import {View, Text, StyleSheet, TouchableOpacity, Dimensions, Animated} from 'react-native';
 import Svg, {Defs, LinearGradient as SvgLinearGradient, Stop, Rect} from 'react-native-svg';
 import {typography, spacing} from '../theme';
+import {formatINR} from '../utils/currency';
 
 interface BarData {
   label: string;
@@ -33,6 +34,28 @@ export const CustomBarChart: React.FC<CustomBarChartProps> = ({
   const availableWidth = chartWidth - yAxisWidth;
   const totalBars = data.length;
   const spacing_between = (availableWidth - (barWidth * totalBars)) / (totalBars + 1);
+
+  // Create animated values for each bar
+  const animatedHeights = useRef(
+    data.map(() => new Animated.Value(0))
+  ).current;
+
+  // Animate bars on mount or data change
+  useEffect(() => {
+    const animations = data.map((item, index) => {
+      return Animated.timing(animatedHeights[index], {
+        toValue: 1,
+        duration: 800,
+        delay: index * 100, // Stagger animation for each bar
+        useNativeDriver: false,
+      });
+    });
+
+    // Reset animations when data changes
+    animatedHeights.forEach(anim => anim.setValue(0));
+
+    Animated.parallel(animations).start();
+  }, [data]);
 
   // Format y-axis labels
   const formatYAxisLabel = (value: number) => {
@@ -114,6 +137,11 @@ export const CustomBarChart: React.FC<CustomBarChartProps> = ({
     const capGap = 2;
     const barColor = isSelected ? primaryColor : secondaryColor;
 
+    const animatedBarHeight = animatedHeights[index].interpolate({
+      inputRange: [0, 1],
+      outputRange: [0, barHeight],
+    });
+
     return (
       <TouchableOpacity
         key={index}
@@ -128,23 +156,24 @@ export const CustomBarChart: React.FC<CustomBarChartProps> = ({
           },
         ]}>
         {/* Cap */}
-        <View
+        <Animated.View
           style={[
             styles.barCap,
             {
               backgroundColor: barColor,
               height: capHeight,
               marginBottom: capGap,
+              opacity: animatedHeights[index],
             },
           ]}
         />
 
         {/* Bar Body with Gradient */}
-        <View
+        <Animated.View
           style={[
             styles.barBody,
             {
-              height: barHeight,
+              height: animatedBarHeight,
               overflow: 'hidden',
             },
           ]}>
@@ -163,7 +192,7 @@ export const CustomBarChart: React.FC<CustomBarChartProps> = ({
               fill={`url(#gradient-${index})`}
             />
           </Svg>
-        </View>
+        </Animated.View>
 
         {/* Label */}
         <Text
@@ -208,7 +237,7 @@ export const CustomBarChart: React.FC<CustomBarChartProps> = ({
             },
           ]}>
           <View style={[styles.tooltip, {backgroundColor: primaryColor}]}>
-            <Text style={[styles.tooltipText, {color: '#FFFFFF'}]}>₹ {data[selectedIndex].value}</Text>
+            <Text style={[styles.tooltipText, {color: '#FFFFFF'}]}>{formatINR(data[selectedIndex].value)}</Text>
           </View>
           <View style={[styles.tooltipArrow, {borderTopColor: primaryColor}]} />
         </View>
@@ -231,7 +260,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     fontSize: typography.sizes.xs,
     fontFamily: typography.fonts.regular,
-    fontWeight: typography.weights.regular,
     color: '#8F92A1',
     textAlign: 'right',
     width: 35,
@@ -288,7 +316,6 @@ const styles = StyleSheet.create({
   tooltipText: {
     fontSize: typography.sizes.sm,
     fontFamily: typography.fonts.bold,
-    fontWeight: typography.weights.bold,
     textAlign: 'center',
     includeFontPadding: false,
   },

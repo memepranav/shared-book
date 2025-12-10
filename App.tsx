@@ -10,7 +10,7 @@ import {OnboardingContainer} from './src/screens/Onboarding';
 import {HomeScreen} from './src/screens/Home/HomeScreen';
 
 function App() {
-  const [showOnboarding, setShowOnboarding] = useState(true);
+  const [showOnboarding, setShowOnboarding] = useState(false);
 
   const handleOnboardingComplete = () => {
     setShowOnboarding(false);

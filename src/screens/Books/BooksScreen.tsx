@@ -13,6 +13,18 @@ import Svg, {Path, Rect} from 'react-native-svg';
 import {CustomBarChart} from '../../components/CustomBarChart';
 import {colors, typography, spacing} from '../../theme';
 import {BookTypeIcon, BookType} from '../../components/BookTypeIcons';
+import {AvatarGroup} from '../../components/AvatarGroup';
+import {formatINR} from '../../utils/currency';
+
+// Avatar images
+const avatarImages = [
+  require('../../assets/images/avatars/1.png'),
+  require('../../assets/images/avatars/2.png'),
+  require('../../assets/images/avatars/3.png'),
+  require('../../assets/images/avatars/4.png'),
+  require('../../assets/images/avatars/5.png'),
+  require('../../assets/images/avatars/6.png'),
+];
 
 // Icons
 const DownloadIcon = () => (
@@ -100,14 +112,6 @@ const FilterIcon = () => (
       strokeLinejoin="round"
     />
   </Svg>
-);
-
-
-// Avatar component
-const Avatar = ({color, initials, size = 36}: {color: string; initials?: string; size?: number}) => (
-  <View style={[styles.avatar, {width: size, height: size, backgroundColor: color}]}>
-    {initials && <Text style={styles.avatarText}>{initials}</Text>}
-  </View>
 );
 
 interface Book {
@@ -298,9 +302,9 @@ export const BooksScreen: React.FC<BooksScreenProps> = ({onScrollDirectionChange
                   .reduce((sum, book) => sum + book.youOwe, 0);
 
                 if (totalYouOwe > totalOthersOwe) {
-                  return `Total money you owe to others: ₹ ${totalYouOwe.toLocaleString('en-IN')}`;
+                  return `Total money you owe to others: ${formatINR(totalYouOwe)}`;
                 } else {
-                  return `Total fund others owe to you: ₹ ${totalOthersOwe.toLocaleString('en-IN')}`;
+                  return `Total fund others owe to you: ${formatINR(totalOthersOwe)}`;
                 }
               })()}
             </Text>
@@ -321,8 +325,9 @@ export const BooksScreen: React.FC<BooksScreenProps> = ({onScrollDirectionChange
         contentContainerStyle={styles.contentContainer}
         keyboardShouldPersistTaps="handled"
         removeClippedSubviews={false}
-        bounces={true}
+        bounces={false}
         alwaysBounceVertical={false}
+        overScrollMode="never"
         automaticallyAdjustContentInsets={false}
         contentInsetAdjustmentBehavior="never"
         scrollEventThrottle={16}
@@ -391,69 +396,57 @@ export const BooksScreen: React.FC<BooksScreenProps> = ({onScrollDirectionChange
               style={styles.bookItem}
               onPress={() => onBookPress?.(book.id)}
               activeOpacity={0.7}>
-              {/* Top Section: Avatars and Book Type Icon */}
+              {/* Header Section */}
               <View style={styles.bookHeader}>
-                <View style={styles.avatarsContainer}>
-                  {Array.from({length: Math.min(book.participants, 3)}).map((_, index) => {
-                    const initials = ['AR', 'LE', 'GI'][index];
-                    return (
-                      <View
-                        key={index}
-                        style={[
-                          styles.avatarWrapper,
-                          index > 0 && {marginLeft: -10}
-                        ]}
-                      >
-                        <Avatar
-                          color={index === 0 ? book.color : index === 1 ? '#B4B4C4' : '#8F92A1'}
-                          initials={initials}
-                          size={36}
-                        />
-                      </View>
-                    );
-                  })}
-                  {book.participants > 3 && (
-                    <View
-                      style={[
-                        styles.avatarWrapper,
-                        {marginLeft: -10}
-                      ]}
-                    >
-                      <Avatar
-                        color="#6B6D7A"
-                        initials={`+${book.participants - 3}`}
-                        size={36}
-                      />
-                    </View>
-                  )}
+                <View style={styles.bookTitleRow}>
+                  <BookTypeIcon type={book.bookType} size={30} />
+                  <Text style={styles.bookName} numberOfLines={1} ellipsizeMode="tail">{book.name}</Text>
                 </View>
-                <BookTypeIcon type={book.bookType} />
+                <AvatarGroup
+                  members={Array.from({length: book.participants}).map((_, i) => ({
+                    image: avatarImages[i % avatarImages.length],
+                    color: book.color,
+                  }))}
+                  maxVisible={2}
+                  size={44}
+                  borderColor={colors.primary.pink}
+                  overlap={25}
+                />
               </View>
 
-              {/* Book Name */}
-              <Text style={styles.bookName}>{book.name}</Text>
+              {/* Separator */}
+              <View style={styles.separator} />
 
-              {/* Bottom Section: Amount and Total */}
-              <View style={styles.bookFooter}>
-                <View style={styles.amountSection}>
-                  <Text style={styles.youOweLabel}>
-                    {book.type === 'spent' ? 'You owe' : 'You are owed'}
+              {/* Balance and Total Section */}
+              <View style={styles.bookBalanceRow}>
+                <View style={styles.balanceSection}>
+                  <Text style={styles.balanceLabel}>Your Balance</Text>
+                  <Text style={[styles.balanceAmount, {color: book.type === 'spent' ? '#ed5f57' : '#4ade80'}]}>
+                    {book.type === 'spent' ? '-' : '+'}{formatINR(book.youOwe)}
                   </Text>
-                  <Text style={[styles.amountText, {color: book.type === 'spent' ? '#ed5f57' : colors.text.primary}]}>
-                    ₹ {book.youOwe}
+                  <Text style={styles.balanceSubtext}>
+                    Approx. ${Math.round(book.youOwe / 83).toFixed(2)}
                   </Text>
-                  {book.type === 'saved' && (
-                    <Text style={styles.equalToText}>equal to ${Math.round(book.youOwe / 83)}</Text>
-                  )}
                 </View>
                 <View style={styles.totalSection}>
-                  <Text style={styles.totalLabel}>
-                    {book.type === 'spent' ? 'Total Spent' : 'Total Saved'}
-                  </Text>
+                  <Text style={styles.totalLabel}>Total Saved</Text>
                   <Text style={styles.totalAmount}>
-                    ₹ {book.amount.toLocaleString('en-IN')}
+                    {formatINR(book.amount)}
+                  </Text>
+                  <Text style={styles.totalSubtext}>
+                    Projected: {formatINR(Math.round(book.amount * 1.15))}
                   </Text>
                 </View>
+              </View>
+
+              {/* Progress Bar */}
+              <View style={styles.progressBarContainer}>
+                <View style={styles.progressBar}>
+                  <View style={[styles.progressFill, {width: `${(book.amount / (book.amount * 1.15)) * 100}%`}]} />
+                </View>
+                <Text style={styles.progressText}>
+                  Savings Progress: {Math.round((book.amount / (book.amount * 1.15)) * 100)}% complete
+                </Text>
               </View>
             </TouchableOpacity>
           ))}
@@ -486,7 +479,6 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: typography.sizes['2xl'],
     fontFamily: typography.fonts.bold,
-    fontWeight: typography.weights.bold,
     color: colors.text.primary,
   },
   addBookButton: {
@@ -501,7 +493,6 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 24,
     fontFamily: typography.fonts.regular,
-    fontWeight: typography.weights.regular,
     lineHeight: 24,
   },
   filterSection: {
@@ -526,7 +517,6 @@ const styles = StyleSheet.create({
   dropdownText: {
     fontSize: 14,
     fontFamily: typography.fonts.medium,
-    fontWeight: typography.weights.medium,
     color: colors.text.primary,
     lineHeight: 16,
     textAlignVertical: 'center',
@@ -558,7 +548,6 @@ const styles = StyleSheet.create({
   periodText: {
     fontSize: 11,
     fontFamily: typography.fonts.medium,
-    fontWeight: typography.weights.medium,
     color: colors.text.secondary,
     lineHeight: 16,
     textAlignVertical: 'center',
@@ -567,7 +556,6 @@ const styles = StyleSheet.create({
   periodTextActive: {
     color: 'white',
     fontFamily: typography.fonts.semibold,
-    fontWeight: typography.weights.semibold,
   },
   chartContainer: {
     backgroundColor: 'rgba(255, 255, 255, 0.7)',
@@ -603,14 +591,12 @@ const styles = StyleSheet.create({
   booksListTitle: {
     fontSize: typography.sizes.xl,
     fontFamily: typography.fonts.bold,
-    fontWeight: typography.weights.bold,
     color: colors.text.primary,
     marginBottom: spacing.xs,
   },
   booksListSubtitle: {
     fontSize: typography.sizes.sm,
     fontFamily: typography.fonts.regular,
-    fontWeight: typography.weights.regular,
     color: colors.text.secondary,
   },
   filterButton: {
@@ -624,86 +610,98 @@ const styles = StyleSheet.create({
   bookItem: {
     backgroundColor: 'rgba(255, 255, 255, 0.9)',
     borderRadius: 20,
-    padding: spacing.md,
+    padding: spacing.lg,
     marginBottom: spacing.md,
   },
   bookHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: spacing.sm,
+    marginBottom: spacing.md,
   },
-  avatarsContainer: {
+  bookTitleRow: {
     flexDirection: 'row',
     alignItems: 'center',
-  },
-  avatarWrapper: {
-    borderWidth: 2,
-    borderColor: 'white',
-    borderRadius: 18,
-  },
-  avatar: {
-    borderRadius: 18,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  avatarText: {
-    color: 'white',
-    fontSize: typography.sizes.xs,
-    fontFamily: typography.fonts.semibold,
-    fontWeight: typography.weights.semibold,
-    textAlign: 'center',
-    textAlignVertical: 'center',
-    includeFontPadding: false,
+    gap: spacing.sm,
+    flex: 1,
+    marginRight: spacing.sm,
   },
   bookName: {
     fontSize: typography.sizes.lg,
     fontFamily: typography.fonts.bold,
-    fontWeight: typography.weights.bold,
     color: colors.text.primary,
+    flex: 1,
+    includeFontPadding: false,
+    textAlignVertical: 'center',
+  },
+  separator: {
+    height: 1,
+    backgroundColor: '#E0E0E0',
     marginBottom: spacing.md,
   },
-  bookFooter: {
+  bookBalanceRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'flex-end',
+    marginBottom: spacing.md,
   },
-  amountSection: {
+  balanceSection: {
     flex: 1,
   },
-  youOweLabel: {
-    fontSize: typography.sizes.xs,
-    fontFamily: typography.fonts.regular,
-    fontWeight: typography.weights.regular,
-    color: colors.text.secondary,
-    marginBottom: 4,
-  },
-  amountText: {
-    fontSize: typography.sizes.xl,
-    fontFamily: typography.fonts.bold,
-    fontWeight: typography.weights.bold,
-    marginBottom: 4,
-  },
-  equalToText: {
+  balanceLabel: {
     fontSize: typography.sizes.sm,
     fontFamily: typography.fonts.regular,
-    fontWeight: typography.weights.regular,
+    color: colors.text.secondary,
+    marginBottom: 2,
+  },
+  balanceAmount: {
+    fontSize: typography.sizes.xl,
+    fontFamily: typography.fonts.bold,
+    marginBottom: 2,
+  },
+  balanceSubtext: {
+    fontSize: typography.sizes.xs,
+    fontFamily: typography.fonts.regular,
     color: colors.text.secondary,
   },
   totalSection: {
     alignItems: 'flex-end',
   },
   totalLabel: {
-    fontSize: typography.sizes.xs,
+    fontSize: typography.sizes.sm,
     fontFamily: typography.fonts.regular,
-    fontWeight: typography.weights.regular,
     color: colors.text.secondary,
-    marginBottom: 4,
+    marginBottom: 2,
   },
   totalAmount: {
     fontSize: typography.sizes.xl,
     fontFamily: typography.fonts.bold,
-    fontWeight: typography.weights.bold,
     color: colors.text.primary,
+    marginBottom: 2,
+  },
+  totalSubtext: {
+    fontSize: typography.sizes.xs,
+    fontFamily: typography.fonts.regular,
+    color: colors.text.secondary,
+  },
+  progressBarContainer: {
+    marginTop: spacing.sm,
+  },
+  progressBar: {
+    height: 8,
+    backgroundColor: '#E0E0E0',
+    borderRadius: 4,
+    overflow: 'hidden',
+    marginBottom: spacing.xs,
+  },
+  progressFill: {
+    height: '100%',
+    backgroundColor: colors.secondary.darkBlueGray,
+    borderRadius: 4,
+  },
+  progressText: {
+    fontSize: typography.sizes.xs,
+    fontFamily: typography.fonts.regular,
+    color: colors.text.secondary,
+    textAlign: 'center',
   },
 });

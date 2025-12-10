@@ -161,7 +161,7 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
         styles.container,
         {
           paddingBottom: insets.bottom + spacing.sm,
-          bottom: insets.bottom + spacing.lg,
+          bottom: insets.bottom + spacing.lg - 5,
           transform: [{translateY}],
         },
       ]}>

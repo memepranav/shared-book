@@ -135,12 +135,10 @@ const styles = StyleSheet.create({
   },
   primaryText: {
     fontSize: typography.sizes.base,
-    fontWeight: typography.weights.semibold,
     color: colors.text.white,
   },
   secondaryText: {
     fontSize: typography.sizes.base,
-    fontWeight: typography.weights.semibold,
     color: colors.text.primary,
   },
 });

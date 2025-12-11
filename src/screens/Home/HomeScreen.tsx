@@ -4,6 +4,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
 import {BottomNavigation} from '../../components/BottomNavigation';
 import {BooksScreen, BookDetailsScreen, PendingRecordsScreen, RecordDetailsScreen, GroupDetailsScreen} from '../Books';
+import {FriendsScreen} from '../Friends/FriendsScreen';
 import {colors} from '../../theme';
 
 export const HomeScreen: React.FC = () => {
@@ -124,7 +125,7 @@ export const HomeScreen: React.FC = () => {
       case 'notifications':
         return null; // Placeholder for notifications screen
       case 'friends':
-        return null; // Placeholder for friends screen
+        return <FriendsScreen />;
       case 'balance':
         return null; // Placeholder for balance screen
       case 'profile':

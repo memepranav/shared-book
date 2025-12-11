@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import {
   View,
   Text,
@@ -6,6 +6,9 @@ import {
   ScrollView,
   TouchableOpacity,
   Dimensions,
+  Animated,
+  NativeSyntheticEvent,
+  NativeScrollEvent,
 } from 'react-native';
 import Svg, {Path, Circle, G} from 'react-native-svg';
 import LinearGradient from 'react-native-linear-gradient';
@@ -184,6 +187,11 @@ const books = [
 ];
 
 export const InsightsScreen: React.FC<InsightsScreenProps> = ({onBack}) => {
+  const scrollY = useRef(0);
+  const headerOpacity = useRef(new Animated.Value(0)).current;
+  const stickyHeaderThreshold = 100; // When header becomes sticky
+  const [isHeaderSticky, setIsHeaderSticky] = useState(false);
+
   const [selectedPeriod, setSelectedPeriod] = useState('monthly');
   const [selectedBarIndex, setSelectedBarIndex] = useState<number | null>(null);
   const [selectedCategoryIndex, setSelectedCategoryIndex] = useState<number | null>(null);
@@ -203,6 +211,46 @@ export const InsightsScreen: React.FC<InsightsScreenProps> = ({onBack}) => {
     setSelectedCategoryIndex(selectedCategoryIndex === index ? null : index);
   };
 
+  const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const currentScrollY = event.nativeEvent.contentOffset.y;
+
+    // Check if header has become sticky
+    const shouldBeSticky = currentScrollY >= stickyHeaderThreshold;
+    if (shouldBeSticky !== isHeaderSticky) {
+      setIsHeaderSticky(shouldBeSticky);
+      // Animate background when sticky state changes
+      Animated.timing(headerOpacity, {
+        toValue: shouldBeSticky ? 1 : 0,
+        duration: 200,
+        useNativeDriver: true,
+      }).start();
+    }
+
+    scrollY.current = currentScrollY;
+  };
+
+  const renderStickyHeader = () => {
+    return (
+      <View style={styles.stickyHeaderContainer}>
+        <Animated.View style={[styles.stickyHeaderBackground, {opacity: headerOpacity}]} />
+        <Animated.View style={[styles.insightsListHeader, {opacity: headerOpacity}]}>
+          <View>
+            <Text style={styles.insightsListTitle}>Insights</Text>
+            <Text style={styles.insightsListSubtitle}>This month</Text>
+          </View>
+          <View style={styles.headerRight}>
+            <TouchableOpacity style={styles.headerButton}>
+              <CalendarIcon />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.headerButton}>
+              <FilterIcon />
+            </TouchableOpacity>
+          </View>
+        </Animated.View>
+      </View>
+    );
+  };
+
   return (
     <LinearGradient
       colors={[
@@ -218,7 +266,10 @@ export const InsightsScreen: React.FC<InsightsScreenProps> = ({onBack}) => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.contentContainer}
         bounces={false}
-        overScrollMode="never">
+        overScrollMode="never"
+        onScroll={handleScroll}
+        scrollEventThrottle={16}
+        stickyHeaderIndices={[1]}>
         {/* Header */}
         <View style={styles.header}>
           <View style={styles.headerLeft}>
@@ -234,6 +285,9 @@ export const InsightsScreen: React.FC<InsightsScreenProps> = ({onBack}) => {
             </TouchableOpacity>
           </View>
         </View>
+
+        {/* Sticky Header */}
+        {renderStickyHeader()}
 
         {/* Period Title */}
         <View style={styles.periodTitleContainer}>
@@ -435,7 +489,7 @@ export const InsightsScreen: React.FC<InsightsScreenProps> = ({onBack}) => {
               ]}
               areaChart
               curved
-              width={SCREEN_WIDTH - spacing.lg * 2 - spacing.md * 2}
+              width={SCREEN_WIDTH - spacing.lg * 2 - spacing.md * 2 - 40}
               height={200}
               showVerticalLines={false}
               spacing={47}
@@ -516,7 +570,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: spacing.lg,
-    marginBottom: spacing.lg,
+    marginBottom: spacing.sm,
+    height: 40,
   },
   headerLeft: {
     flexDirection: 'row',
@@ -540,9 +595,40 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  stickyHeaderContainer: {
+    paddingTop: spacing.sm,
+    paddingBottom: spacing.sm,
+    paddingHorizontal: spacing.lg,
+  },
+  stickyHeaderBackground: {
+    position: 'absolute',
+    top: -spacing.md,
+    left: -500,
+    right: -500,
+    bottom: 0,
+    backgroundColor: 'rgba(254, 249, 249, 0.95)',
+  },
+  insightsListHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: spacing.md,
+  },
+  insightsListTitle: {
+    fontSize: typography.sizes.xl,
+    fontFamily: typography.fonts.bold,
+    color: colors.text.primary,
+    marginBottom: 2,
+  },
+  insightsListSubtitle: {
+    fontSize: typography.sizes.sm,
+    fontFamily: typography.fonts.regular,
+    color: colors.text.secondary,
+  },
   periodTitleContainer: {
     paddingHorizontal: spacing.lg,
     marginBottom: spacing.md,
+    marginTop: -110,
   },
   periodTitle: {
     fontSize: typography.sizes.lg,

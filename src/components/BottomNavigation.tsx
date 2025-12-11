@@ -137,6 +137,8 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
 }) => {
   const insets = useSafeAreaInsets();
   const translateY = useRef(new Animated.Value(0)).current;
+  const slideAnim = useRef(new Animated.Value(0)).current;
+  const widthAnim = useRef(new Animated.Value(124)).current;
 
   const navItems: NavItem[] = [
     {id: 'books', label: 'Books', icon: AccountingIcon},
@@ -146,6 +148,19 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
     {id: 'profile', label: 'Profile', icon: ProfileIcon},
   ];
 
+  // Calculate positions for each tab
+  const getTabPosition = (index: number) => {
+    // Base position + accumulated widths of previous items
+    const baseSpacing = 6; // padding of navContainer
+    const itemSpacing = 0; // no gap between items in this design
+
+    let position = baseSpacing;
+    for (let i = 0; i < index; i++) {
+      position += 52; // width of inactive items
+    }
+    return position;
+  };
+
   useEffect(() => {
     Animated.spring(translateY, {
       toValue: isVisible ? 0 : 150,
@@ -154,6 +169,26 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
       friction: 11,
     }).start();
   }, [isVisible, translateY]);
+
+  useEffect(() => {
+    const activeIndex = navItems.findIndex(item => item.id === activeTab);
+    const targetPosition = getTabPosition(activeIndex);
+
+    Animated.parallel([
+      Animated.spring(slideAnim, {
+        toValue: targetPosition,
+        useNativeDriver: false,
+        tension: 150,
+        friction: 10,
+      }),
+      Animated.spring(widthAnim, {
+        toValue: 124,
+        useNativeDriver: false,
+        tension: 150,
+        friction: 10,
+      }),
+    ]).start();
+  }, [activeTab]);
 
   return (
     <Animated.View
@@ -166,6 +201,18 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
         },
       ]}>
       <View style={styles.navContainer}>
+        {/* Animated Background */}
+        <Animated.View
+          style={[
+            styles.animatedBackground,
+            {
+              left: slideAnim,
+              width: widthAnim,
+            },
+          ]}
+        />
+
+        {/* Nav Items */}
         {navItems.map(item => {
           const isActive = activeTab === item.id;
           const Icon = item.icon;
@@ -209,8 +256,15 @@ const styles = StyleSheet.create({
     padding: 6,
     alignItems: 'center',
     justifyContent: 'space-between',
-    width: 340,
+    width: 348,
     height: 64,
+    position: 'relative',
+  },
+  animatedBackground: {
+    position: 'absolute',
+    height: 52,
+    backgroundColor: 'white',
+    borderRadius: 50,
   },
   navItem: {
     flexDirection: 'row',
@@ -221,12 +275,12 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     width: 52,
     height: 52,
+    zIndex: 1,
   },
   activeNavItem: {
-    backgroundColor: 'white',
     paddingHorizontal: 16,
     paddingVertical: 8,
-    width: 112,
+    width: 124,
     height: 52,
   },
   iconContainer: {

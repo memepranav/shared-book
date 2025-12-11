@@ -184,14 +184,30 @@ import LinearGradient from 'react-native-linear-gradient';
 ```
 
 ### Card Style
-Standard card styling:
 
+**Standard card styling (preferred):**
 ```typescript
 card: {
-  backgroundColor: '#FFFFFF',
-  borderRadius: 20,
+  backgroundColor: 'rgba(255, 255, 255, 0.8)', // Semi-transparent white
+  borderRadius: 16,
   padding: spacing.lg,
-  marginBottom: spacing.md,
+  marginBottom: spacing.lg,
+}
+```
+
+**Note**: Avoid using shadow/elevation on cards to prevent border flash effects during page load. Use semi-transparent background instead for a clean, modern look.
+
+❌ **Avoid:**
+```typescript
+card: {
+  backgroundColor: 'white',
+  borderRadius: 16,
+  padding: spacing.lg,
+  shadowColor: '#000',      // Causes border flash
+  shadowOffset: {width: 0, height: 2},
+  shadowOpacity: 0.1,
+  shadowRadius: 4,
+  elevation: 2,             // Causes border flash on Android
 }
 ```
 
@@ -208,6 +224,238 @@ button: {
   paddingHorizontal: spacing.lg,
 }
 ```
+
+## Headers and Navigation
+
+### Standard Header Pattern
+
+Headers should be placed **inside** the ScrollView so they scroll away with content. A sticky header appears at the top when scrolling past a threshold.
+
+#### Header Structure
+```typescript
+<View style={styles.container}>
+  {/* Sticky Header - Only shown when scrolled */}
+  {showStickyHeader && (
+    <View style={styles.stickyHeaderFixed}>
+      {renderStickyHeader()}
+    </View>
+  )}
+
+  <ScrollView
+    style={styles.scrollView}
+    showsVerticalScrollIndicator={false}
+    contentContainerStyle={styles.contentContainer}
+    onScroll={handleScroll}
+    scrollEventThrottle={16}
+    bounces={false}
+    overScrollMode="never">
+    {/* Header inside ScrollView */}
+    <View style={styles.header}>
+      <TouchableOpacity onPress={onBack} style={styles.backButton}>
+        <BackIcon />
+      </TouchableOpacity>
+      <Text style={styles.headerTitle}>Page Title</Text>
+    </View>
+
+    {/* Page content */}
+  </ScrollView>
+</View>
+```
+
+#### Header Styling Standards
+
+**Standard Header (inside ScrollView):**
+```typescript
+header: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  gap: spacing.md,
+  paddingTop: 0,
+  paddingBottom: spacing.xs,
+  marginBottom: spacing.xs,
+  height: 40,
+}
+```
+
+**Header with Background Color (like GroupDetailsScreen):**
+```typescript
+header: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  paddingHorizontal: spacing.lg,
+  paddingTop: spacing.xl,
+  paddingBottom: spacing.md,
+  backgroundColor: colors.primary.pink,
+}
+
+// For vertical centering of back button and title
+headerLeft: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  gap: spacing.md,
+  height: 40,
+  marginTop: -4, // Fine-tune vertical alignment
+}
+```
+
+**Back Button:**
+```typescript
+backButton: {
+  width: 40,
+  height: 40,
+  justifyContent: 'center',
+  alignItems: 'center',
+  borderRadius: 20,
+}
+```
+
+**Header Title:**
+```typescript
+headerTitle: {
+  fontSize: typography.sizes.xl,
+  fontFamily: typography.fonts.bold,
+  color: 'white', // or colors.text.primary for non-colored headers
+  lineHeight: typography.sizes.xl * 1.2,
+}
+```
+
+### Sticky Header Animation
+
+#### Implementation Pattern
+```typescript
+// State for sticky header
+const [showStickyHeader, setShowStickyHeader] = useState(false);
+const stickyHeaderThreshold = 100;
+const lastScrollY = useRef(0);
+
+const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+  const scrollY = event.nativeEvent.contentOffset.y;
+
+  // Show/hide sticky header
+  if (scrollY >= stickyHeaderThreshold && !showStickyHeader) {
+    setShowStickyHeader(true);
+  } else if (scrollY < stickyHeaderThreshold && showStickyHeader) {
+    setShowStickyHeader(false);
+  }
+
+  lastScrollY.current = scrollY;
+};
+
+const renderStickyHeader = () => {
+  return (
+    <View style={styles.stickyHeaderContainer}>
+      <LinearGradient
+        colors={[colors.primary.pink, colors.primary.pink]}
+        start={{x: 0, y: 0}}
+        end={{x: 1, y: 0}}
+        style={styles.stickyHeaderGradient}>
+        <View style={styles.stickyHeaderContent}>
+          <TouchableOpacity onPress={onBack} style={styles.backButton}>
+            <BackIcon color="white" />
+          </TouchableOpacity>
+          <Text style={styles.stickyHeaderTitle}>Page Title</Text>
+        </View>
+      </LinearGradient>
+    </View>
+  );
+};
+```
+
+#### Sticky Header Styling
+```typescript
+stickyHeaderFixed: {
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  right: 0,
+  zIndex: 1000,
+}
+
+stickyHeaderContainer: {
+  backgroundColor: colors.primary.pink,
+  elevation: 4,
+  shadowColor: '#000',
+  shadowOffset: {width: 0, height: 2},
+  shadowOpacity: 0.1,
+  shadowRadius: 4,
+}
+
+stickyHeaderGradient: {
+  paddingTop: spacing.lg,
+  paddingBottom: spacing.lg,
+  paddingHorizontal: spacing.lg,
+}
+
+stickyHeaderContent: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  gap: spacing.md,
+  height: 40, // Ensures vertical alignment
+}
+
+stickyHeaderTitle: {
+  fontSize: typography.sizes.xl,
+  fontFamily: typography.fonts.bold,
+  color: 'white',
+  lineHeight: typography.sizes.xl * 1.2,
+  includeFontPadding: false,
+  textAlignVertical: 'center',
+}
+```
+
+### ScrollView Configuration
+
+**Standard ScrollView props:**
+```typescript
+<ScrollView
+  style={styles.scrollView}
+  showsVerticalScrollIndicator={false}
+  contentContainerStyle={styles.contentContainer}
+  onScroll={handleScroll}
+  scrollEventThrottle={16}
+  bounces={false}          // Disable iOS bounce
+  overScrollMode="never">  // Disable Android overscroll
+  {/* Content */}
+</ScrollView>
+```
+
+**ScrollView styles:**
+```typescript
+scrollView: {
+  flex: 1,
+}
+
+contentContainer: {
+  paddingHorizontal: spacing.lg,
+  paddingTop: spacing.xl, // or spacing.md depending on design
+}
+```
+
+### Header Alignment Best Practices
+
+1. **Vertical Centering**: Use `height: 40` on the header container to match back button height
+2. **Fine-tuning**: Use `marginTop: -4` (or similar) on headerLeft to fine-tune alignment
+3. **Consistency**: Keep the same header height (40px) across all screens
+4. **Line Height**: Use `typography.sizes.xl * 1.2` for title lineHeight
+5. **Text Alignment**: Add `includeFontPadding: false` and `textAlignVertical: 'center'` for precise vertical alignment
+
+### Common Header Patterns
+
+**Pattern 1: Simple Header (PendingRecordsScreen)**
+- Header inside ScrollView
+- No background color
+- Simple back button + title
+
+**Pattern 2: Colored Header (GroupDetailsScreen)**
+- Header inside ScrollView with pink background
+- Back button and title in headerLeft container
+- Connected to colored top section
+
+**Pattern 3: Sticky Header Only (BookDetailsScreen)**
+- Content starts at top
+- Sticky header appears when scrolling
+- Used for screens with gradient backgrounds
 
 ## Icons
 
@@ -269,6 +517,11 @@ amount: {
 5. ❌ Hardcoding spacing values instead of using theme
 6. ❌ Creating duplicate icon/component code instead of reusing
 7. ❌ Not using `formatINR()` or `formatIndianNumber()` for Indian number formatting
+8. ❌ Placing header outside ScrollView (should be inside so it scrolls away)
+9. ❌ Not disabling bounce/overscroll on ScrollViews (`bounces={false}`, `overScrollMode="never"`)
+10. ❌ Inconsistent header heights across screens (should be 40px)
+11. ❌ Not adding `includeFontPadding: false` to header titles for proper alignment
+12. ❌ Adding shadow/elevation to cards (causes border flash, use semi-transparent background instead)
 
 ## Checklist for New Screens
 
@@ -281,6 +534,13 @@ amount: {
 - [ ] Reusable components used (AvatarGroup, BookTypeIcon, etc.)
 - [ ] Standard gradient background applied
 - [ ] Consistent card/button styling
+- [ ] Cards use `backgroundColor: 'rgba(255, 255, 255, 0.8)'` without shadow/elevation
+- [ ] Header placed inside ScrollView (not outside)
+- [ ] Sticky header implemented with proper animation (if needed)
+- [ ] ScrollView has `bounces={false}` and `overScrollMode="never"`
+- [ ] Header height is 40px for vertical alignment
+- [ ] Header title has `includeFontPadding: false` and `textAlignVertical: 'center'`
+- [ ] Back button is 40x40 with `borderRadius: 20`
 
 ## Example Screen Structure
 

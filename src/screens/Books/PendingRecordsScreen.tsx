@@ -134,7 +134,9 @@ export const PendingRecordsScreen: React.FC<PendingRecordsScreenProps> = ({onBac
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.contentContainer}
         onScroll={handleScroll}
-        scrollEventThrottle={16}>
+        scrollEventThrottle={16}
+        bounces={false}
+        overScrollMode="never">
         {/* Header */}
         <View style={styles.header}>
           <TouchableOpacity onPress={onBack} style={styles.backButton}>
@@ -144,7 +146,6 @@ export const PendingRecordsScreen: React.FC<PendingRecordsScreenProps> = ({onBac
         </View>
 
             {/* Detailed Card 1 */}
-            <TouchableOpacity activeOpacity={0.7} onPress={onRecordPress}>
               <View style={styles.detailedCard}>
                 <View style={styles.cardHeader}>
                   <View style={styles.userInfo}>
@@ -167,13 +168,13 @@ export const PendingRecordsScreen: React.FC<PendingRecordsScreenProps> = ({onBac
                   <Text style={styles.expenseAmount}>{formatINR(15450)}</Text>
                 </View>
 
-                <TouchableOpacity style={styles.linkRow}>
+                <View style={styles.linkRow}>
                   <View style={styles.linkLeft}>
                     <AttachmentIcon />
                     <Text style={styles.linkText}>Attachments (1)</Text>
                   </View>
                   <Text style={styles.viewLink}>View</Text>
-                </TouchableOpacity>
+                </View>
 
                 <View style={styles.actionButtons}>
                   <TouchableOpacity style={styles.rejectButton}>
@@ -184,10 +185,8 @@ export const PendingRecordsScreen: React.FC<PendingRecordsScreenProps> = ({onBac
                   </TouchableOpacity>
                 </View>
               </View>
-            </TouchableOpacity>
 
             {/* Card 2 */}
-            <TouchableOpacity activeOpacity={0.7} onPress={onRecordPress}>
               <View style={styles.detailedCard}>
                 <View style={styles.cardHeader}>
                   <View style={styles.userInfo}>
@@ -210,13 +209,13 @@ export const PendingRecordsScreen: React.FC<PendingRecordsScreenProps> = ({onBac
                   <Text style={styles.expenseAmount}>{formatINR(4500)}</Text>
                 </View>
 
-                <TouchableOpacity style={styles.linkRow}>
+                <View style={styles.linkRow}>
                   <View style={styles.linkLeft}>
                     <AttachmentIcon />
                     <Text style={styles.linkText}>Attachments (2)</Text>
                   </View>
                   <Text style={styles.viewLink}>View</Text>
-                </TouchableOpacity>
+                </View>
 
                 <View style={styles.actionButtons}>
                   <TouchableOpacity style={styles.rejectButton}>
@@ -227,10 +226,8 @@ export const PendingRecordsScreen: React.FC<PendingRecordsScreenProps> = ({onBac
                   </TouchableOpacity>
                 </View>
               </View>
-            </TouchableOpacity>
 
             {/* Card 3 */}
-            <TouchableOpacity activeOpacity={0.7} onPress={onRecordPress}>
               <View style={styles.detailedCard}>
                 <View style={styles.cardHeader}>
                   <View style={styles.userInfo}>
@@ -253,13 +250,13 @@ export const PendingRecordsScreen: React.FC<PendingRecordsScreenProps> = ({onBac
                   <Text style={styles.expenseAmount}>{formatINR(2800)}</Text>
                 </View>
 
-                <TouchableOpacity style={styles.linkRow}>
+                <View style={styles.linkRow}>
                   <View style={styles.linkLeft}>
                     <AttachmentIcon />
                     <Text style={styles.linkText}>Attachments (3)</Text>
                   </View>
                   <Text style={styles.viewLink}>View</Text>
-                </TouchableOpacity>
+                </View>
 
                 <View style={styles.actionButtons}>
                   <TouchableOpacity style={styles.rejectButton}>
@@ -270,10 +267,8 @@ export const PendingRecordsScreen: React.FC<PendingRecordsScreenProps> = ({onBac
                   </TouchableOpacity>
                 </View>
               </View>
-            </TouchableOpacity>
 
             {/* Card 4 */}
-            <TouchableOpacity activeOpacity={0.7} onPress={onRecordPress}>
               <View style={styles.detailedCard}>
                 <View style={styles.cardHeader}>
                   <View style={styles.userInfo}>
@@ -296,13 +291,13 @@ export const PendingRecordsScreen: React.FC<PendingRecordsScreenProps> = ({onBac
                   <Text style={styles.expenseAmount}>{formatINR(6750)}</Text>
                 </View>
 
-                <TouchableOpacity style={styles.linkRow}>
+                <View style={styles.linkRow}>
                   <View style={styles.linkLeft}>
                     <AttachmentIcon />
                     <Text style={styles.linkText}>Attachments (1)</Text>
                   </View>
                   <Text style={styles.viewLink}>View</Text>
-                </TouchableOpacity>
+                </View>
 
                 <View style={styles.actionButtons}>
                   <TouchableOpacity style={styles.rejectButton}>
@@ -313,7 +308,6 @@ export const PendingRecordsScreen: React.FC<PendingRecordsScreenProps> = ({onBac
                   </TouchableOpacity>
                 </View>
               </View>
-            </TouchableOpacity>
 
         {/* Bottom padding */}
         <View style={{height: 100}} />
@@ -329,14 +323,18 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingBottom: spacing.xxl,
     gap: spacing.md,
+    paddingTop: 0,
+    paddingBottom: spacing.xs,
+    marginBottom: spacing.xs,
+    height: 40,
   },
   backButton: {
     width: 40,
     height: 40,
     justifyContent: 'center',
     alignItems: 'center',
+    borderRadius: 20,
   },
   headerTitle: {
     fontSize: typography.sizes.xl,
@@ -355,18 +353,13 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     paddingHorizontal: spacing.lg,
-    paddingTop: spacing.md,
+    paddingTop: spacing.xl,
   },
   detailedCard: {
-    backgroundColor: 'white',
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
     borderRadius: 16,
     padding: spacing.lg,
     marginBottom: spacing.lg,
-    shadowColor: '#000',
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
   },
   cardHeader: {
     flexDirection: 'row',
@@ -557,10 +550,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: spacing.md,
+    height: 40,
   },
   stickyHeaderTitle: {
     fontSize: typography.sizes.xl,
     fontFamily: typography.fonts.bold,
     color: 'white',
+    lineHeight: typography.sizes.xl * 1.2,
+    includeFontPadding: false,
+    textAlignVertical: 'center',
   },
 });

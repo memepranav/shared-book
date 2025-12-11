@@ -3,13 +3,13 @@ import {View, StyleSheet, StatusBar, Animated} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
 import {BottomNavigation} from '../../components/BottomNavigation';
-import {BooksScreen, BookDetailsScreen, PendingRecordsScreen, RecordDetailsScreen} from '../Books';
+import {BooksScreen, BookDetailsScreen, PendingRecordsScreen, RecordDetailsScreen, GroupDetailsScreen} from '../Books';
 import {colors} from '../../theme';
 
 export const HomeScreen: React.FC = () => {
   const [activeTab, setActiveTab] = useState('books');
   const [isNavVisible, setIsNavVisible] = useState(true);
-  const [currentScreen, setCurrentScreen] = useState<'books' | 'bookDetails' | 'pendingRecords' | 'recordDetails'>('books');
+  const [currentScreen, setCurrentScreen] = useState<'books' | 'bookDetails' | 'groupDetails' | 'pendingRecords' | 'recordDetails'>('books');
   const [previousScreen, setPreviousScreen] = useState<'bookDetails' | 'pendingRecords'>('bookDetails');
   const fadeAnim = useRef(new Animated.Value(1)).current;
   const isFirstMount = useRef(true);
@@ -79,17 +79,31 @@ export const HomeScreen: React.FC = () => {
     setIsNavVisible(false); // Hide navigation on record details screen
   };
 
+  const handleGroupDetailsPress = () => {
+    setCurrentScreen('groupDetails');
+    setIsNavVisible(false); // Hide navigation on group details screen
+  };
+
+  const handleBackFromGroupDetails = () => {
+    setCurrentScreen('bookDetails');
+    setIsNavVisible(false); // Keep navigation hidden on details screen
+  };
+
   const renderContent = () => {
     if (currentScreen === 'recordDetails') {
-      return <RecordDetailsScreen onBack={handleBackFromRecordDetails} onScrollDirectionChange={handleScrollDirectionChange} />;
+      return <RecordDetailsScreen onBack={handleBackFromRecordDetails} />;
     }
 
     if (currentScreen === 'pendingRecords') {
-      return <PendingRecordsScreen onBack={handleBackFromPendingRecords} onRecordPress={handleRecordPress} onScrollDirectionChange={handleScrollDirectionChange} />;
+      return <PendingRecordsScreen onBack={handleBackFromPendingRecords} onRecordPress={handleRecordPress} />;
+    }
+
+    if (currentScreen === 'groupDetails') {
+      return <GroupDetailsScreen onBack={handleBackFromGroupDetails} />;
     }
 
     if (currentScreen === 'bookDetails') {
-      return <BookDetailsScreen onBack={handleBackFromDetails} onPendingRecordsPress={handlePendingRecordsPress} onRecordDetailsPress={handleRecordDetailsFromBookDetails} onScrollDirectionChange={handleScrollDirectionChange} />;
+      return <BookDetailsScreen onBack={handleBackFromDetails} onPendingRecordsPress={handlePendingRecordsPress} onRecordDetailsPress={handleRecordDetailsFromBookDetails} onGroupDetailsPress={handleGroupDetailsPress} />;
     }
 
     switch (activeTab) {

@@ -4,13 +4,14 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
 import {BottomNavigation} from '../../components/BottomNavigation';
 import {BooksScreen, BookDetailsScreen, PendingRecordsScreen, RecordDetailsScreen, GroupDetailsScreen} from '../Books';
-import {FriendsScreen} from '../Friends/FriendsScreen';
+import {FriendsScreen, FriendProfileScreen} from '../Friends';
+import {NotificationsScreen} from '../Notifications';
 import {colors} from '../../theme';
 
 export const HomeScreen: React.FC = () => {
   const [activeTab, setActiveTab] = useState('books');
   const [isNavVisible, setIsNavVisible] = useState(true);
-  const [currentScreen, setCurrentScreen] = useState<'books' | 'bookDetails' | 'groupDetails' | 'pendingRecords' | 'recordDetails'>('books');
+  const [currentScreen, setCurrentScreen] = useState<'books' | 'bookDetails' | 'groupDetails' | 'pendingRecords' | 'recordDetails' | 'friendProfile' | 'notifications'>('books');
   const [previousScreen, setPreviousScreen] = useState<'bookDetails' | 'pendingRecords'>('bookDetails');
   const fadeAnim = useRef(new Animated.Value(1)).current;
   const isFirstMount = useRef(true);
@@ -102,7 +103,37 @@ export const HomeScreen: React.FC = () => {
     }
   };
 
+  const handleFriendPress = () => {
+    setCurrentScreen('friendProfile');
+    setIsNavVisible(false); // Hide navigation on friend profile screen
+  };
+
+  const handleBackFromFriendProfile = () => {
+    setCurrentScreen('books');
+    setActiveTab('friends'); // Make sure we're on friends tab
+    setIsNavVisible(true); // Show navigation when back to list
+  };
+
+  const handleNotificationsPress = () => {
+    setCurrentScreen('notifications');
+    setIsNavVisible(false); // Hide navigation on notifications screen
+  };
+
+  const handleBackFromNotifications = () => {
+    setCurrentScreen('books');
+    setActiveTab('notifications'); // Make sure we're on notifications tab
+    setIsNavVisible(true); // Show navigation when back to list
+  };
+
   const renderContent = () => {
+    if (currentScreen === 'notifications') {
+      return <NotificationsScreen onBack={handleBackFromNotifications} />;
+    }
+
+    if (currentScreen === 'friendProfile') {
+      return <FriendProfileScreen onBack={handleBackFromFriendProfile} />;
+    }
+
     if (currentScreen === 'recordDetails') {
       return <RecordDetailsScreen onBack={handleBackFromRecordDetails} />;
     }
@@ -123,9 +154,9 @@ export const HomeScreen: React.FC = () => {
       case 'books':
         return <BooksScreen onScrollDirectionChange={handleScrollDirectionChange} onBookPress={handleBookPress} onGroupDetailsPress={handleGroupDetailsPressFromBooks} />;
       case 'notifications':
-        return null; // Placeholder for notifications screen
+        return <NotificationsScreen onBack={handleBackFromNotifications} />;
       case 'friends':
-        return <FriendsScreen />;
+        return <FriendsScreen onFriendPress={handleFriendPress} />;
       case 'balance':
         return null; // Placeholder for balance screen
       case 'profile':

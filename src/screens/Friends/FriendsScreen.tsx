@@ -149,9 +149,10 @@ interface Friend {
 
 interface FriendsScreenProps {
   onBack?: () => void;
+  onFriendPress?: (friendId: string) => void;
 }
 
-export const FriendsScreen: React.FC<FriendsScreenProps> = ({onBack}) => {
+export const FriendsScreen: React.FC<FriendsScreenProps> = ({onBack, onFriendPress}) => {
   const scrollY = useRef(0);
   const headerOpacity = useRef(new Animated.Value(0)).current;
   const stickyHeaderThreshold = 180; // When header becomes sticky
@@ -188,7 +189,7 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({onBack}) => {
       avatarImage: avatarImages[3],
       sharedBooks: 2,
       balance: -850.0,
-      onlineStatus: 'away',
+      onlineStatus: 'online',
     },
     {
       id: '5',
@@ -202,13 +203,29 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({onBack}) => {
       id: '6',
       name: 'Anjali',
       avatarImage: avatarImages[5],
+      sharedBooks: 2,
+      balance: 150.0,
+      onlineStatus: 'online',
+    },
+    {
+      id: '7',
+      name: 'Rohan',
+      avatarImage: avatarImages[0],
+      sharedBooks: 3,
+      balance: -200.0,
+      onlineStatus: 'online',
+    },
+    {
+      id: '8',
+      name: 'Kavya',
+      avatarImage: avatarImages[1],
       sharedBooks: 1,
-      balance: 0,
-      onlineStatus: 'offline',
+      balance: 75.5,
+      onlineStatus: 'online',
     },
   ]);
 
-  const topFriends = friends.slice(0, 4);
+  const topFriends = friends.slice(0, 8);
 
   const getStatusColor = (status: OnlineStatus): string => {
     switch (status) {
@@ -328,7 +345,10 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({onBack}) => {
 
             {/* Top Friends */}
             {topFriends.map((friend) => (
-              <TouchableOpacity key={friend.id} style={styles.topFriendItem}>
+              <TouchableOpacity
+                key={`top-${friend.id}`}
+                style={styles.topFriendItem}
+                onPress={() => onFriendPress?.(friend.id)}>
                 <View style={styles.topFriendAvatarContainer}>
                   <Image
                     source={friend.avatarImage}
@@ -353,7 +373,10 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({onBack}) => {
 
         {/* Friends List */}
         {friends.map((friend, index) => (
-          <TouchableOpacity key={friend.id} style={styles.friendCard}>
+          <TouchableOpacity
+            key={`friend-${friend.id}`}
+            style={styles.friendCard}
+            onPress={() => onFriendPress?.(friend.id)}>
             <View style={styles.friendLeft}>
               {/* Avatar with Status */}
               <View style={styles.avatarContainer}>

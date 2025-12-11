@@ -6,6 +6,7 @@ import {BottomNavigation} from '../../components/BottomNavigation';
 import {BooksScreen, BookDetailsScreen, PendingRecordsScreen, RecordDetailsScreen, GroupDetailsScreen} from '../Books';
 import {FriendsScreen, FriendProfileScreen} from '../Friends';
 import {NotificationsScreen} from '../Notifications';
+import {InsightsScreen} from '../Insights';
 import {colors} from '../../theme';
 
 export const HomeScreen: React.FC = () => {
@@ -157,8 +158,8 @@ export const HomeScreen: React.FC = () => {
         return <NotificationsScreen onBack={handleBackFromNotifications} />;
       case 'friends':
         return <FriendsScreen onFriendPress={handleFriendPress} />;
-      case 'balance':
-        return null; // Placeholder for balance screen
+      case 'insights':
+        return <InsightsScreen />;
       case 'profile':
         return null; // Placeholder for profile screen
       default:

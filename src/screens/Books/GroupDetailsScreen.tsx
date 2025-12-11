@@ -47,6 +47,18 @@ const MoreIcon = () => (
   </Svg>
 );
 
+const ChevronDownIcon = () => (
+  <Svg width="16" height="16" viewBox="0 0 20 20" fill="none">
+    <Path
+      d="M5 7.5L10 12.5L15 7.5"
+      stroke="white"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </Svg>
+);
+
 const BarChartIcon = () => (
   <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
     <Path
@@ -175,6 +187,7 @@ export const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({onBack}) 
   const [groupName] = useState('Members');
   const [bookName] = useState('Goa Trip');
   const [bookType] = useState<'trip' | 'daily' | 'event' | 'group'>('trip');
+  const [selectedMonth, setSelectedMonth] = useState('Jan 2024');
 
   // Book Summary data
   const [totalSpent] = useState(45500);
@@ -348,25 +361,30 @@ export const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({onBack}) 
         scrollEventThrottle={16}
         bounces={false}
         overScrollMode="never">
-        {/* Header */}
-        <View style={styles.header}>
-          <View style={styles.headerLeft}>
-            <TouchableOpacity onPress={onBack} style={styles.headerButton}>
-              <BackIcon />
-            </TouchableOpacity>
-            <Text style={styles.headerTitle}>{groupName}</Text>
-          </View>
-        </View>
-
-        {/* Book Summary Section */}
+        {/* Top Section with Primary Color Background */}
         <View style={styles.topSection}>
-          {/* Book Type Badge */}
-          <View style={styles.bookTypeContainer}>
-            <View style={styles.bookTypeLeft}>
-              <BookTypeIcon type={bookType} size={24} color="white" />
-              <Text style={styles.bookTypeLabel}>{bookName}</Text>
+          {/* Header */}
+          <View style={styles.header}>
+            <View style={styles.headerLeft}>
+              <TouchableOpacity onPress={onBack} style={styles.headerButton}>
+                <BackIcon />
+              </TouchableOpacity>
+              <Text style={styles.headerTitle}>{groupName}</Text>
             </View>
-            <Text style={styles.memberCount}>{members.length} Members</Text>
+          </View>
+
+          {/* Book Type and Month Selector */}
+          <View style={styles.expensesSection}>
+            <View style={styles.expensesHeader}>
+              <View style={styles.tripTypeContainer}>
+                <BookTypeIcon type={bookType} size={24} color="white" />
+                <Text style={styles.expensesLabel}>{bookType.charAt(0).toUpperCase() + bookType.slice(1)}</Text>
+              </View>
+              <TouchableOpacity style={styles.monthSelector}>
+                <Text style={styles.monthText}>{selectedMonth}</Text>
+                <ChevronDownIcon />
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
 
@@ -555,18 +573,17 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: spacing.lg,
-    paddingTop: spacing.xl,
-    paddingBottom: spacing.md,
-    backgroundColor: colors.primary.pink,
+    gap: spacing.md,
+    paddingTop: 0,
+    paddingBottom: spacing.xs,
+    marginBottom: spacing.xs,
+    height: 40,
   },
   headerLeft: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: spacing.md,
     height: 40,
-    marginTop: -4,
   },
   headerButton: {
     width: 40,
@@ -591,43 +608,49 @@ const styles = StyleSheet.create({
   topSection: {
     backgroundColor: colors.primary.pink,
     paddingHorizontal: spacing.lg,
-    paddingTop: spacing.xs,
-    paddingBottom: spacing.xl,
+    paddingTop: spacing.xl,
+    paddingBottom: 96,
   },
   summaryCardWrapper: {
     paddingHorizontal: spacing.lg,
     marginTop: -80,
   },
-  bookTypeContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+  expensesSection: {
     marginTop: spacing.md,
-    marginBottom: spacing.lg,
+    marginBottom: spacing.xs,
   },
-  bookTypeLeft: {
+  expensesHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: spacing.xs,
+  },
+  tripTypeContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: spacing.xs,
   },
-  bookTypeLabel: {
+  expensesLabel: {
     fontSize: typography.sizes.lg,
     fontFamily: typography.fonts.semibold,
     color: 'white',
-    includeFontPadding: false,
-    textAlignVertical: 'center',
   },
-  memberCount: {
+  monthSelector: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.xs,
+  },
+  monthText: {
     fontSize: typography.sizes.base,
     fontFamily: typography.fonts.medium,
-    color: 'rgba(255, 255, 255, 0.9)',
-    includeFontPadding: false,
-    textAlignVertical: 'center',
+    color: 'rgba(255, 255, 255, 0.7)',
   },
   summaryCard: {
     backgroundColor: 'white',
     borderRadius: 16,
     padding: spacing.md,
+    borderWidth: 1,
+    borderColor: `${colors.secondary.darkBlueGray}33`,
   },
   summaryHeader: {
     flexDirection: 'row',
@@ -767,6 +790,8 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     padding: spacing.md,
     marginBottom: spacing.md,
+    borderWidth: 1,
+    borderColor: `${colors.secondary.darkBlueGray}33`,
   },
   memberHeader: {
     flexDirection: 'row',

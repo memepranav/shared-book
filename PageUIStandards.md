@@ -192,10 +192,17 @@ card: {
   borderRadius: 16,
   padding: spacing.lg,
   marginBottom: spacing.lg,
+  borderWidth: 1,
+  borderColor: `${colors.secondary.darkBlueGray}33`, // 20% opacity border
 }
 ```
 
-**Note**: Avoid using shadow/elevation on cards to prevent border flash effects during page load. Use semi-transparent background instead for a clean, modern look.
+**Card border:**
+- Always add a subtle border with `borderWidth: 1`
+- Use secondary color with 20% opacity: `${colors.secondary.darkBlueGray}33`
+- The hex value `33` represents 20% opacity (0.2)
+
+**Note**: Avoid using shadow/elevation on cards to prevent border flash effects during page load. Use semi-transparent background with a subtle border instead for a clean, modern look.
 
 ❌ **Avoid:**
 ```typescript
@@ -522,6 +529,7 @@ amount: {
 10. ❌ Inconsistent header heights across screens (should be 40px)
 11. ❌ Not adding `includeFontPadding: false` to header titles for proper alignment
 12. ❌ Adding shadow/elevation to cards (causes border flash, use semi-transparent background instead)
+13. ❌ Not adding border to cards (always use `borderWidth: 1` with `${colors.secondary.darkBlueGray}33`)
 
 ## Checklist for New Screens
 
@@ -535,6 +543,7 @@ amount: {
 - [ ] Standard gradient background applied
 - [ ] Consistent card/button styling
 - [ ] Cards use `backgroundColor: 'rgba(255, 255, 255, 0.8)'` without shadow/elevation
+- [ ] Cards have `borderWidth: 1` and `borderColor: ${colors.secondary.darkBlueGray}33`
 - [ ] Header placed inside ScrollView (not outside)
 - [ ] Sticky header implemented with proper animation (if needed)
 - [ ] ScrollView has `bounces={false}` and `overScrollMode="never"`

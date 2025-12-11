@@ -227,9 +227,10 @@ const monthChartData = [
 interface BooksScreenProps {
   onScrollDirectionChange?: (isScrollingDown: boolean) => void;
   onBookPress?: (bookId: string) => void;
+  onGroupDetailsPress?: () => void;
 }
 
-export const BooksScreen: React.FC<BooksScreenProps> = ({onScrollDirectionChange, onBookPress}) => {
+export const BooksScreen: React.FC<BooksScreenProps> = ({onScrollDirectionChange, onBookPress, onGroupDetailsPress}) => {
   const [selectedCategory, setSelectedCategory] = useState('Expenses');
   const [selectedPeriod, setSelectedPeriod] = useState('Week');
   const [selectedBar, setSelectedBar] = useState<number | null>(null); // No bar selected by default
@@ -402,16 +403,23 @@ export const BooksScreen: React.FC<BooksScreenProps> = ({onScrollDirectionChange
                   <BookTypeIcon type={book.bookType} size={30} />
                   <Text style={styles.bookName} numberOfLines={1} ellipsizeMode="tail">{book.name}</Text>
                 </View>
-                <AvatarGroup
-                  members={Array.from({length: book.participants}).map((_, i) => ({
-                    image: avatarImages[i % avatarImages.length],
-                    color: book.color,
-                  }))}
-                  maxVisible={2}
-                  size={44}
-                  borderColor={colors.primary.pink}
-                  overlap={25}
-                />
+                <TouchableOpacity
+                  onPress={(e) => {
+                    e.stopPropagation();
+                    onGroupDetailsPress?.();
+                  }}
+                  activeOpacity={0.7}>
+                  <AvatarGroup
+                    members={Array.from({length: book.participants}).map((_, i) => ({
+                      image: avatarImages[i % avatarImages.length],
+                      color: book.color,
+                    }))}
+                    maxVisible={2}
+                    size={44}
+                    borderColor={colors.primary.pink}
+                    overlap={25}
+                  />
+                </TouchableOpacity>
               </View>
 
               {/* Separator */}
@@ -564,6 +572,8 @@ const styles = StyleSheet.create({
     paddingBottom: spacing.xs,
     paddingHorizontal: spacing.md,
     marginBottom: spacing.xl,
+    borderWidth: 1,
+    borderColor: `${colors.secondary.darkBlueGray}33`,
   },
   stickyHeaderContainer: {
     paddingTop: spacing.md,
@@ -612,6 +622,8 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: spacing.lg,
     marginBottom: spacing.md,
+    borderWidth: 1,
+    borderColor: `${colors.secondary.darkBlueGray}33`,
   },
   bookHeader: {
     flexDirection: 'row',

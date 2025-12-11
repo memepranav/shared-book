@@ -80,13 +80,25 @@ export const HomeScreen: React.FC = () => {
   };
 
   const handleGroupDetailsPress = () => {
+    setPreviousScreen('bookDetails');
+    setCurrentScreen('groupDetails');
+    setIsNavVisible(false); // Hide navigation on group details screen
+  };
+
+  const handleGroupDetailsPressFromBooks = () => {
     setCurrentScreen('groupDetails');
     setIsNavVisible(false); // Hide navigation on group details screen
   };
 
   const handleBackFromGroupDetails = () => {
-    setCurrentScreen('bookDetails');
-    setIsNavVisible(false); // Keep navigation hidden on details screen
+    // Check if we came from books list or book details
+    if (previousScreen === 'bookDetails') {
+      setCurrentScreen('bookDetails');
+      setIsNavVisible(false); // Keep navigation hidden on details screen
+    } else {
+      setCurrentScreen('books');
+      setIsNavVisible(true); // Show navigation when back to list
+    }
   };
 
   const renderContent = () => {
@@ -108,17 +120,17 @@ export const HomeScreen: React.FC = () => {
 
     switch (activeTab) {
       case 'books':
-        return <BooksScreen onScrollDirectionChange={handleScrollDirectionChange} onBookPress={handleBookPress} />;
+        return <BooksScreen onScrollDirectionChange={handleScrollDirectionChange} onBookPress={handleBookPress} onGroupDetailsPress={handleGroupDetailsPressFromBooks} />;
       case 'notifications':
         return null; // Placeholder for notifications screen
-      case 'add':
-        return null; // Placeholder for add screen
+      case 'friends':
+        return null; // Placeholder for friends screen
       case 'balance':
         return null; // Placeholder for balance screen
       case 'profile':
         return null; // Placeholder for profile screen
       default:
-        return <BooksScreen onScrollDirectionChange={handleScrollDirectionChange} onBookPress={handleBookPress} />;
+        return <BooksScreen onScrollDirectionChange={handleScrollDirectionChange} onBookPress={handleBookPress} onGroupDetailsPress={handleGroupDetailsPressFromBooks} />;
     }
   };
 

@@ -360,6 +360,8 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     padding: spacing.lg,
     marginBottom: spacing.lg,
+    borderWidth: 1,
+    borderColor: `${colors.secondary.darkBlueGray}33`,
   },
   cardHeader: {
     flexDirection: 'row',

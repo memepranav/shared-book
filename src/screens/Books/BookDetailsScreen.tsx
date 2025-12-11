@@ -116,10 +116,11 @@ interface BookDetailsScreenProps {
   onBack?: () => void;
   onPendingRecordsPress?: () => void;
   onRecordDetailsPress?: () => void;
+  onGroupDetailsPress?: () => void;
   onScrollDirectionChange?: (isScrollingDown: boolean) => void;
 }
 
-export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({onBack, onPendingRecordsPress, onRecordDetailsPress, onScrollDirectionChange}) => {
+export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({onBack, onPendingRecordsPress, onRecordDetailsPress, onGroupDetailsPress, onScrollDirectionChange}) => {
   const [selectedMonth, setSelectedMonth] = useState('Jan 2024');
   const [totalExpenses] = useState(2578000);
   const [budgetLimit] = useState(5500);
@@ -266,20 +267,22 @@ export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({onBack, onP
                 <Text style={styles.expensesAmount}>
                   {formatINR(totalExpenses)}
                 </Text>
-                <AvatarGroup
-                  members={[
-                    {image: avatarImages[0], color: '#FF6B9D'},
-                    {image: avatarImages[1], color: '#4ECDC4'},
-                    {image: avatarImages[2], color: '#FFE66D'},
-                    {image: avatarImages[3], color: '#B4B4C4'},
-                    {image: avatarImages[4], color: '#8F92A1'},
-                    {image: avatarImages[5], color: '#6B6D7A'},
-                  ]}
-                  maxVisible={3}
-                  size={44}
-                  borderColor={colors.primary.pink}
-                  overlap={22}
-                />
+                <TouchableOpacity onPress={onGroupDetailsPress} activeOpacity={0.7}>
+                  <AvatarGroup
+                    members={[
+                      {image: avatarImages[0], color: '#FF6B9D'},
+                      {image: avatarImages[1], color: '#4ECDC4'},
+                      {image: avatarImages[2], color: '#FFE66D'},
+                      {image: avatarImages[3], color: '#B4B4C4'},
+                      {image: avatarImages[4], color: '#8F92A1'},
+                      {image: avatarImages[5], color: '#6B6D7A'},
+                    ]}
+                    maxVisible={3}
+                    size={44}
+                    borderColor={colors.primary.pink}
+                    overlap={22}
+                  />
+                </TouchableOpacity>
               </View>
 
               {/* Budget Progress Bar */}
@@ -464,7 +467,7 @@ export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({onBack, onP
           {
             width: buttonWidth.interpolate({
               inputRange: [0, 1],
-              outputRange: [40, 140], // 40px collapsed, 140px expanded
+              outputRange: [56, 180], // 56px collapsed (circle), 180px expanded
             }),
           },
         ]}>
@@ -476,9 +479,10 @@ export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({onBack, onP
             style={{
               opacity: buttonWidth,
               overflow: 'hidden',
+              justifyContent: 'center',
               maxWidth: buttonWidth.interpolate({
                 inputRange: [0, 1],
-                outputRange: [0, 100],
+                outputRange: [0, 120],
               }),
             }}>
             <Text style={styles.floatingButtonLabel}> Add Record</Text>
@@ -565,6 +569,7 @@ const styles = StyleSheet.create({
     lineHeight: typography.sizes.xl * 1.2,
   },
   expensesSection: {
+    marginTop: spacing.md,
     marginBottom: spacing.xs,
   },
   expensesHeader: {
@@ -632,6 +637,8 @@ const styles = StyleSheet.create({
     padding: spacing.lg,
     marginBottom: spacing.md,
     marginTop: -80,
+    borderWidth: 1,
+    borderColor: `${colors.secondary.darkBlueGray}33`,
   },
   cardSection: {
     marginBottom: 0,
@@ -708,6 +715,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    borderWidth: 1,
+    borderColor: `${colors.secondary.darkBlueGray}33`,
   },
   pendingCardLeft: {
     flexDirection: 'row',
@@ -768,6 +777,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: spacing.sm,
+    borderWidth: 1,
+    borderColor: `${colors.secondary.darkBlueGray}33`,
   },
   avatarColumn: {
     alignItems: 'center',
@@ -803,11 +814,11 @@ const styles = StyleSheet.create({
   },
   floatingButton: {
     position: 'absolute',
-    bottom: 90,
+    bottom: spacing.xl,
     right: spacing.lg,
     backgroundColor: colors.secondary.darkBlueGray,
-    height: 40,
-    borderRadius: 20,
+    height: 56,
+    borderRadius: 28,
     justifyContent: 'center',
     alignItems: 'center',
     elevation: 4,
@@ -820,28 +831,30 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    height: 40,
+    height: 56,
     width: '100%',
   },
   plusCircle: {
-    width: 40,
-    height: 40,
+    width: 56,
+    height: 56,
     justifyContent: 'center',
     alignItems: 'center',
   },
   floatingButtonText: {
     color: 'white',
-    fontSize: 24,
+    fontSize: 32,
     fontFamily: typography.fonts.regular,
-    lineHeight: 24,
+    lineHeight: 32,
     includeFontPadding: false,
     textAlignVertical: 'center',
   },
   floatingButtonLabel: {
     color: 'white',
-    fontSize: typography.sizes.sm,
+    fontSize: typography.sizes.base,
     fontFamily: typography.fonts.medium,
+    lineHeight: 20,
     includeFontPadding: false,
     textAlignVertical: 'center',
+    marginTop: -2,
   },
 });

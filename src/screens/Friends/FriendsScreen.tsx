@@ -364,7 +364,7 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
   },
   headerTitle: {
-    fontSize: typography.sizes.xl,
+    fontSize: typography.sizes['2xl'],
     fontFamily: typography.fonts.bold,
     color: colors.text.primary,
   },

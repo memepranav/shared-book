@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import {
   View,
   Text,
@@ -6,6 +6,9 @@ import {
   ScrollView,
   TouchableOpacity,
   Image,
+  Animated,
+  NativeSyntheticEvent,
+  NativeScrollEvent,
 } from 'react-native';
 import Svg, {Path, Circle, G} from 'react-native-svg';
 import LinearGradient from 'react-native-linear-gradient';
@@ -102,6 +105,37 @@ const CheckCircleIcon = ({size = 16}: {size?: number}) => (
   </Svg>
 );
 
+const BookIcon = ({color = colors.primary.pink}: {color?: string}) => (
+  <Svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+    <Path
+      d="M4 19.5C4 18.837 4.26339 18.2011 4.73223 17.7322C5.20107 17.2634 5.83696 17 6.5 17H20"
+      stroke={color}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M6.5 2H20V22H6.5C5.83696 22 5.20107 21.7366 4.73223 21.2678C4.26339 20.7989 4 20.163 4 19.5V4.5C4 3.83696 4.26339 3.20107 4.73223 2.73223C5.20107 2.26339 5.83696 2 6.5 2V2Z"
+      stroke={color}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </Svg>
+);
+
+const FilterIcon = () => (
+  <Svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+    <Path
+      d="M4 6H20M7 12H17M10 18H14"
+      stroke={colors.text.secondary}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </Svg>
+);
+
 type OnlineStatus = 'online' | 'away' | 'offline';
 
 interface Friend {
@@ -118,10 +152,15 @@ interface FriendsScreenProps {
 }
 
 export const FriendsScreen: React.FC<FriendsScreenProps> = ({onBack}) => {
+  const scrollY = useRef(0);
+  const headerOpacity = useRef(new Animated.Value(0)).current;
+  const stickyHeaderThreshold = 180; // When header becomes sticky
+  const [isHeaderSticky, setIsHeaderSticky] = useState(false);
+
   const [friends] = useState<Friend[]>([
     {
       id: '1',
-      name: 'Miller',
+      name: 'Rahul',
       avatarImage: avatarImages[0],
       sharedBooks: 3,
       balance: 420.0,
@@ -129,7 +168,7 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({onBack}) => {
     },
     {
       id: '2',
-      name: 'Yevhen',
+      name: 'Priya',
       avatarImage: avatarImages[1],
       sharedBooks: 1,
       balance: -125.5,
@@ -137,7 +176,7 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({onBack}) => {
     },
     {
       id: '3',
-      name: 'Ei Maulina',
+      name: 'Amit',
       avatarImage: avatarImages[2],
       sharedBooks: 5,
       balance: 0,
@@ -145,7 +184,7 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({onBack}) => {
     },
     {
       id: '4',
-      name: 'Bustos',
+      name: 'Sneha',
       avatarImage: avatarImages[3],
       sharedBooks: 2,
       balance: -850.0,
@@ -153,7 +192,7 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({onBack}) => {
     },
     {
       id: '5',
-      name: 'Achmad',
+      name: 'Vikram',
       avatarImage: avatarImages[4],
       sharedBooks: 4,
       balance: 24.99,
@@ -161,7 +200,7 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({onBack}) => {
     },
     {
       id: '6',
-      name: 'Nagano',
+      name: 'Anjali',
       avatarImage: avatarImages[5],
       sharedBooks: 1,
       balance: 0,
@@ -205,6 +244,43 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({onBack}) => {
     return colors[index % colors.length];
   };
 
+  const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const currentScrollY = event.nativeEvent.contentOffset.y;
+
+    // Check if header has become sticky
+    const shouldBeSticky = currentScrollY >= stickyHeaderThreshold;
+    if (shouldBeSticky !== isHeaderSticky) {
+      setIsHeaderSticky(shouldBeSticky);
+      // Animate background when sticky state changes
+      Animated.timing(headerOpacity, {
+        toValue: shouldBeSticky ? 1 : 0,
+        duration: 200,
+        useNativeDriver: true,
+      }).start();
+    }
+
+    scrollY.current = currentScrollY;
+  };
+
+  const renderStickyHeader = () => {
+    return (
+      <View style={styles.stickyHeaderContainer}>
+        <Animated.View style={[styles.stickyHeaderBackground, {opacity: headerOpacity}]} />
+        <View style={styles.friendsListHeader}>
+          <View>
+            <Text style={styles.friendsListTitle}>All Friends</Text>
+            <Text style={styles.friendsListSubtitle}>
+              Total friends: {friends.length}
+            </Text>
+          </View>
+          <TouchableOpacity style={styles.filterButton}>
+            <FilterIcon />
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  };
+
   return (
     <LinearGradient
       colors={[
@@ -220,7 +296,10 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({onBack}) => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.contentContainer}
         bounces={false}
-        overScrollMode="never">
+        overScrollMode="never"
+        onScroll={handleScroll}
+        scrollEventThrottle={16}
+        stickyHeaderIndices={[2]}>
         {/* Header */}
         <View style={styles.header}>
           <View style={styles.headerLeft}>
@@ -228,52 +307,49 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({onBack}) => {
             <Text style={styles.headerTitle}>Friends</Text>
           </View>
           <TouchableOpacity style={styles.addButton}>
-            <AddIcon />
+            <Text style={styles.addButtonText}>+</Text>
           </TouchableOpacity>
         </View>
 
-        {/* Top Friends Horizontal Scroll */}
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          style={styles.topFriendsScroll}
-          contentContainerStyle={styles.topFriendsContent}>
-          {/* Search Option */}
-          <TouchableOpacity style={styles.topFriendItem}>
-            <View style={styles.searchAvatar}>
-              <SearchIcon />
-            </View>
-            <Text style={styles.topFriendName}>Search</Text>
-          </TouchableOpacity>
-
-          {/* Top Friends */}
-          {topFriends.map((friend) => (
-            <TouchableOpacity key={friend.id} style={styles.topFriendItem}>
-              <View style={styles.topFriendAvatarContainer}>
-                <Image
-                  source={friend.avatarImage}
-                  style={styles.topFriendAvatar}
-                  resizeMode="cover"
-                />
-                <View
-                  style={[
-                    styles.statusDot,
-                    {backgroundColor: getStatusColor(friend.onlineStatus)},
-                  ]}
-                />
+        {/* Active Friends Section */}
+        <View style={styles.activeFriendsSection}>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={styles.topFriendsScroll}
+            contentContainerStyle={styles.topFriendsContent}>
+            {/* Search Option */}
+            <TouchableOpacity style={styles.topFriendItem}>
+              <View style={styles.searchAvatar}>
+                <SearchIcon />
               </View>
-              <Text style={styles.topFriendName}>{friend.name}</Text>
+              <Text style={styles.topFriendName}>Search</Text>
             </TouchableOpacity>
-          ))}
-        </ScrollView>
 
-        {/* All Friends Section */}
-        <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>ALL FRIENDS</Text>
-          <TouchableOpacity>
-            <Text style={styles.sortByText}>Sort by</Text>
-          </TouchableOpacity>
+            {/* Top Friends */}
+            {topFriends.map((friend) => (
+              <TouchableOpacity key={friend.id} style={styles.topFriendItem}>
+                <View style={styles.topFriendAvatarContainer}>
+                  <Image
+                    source={friend.avatarImage}
+                    style={styles.topFriendAvatar}
+                    resizeMode="cover"
+                  />
+                  <View
+                    style={[
+                      styles.statusDot,
+                      {backgroundColor: getStatusColor(friend.onlineStatus)},
+                    ]}
+                  />
+                </View>
+                <Text style={styles.topFriendName}>{friend.name}</Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
         </View>
+
+        {/* Sticky Header */}
+        {renderStickyHeader()}
 
         {/* Friends List */}
         {friends.map((friend, index) => (
@@ -298,12 +374,7 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({onBack}) => {
               <View style={styles.friendInfo}>
                 <Text style={styles.friendName}>{friend.name}</Text>
                 <View style={styles.booksRow}>
-                  <View
-                    style={[
-                      styles.bookDot,
-                      {backgroundColor: getBookDotColor(index)},
-                    ]}
-                  />
+                  <BookIcon color={getBookDotColor(index)} />
                   <Text style={styles.booksText}>
                     {friend.sharedBooks} Shared{' '}
                     {friend.sharedBooks === 1 ? 'Book' : 'Books'}
@@ -364,35 +435,44 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
   },
   headerTitle: {
-    fontSize: typography.sizes['2xl'],
+    fontSize: typography.sizes.xl,
     fontFamily: typography.fonts.bold,
     color: colors.text.primary,
+    includeFontPadding: false,
+    textAlignVertical: 'center',
   },
   addButton: {
+    backgroundColor: colors.secondary.darkBlueGray,
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: 'rgba(255, 255, 255, 0.8)',
     justifyContent: 'center',
     alignItems: 'center',
-    borderWidth: 1,
-    borderColor: `${colors.secondary.darkBlueGray}15`,
+  },
+  addButtonText: {
+    color: 'white',
+    fontSize: 24,
+    fontFamily: typography.fonts.regular,
+    lineHeight: 24,
+  },
+  activeFriendsSection: {
+    marginBottom: spacing.xl,
   },
   topFriendsScroll: {
-    marginBottom: spacing.xl,
+    marginBottom: 0,
   },
   topFriendsContent: {
     paddingHorizontal: spacing.lg,
-    gap: spacing.md,
+    gap: spacing.xs,
   },
   topFriendItem: {
     alignItems: 'center',
-    marginRight: spacing.md,
+    marginRight: spacing.xs,
   },
   searchAvatar: {
-    width: 72,
-    height: 72,
-    borderRadius: 36,
+    width: 56,
+    height: 56,
+    borderRadius: 28,
     backgroundColor: 'rgba(255, 255, 255, 0.8)',
     borderWidth: 2,
     borderColor: colors.neutral.gray300,
@@ -406,19 +486,19 @@ const styles = StyleSheet.create({
     marginBottom: spacing.xs,
   },
   topFriendAvatar: {
-    width: 72,
-    height: 72,
-    borderRadius: 36,
-    borderWidth: 3,
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    borderWidth: 2,
     borderColor: 'white',
   },
   statusDot: {
     position: 'absolute',
-    bottom: 2,
-    right: 2,
-    width: 16,
-    height: 16,
-    borderRadius: 8,
+    bottom: 0,
+    right: 0,
+    width: 14,
+    height: 14,
+    borderRadius: 7,
     borderWidth: 2,
     borderColor: 'white',
   },
@@ -427,23 +507,50 @@ const styles = StyleSheet.create({
     fontFamily: typography.fonts.medium,
     color: colors.text.primary,
   },
-  sectionHeader: {
+  stickyHeaderContainer: {
+    paddingTop: spacing.md,
+    paddingBottom: spacing.sm,
+    paddingHorizontal: spacing.lg,
+  },
+  stickyHeaderBackground: {
+    position: 'absolute',
+    top: -spacing.md,
+    left: -500,
+    right: -500,
+    bottom: 0,
+    backgroundColor: 'rgba(254, 249, 249, 0.95)',
+  },
+  friendsListHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: spacing.lg,
     marginBottom: spacing.md,
   },
-  sectionTitle: {
+  friendsListTitle: {
+    fontSize: typography.sizes.xl,
+    fontFamily: typography.fonts.bold,
+    color: colors.text.primary,
+    marginBottom: spacing.xs,
+    includeFontPadding: false,
+    textAlignVertical: 'center',
+  },
+  friendsListSubtitle: {
     fontSize: typography.sizes.sm,
-    fontFamily: typography.fonts.semibold,
+    fontFamily: typography.fonts.regular,
     color: colors.text.secondary,
-    letterSpacing: 0.5,
   },
   sortByText: {
     fontSize: typography.sizes.sm,
     fontFamily: typography.fonts.medium,
     color: colors.primary.pink,
+  },
+  filterButton: {
+    width: 40,
+    height: 40,
+    backgroundColor: 'rgba(255, 255, 255, 0.7)',
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   friendCard: {
     flexDirection: 'row',
@@ -495,17 +602,15 @@ const styles = StyleSheet.create({
   booksRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: spacing.xs,
-  },
-  bookDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
+    gap: 6,
+    marginTop: 2,
   },
   booksText: {
     fontSize: typography.sizes.sm,
     fontFamily: typography.fonts.regular,
     color: colors.text.secondary,
+    includeFontPadding: false,
+    textAlignVertical: 'center',
   },
   friendRight: {
     alignItems: 'flex-end',

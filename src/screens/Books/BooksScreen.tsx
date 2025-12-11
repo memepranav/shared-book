@@ -102,6 +102,36 @@ const ChevronDownIcon = () => (
   </Svg>
 );
 
+const BooksIcon = () => (
+  <Svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+    <Rect
+      x="3"
+      y="3"
+      width="18"
+      height="18"
+      rx="2"
+      stroke={colors.text.primary}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M3 9H21"
+      stroke={colors.text.primary}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M9 3V21"
+      stroke={colors.text.primary}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </Svg>
+);
+
 const FilterIcon = () => (
   <Svg width="20" height="20" viewBox="0 0 24 24" fill="none">
     <Path
@@ -336,7 +366,10 @@ export const BooksScreen: React.FC<BooksScreenProps> = ({onScrollDirectionChange
         stickyHeaderIndices={[2]}>
         {/* Header */}
         <View style={styles.header}>
-          <Text style={styles.headerTitle}>My Books</Text>
+          <View style={styles.headerLeft}>
+            <BooksIcon />
+            <Text style={styles.headerTitle}>My Books</Text>
+          </View>
           <TouchableOpacity style={styles.addBookButton}>
             <Text style={styles.addBookButtonText}>+</Text>
           </TouchableOpacity>
@@ -476,18 +509,25 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     paddingHorizontal: spacing.lg,
-    paddingTop: spacing.md,
+    paddingTop: spacing.xl,
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingBottom: spacing.xxl,
+    marginBottom: spacing.lg,
+  },
+  headerLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
   },
   headerTitle: {
-    fontSize: typography.sizes['2xl'],
+    fontSize: typography.sizes.xl,
     fontFamily: typography.fonts.bold,
     color: colors.text.primary,
+    includeFontPadding: false,
+    textAlignVertical: 'center',
   },
   addBookButton: {
     backgroundColor: colors.secondary.darkBlueGray,

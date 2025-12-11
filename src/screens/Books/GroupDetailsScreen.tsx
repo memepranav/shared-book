@@ -187,7 +187,6 @@ export const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({onBack}) 
   const [groupName] = useState('Members');
   const [bookName] = useState('Goa Trip');
   const [bookType] = useState<'trip' | 'daily' | 'event' | 'group'>('trip');
-  const [selectedMonth, setSelectedMonth] = useState('Jan 2024');
 
   // Book Summary data
   const [totalSpent] = useState(45500);
@@ -373,17 +372,16 @@ export const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({onBack}) 
             </View>
           </View>
 
-          {/* Book Type and Month Selector */}
+          {/* Book Type and Total Members */}
           <View style={styles.expensesSection}>
             <View style={styles.expensesHeader}>
               <View style={styles.tripTypeContainer}>
                 <BookTypeIcon type={bookType} size={24} color="white" />
                 <Text style={styles.expensesLabel}>{bookType.charAt(0).toUpperCase() + bookType.slice(1)}</Text>
               </View>
-              <TouchableOpacity style={styles.monthSelector}>
-                <Text style={styles.monthText}>{selectedMonth}</Text>
-                <ChevronDownIcon />
-              </TouchableOpacity>
+              <View style={styles.monthSelector}>
+                <Text style={styles.monthText}>{members.length} Members</Text>
+              </View>
             </View>
           </View>
         </View>
@@ -609,11 +607,11 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary.pink,
     paddingHorizontal: spacing.lg,
     paddingTop: spacing.xl,
-    paddingBottom: 96,
+    paddingBottom: 146,
   },
   summaryCardWrapper: {
     paddingHorizontal: spacing.lg,
-    marginTop: -80,
+    marginTop: -142,
   },
   expensesSection: {
     marginTop: spacing.md,

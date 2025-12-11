@@ -7,6 +7,7 @@ import {BooksScreen, BookDetailsScreen, PendingRecordsScreen, RecordDetailsScree
 import {FriendsScreen, FriendProfileScreen} from '../Friends';
 import {NotificationsScreen} from '../Notifications';
 import {InsightsScreen} from '../Insights';
+import {ProfileScreen} from '../Profile';
 import {colors} from '../../theme';
 
 export const HomeScreen: React.FC = () => {
@@ -161,7 +162,7 @@ export const HomeScreen: React.FC = () => {
       case 'insights':
         return <InsightsScreen />;
       case 'profile':
-        return null; // Placeholder for profile screen
+        return <ProfileScreen />;
       default:
         return <BooksScreen onScrollDirectionChange={handleScrollDirectionChange} onBookPress={handleBookPress} onGroupDetailsPress={handleGroupDetailsPressFromBooks} />;
     }

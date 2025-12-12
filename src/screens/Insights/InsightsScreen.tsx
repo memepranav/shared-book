@@ -10,7 +10,6 @@ import {
   NativeSyntheticEvent,
   NativeScrollEvent,
 } from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import Svg, {Path, Circle, G} from 'react-native-svg';
 import LinearGradient from 'react-native-linear-gradient';
 import {CustomBarChart} from '../../components/CustomBarChart';
@@ -270,16 +269,15 @@ export const InsightsScreen: React.FC<InsightsScreenProps> = ({onBack, onScrollD
       start={{x: 1, y: 0}}
       end={{x: 0, y: 1}}
       style={styles.container}>
-      <SafeAreaView style={styles.safeArea} edges={['top']}>
-        <ScrollView
-          style={styles.scrollView}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={styles.contentContainer}
-          bounces={false}
-          overScrollMode="never"
-          onScroll={handleScroll}
-          scrollEventThrottle={16}
-          stickyHeaderIndices={[1]}>
+      <ScrollView
+        style={styles.scrollView}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.contentContainer}
+        bounces={false}
+        overScrollMode="never"
+        onScroll={handleScroll}
+        scrollEventThrottle={16}
+        stickyHeaderIndices={[1]}>
         {/* Header */}
         <View style={styles.header}>
           <View style={styles.headerLeft}>
@@ -561,16 +559,12 @@ export const InsightsScreen: React.FC<InsightsScreenProps> = ({onBack, onScrollD
 
         <View style={{height: 100}} />
       </ScrollView>
-      </SafeAreaView>
     </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-  },
-  safeArea: {
     flex: 1,
   },
   scrollView: {
@@ -584,8 +578,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: spacing.lg,
-    marginBottom: spacing.sm,
-    height: 40,
+    marginBottom: spacing.lg,
   },
   headerLeft: {
     flexDirection: 'row',
@@ -596,6 +589,7 @@ const styles = StyleSheet.create({
     fontSize: typography.sizes.xl,
     fontFamily: typography.fonts.bold,
     color: colors.text.primary,
+    lineHeight: 40,
   },
   headerRight: {
     flexDirection: 'row',

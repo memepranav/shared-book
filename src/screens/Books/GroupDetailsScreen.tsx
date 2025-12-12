@@ -324,31 +324,20 @@ export const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({onBack}) 
     lastScrollY.current = scrollY;
   };
 
-  const renderStickyHeader = () => {
-    return (
-      <View style={styles.stickyHeaderContainer}>
-        <LinearGradient
-          colors={[colors.primary.pink, colors.primary.pink]}
-          start={{x: 0, y: 0}}
-          end={{x: 1, y: 0}}
-          style={styles.stickyHeaderGradient}>
-          <View style={styles.stickyHeaderContent}>
-            <TouchableOpacity onPress={onBack} style={styles.backButton}>
-              <BackIcon />
-            </TouchableOpacity>
-            <Text style={styles.stickyHeaderTitle}>{groupName}</Text>
-          </View>
-        </LinearGradient>
-      </View>
-    );
-  };
 
   return (
     <View style={styles.container}>
       {/* Sticky Header - Only shown when scrolled */}
       {showStickyHeader && (
         <View style={styles.stickyHeaderFixed}>
-          {renderStickyHeader()}
+          <View style={styles.stickyHeader}>
+            <View style={styles.headerLeft}>
+              <TouchableOpacity onPress={onBack} style={styles.stickyHeaderButton}>
+                <BackIcon />
+              </TouchableOpacity>
+              <Text style={styles.stickyHeaderTitle}>{groupName}</Text>
+            </View>
+          </View>
         </View>
       )}
 
@@ -537,7 +526,7 @@ export const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({onBack}) 
           {
             width: buttonWidth.interpolate({
               inputRange: [0, 1],
-              outputRange: [56, 180], // 56px collapsed (circle), 180px expanded
+              outputRange: [56, 170], // 56px collapsed (circle), 170px expanded
             }),
           },
         ]}>
@@ -552,10 +541,10 @@ export const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({onBack}) 
               justifyContent: 'center',
               maxWidth: buttonWidth.interpolate({
                 inputRange: [0, 1],
-                outputRange: [0, 120],
+                outputRange: [0, 110],
               }),
             }}>
-            <Text style={styles.floatingButtonLabel}> Add Member</Text>
+            <Text style={styles.floatingButtonLabel}>Add Member</Text>
           </Animated.View>
         </TouchableOpacity>
       </Animated.View>
@@ -572,15 +561,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: spacing.md,
-    paddingTop: 0,
+    paddingTop: spacing.sm,
     paddingBottom: spacing.xs,
     marginBottom: spacing.xs,
+    marginLeft: -4,
     height: 40,
   },
   headerLeft: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: spacing.md,
+    gap: spacing.xs,
     height: 40,
   },
   headerButton: {
@@ -594,7 +584,7 @@ const styles = StyleSheet.create({
     fontSize: typography.sizes.xl,
     fontFamily: typography.fonts.bold,
     color: 'white',
-    lineHeight: typography.sizes.xl * 1.2,
+    lineHeight: 40,
   },
   scrollView: {
     flex: 1,
@@ -972,19 +962,16 @@ const styles = StyleSheet.create({
   },
   floatingButtonText: {
     color: 'white',
-    fontSize: 32,
-    fontFamily: typography.fonts.regular,
-    lineHeight: 32,
-    includeFontPadding: false,
-    textAlignVertical: 'center',
+    fontSize: 28,
+    fontFamily: typography.fonts.light,
+    textAlign: 'center',
+    lineHeight: 28,
   },
   floatingButtonLabel: {
     color: 'white',
-    fontSize: typography.sizes.base,
+    fontSize: typography.sizes.sm,
     fontFamily: typography.fonts.medium,
-    lineHeight: 20,
-    includeFontPadding: false,
-    textAlignVertical: 'center',
+    lineHeight: 18,
     marginTop: -2,
   },
   stickyHeaderFixed: {
@@ -993,33 +980,36 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     zIndex: 1000,
-  },
-  stickyHeaderContainer: {
     backgroundColor: colors.primary.pink,
+    paddingHorizontal: spacing.lg,
+    paddingTop: spacing.xl,
+    paddingBottom: 20,
     elevation: 4,
     shadowColor: '#000',
     shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.1,
     shadowRadius: 4,
   },
-  stickyHeaderGradient: {
-    paddingTop: spacing.lg,
-    paddingBottom: spacing.lg,
-    paddingHorizontal: spacing.lg,
-  },
-  stickyHeaderContent: {
+  stickyHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: spacing.md,
+    paddingTop: spacing.sm,
+    paddingBottom: spacing.xs,
+    marginBottom: spacing.xs,
+    marginLeft: -4,
     height: 40,
+  },
+  stickyHeaderButton: {
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   stickyHeaderTitle: {
     fontSize: typography.sizes.xl,
     fontFamily: typography.fonts.bold,
     color: 'white',
-    lineHeight: typography.sizes.xl * 1.2,
-    includeFontPadding: false,
-    textAlignVertical: 'center',
+    lineHeight: 40,
   },
   backButton: {
     width: 40,

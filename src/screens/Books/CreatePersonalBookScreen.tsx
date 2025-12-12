@@ -152,10 +152,12 @@ export const CreatePersonalBookScreen: React.FC<CreatePersonalBookScreenProps> =
         overScrollMode="never">
           {/* Header */}
           <View style={styles.header}>
-            <TouchableOpacity onPress={onBack} style={styles.backButton}>
-              <BackIcon />
-            </TouchableOpacity>
-            <Text style={styles.headerTitle}>Create Personal Book</Text>
+            <View style={styles.headerLeft}>
+              <TouchableOpacity onPress={onBack} style={styles.backButton}>
+                <BackIcon />
+              </TouchableOpacity>
+              <Text style={styles.headerTitle}>Personal Book</Text>
+            </View>
           </View>
 
           {/* Info Box */}
@@ -272,11 +274,13 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: spacing.md,
-    paddingTop: 0,
-    paddingBottom: spacing.xs,
+    justifyContent: 'space-between',
     marginBottom: spacing.lg,
-    height: 40,
+  },
+  headerLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
   },
   backButton: {
     width: 40,
@@ -289,7 +293,7 @@ const styles = StyleSheet.create({
     fontSize: typography.sizes.xl,
     fontFamily: typography.fonts.bold,
     color: colors.text.primary,
-    lineHeight: typography.sizes.xl * 1.2,
+    lineHeight: 40,
   },
   infoBox: {
     flexDirection: 'row',

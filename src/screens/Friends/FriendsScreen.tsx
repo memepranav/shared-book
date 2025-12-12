@@ -482,9 +482,10 @@ const styles = StyleSheet.create({
   },
   addButtonText: {
     color: 'white',
-    fontSize: 24,
-    fontFamily: typography.fonts.regular,
-    lineHeight: 24,
+    fontSize: 28,
+    fontFamily: typography.fonts.light,
+    textAlign: 'center',
+    lineHeight: 28,
   },
   activeFriendsSection: {
     marginBottom: spacing.xl,

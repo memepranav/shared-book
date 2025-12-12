@@ -121,10 +121,12 @@ export const RecordDetailsScreen: React.FC<RecordDetailsScreenProps> = ({onBack,
       <View style={[styles.topSection, {backgroundColor: colors.secondary.darkBlueGray}]}>
         {/* Header */}
         <View style={styles.header}>
-          <TouchableOpacity onPress={onBack} style={styles.backButton}>
-            <BackIcon />
-          </TouchableOpacity>
-          <Text style={styles.headerTitle}>Food Panda Bills</Text>
+          <View style={styles.headerLeft}>
+            <TouchableOpacity onPress={onBack} style={styles.backButton}>
+              <BackIcon />
+            </TouchableOpacity>
+            <Text style={styles.headerTitle}>Food Panda Bills</Text>
+          </View>
         </View>
 
         {/* Total Amount */}
@@ -248,7 +250,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: spacing.md,
+    paddingTop: spacing.sm,
+    paddingBottom: spacing.xs,
     marginBottom: spacing.xs,
+    marginLeft: -4,
+    height: 40,
+  },
+  headerLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.xs,
+    height: 40,
   },
   backButton: {
     width: 40,
@@ -260,7 +272,7 @@ const styles = StyleSheet.create({
     fontSize: typography.sizes.xl,
     fontFamily: typography.fonts.bold,
     color: 'white',
-    lineHeight: typography.sizes.xl * 1.2,
+    lineHeight: 40,
   },
   statusBadge: {
     flexDirection: 'row',

@@ -101,31 +101,20 @@ export const PendingRecordsScreen: React.FC<PendingRecordsScreenProps> = ({onBac
     }
   };
 
-  const renderStickyHeader = () => {
-    return (
-      <View style={styles.stickyHeaderContainer}>
-        <LinearGradient
-          colors={[colors.primary.pink, colors.primary.pink]}
-          start={{x: 0, y: 0}}
-          end={{x: 1, y: 0}}
-          style={styles.stickyHeaderGradient}>
-          <View style={styles.stickyHeaderContent}>
-            <TouchableOpacity onPress={onBack} style={styles.backButton}>
-              <BackIcon color="white" />
-            </TouchableOpacity>
-            <Text style={styles.stickyHeaderTitle}>Pending Records</Text>
-          </View>
-        </LinearGradient>
-      </View>
-    );
-  };
 
   return (
     <View style={styles.container}>
       {/* Sticky Header - Only shown when scrolled */}
       {showStickyHeader && (
         <View style={styles.stickyHeaderFixed}>
-          {renderStickyHeader()}
+          <View style={styles.stickyHeader}>
+            <View style={styles.headerLeft}>
+              <TouchableOpacity onPress={onBack} style={styles.stickyHeaderButton}>
+                <BackIcon color="white" />
+              </TouchableOpacity>
+              <Text style={styles.stickyHeaderTitle}>Pending Records</Text>
+            </View>
+          </View>
         </View>
       )}
 
@@ -139,10 +128,12 @@ export const PendingRecordsScreen: React.FC<PendingRecordsScreenProps> = ({onBac
         overScrollMode="never">
         {/* Header */}
         <View style={styles.header}>
-          <TouchableOpacity onPress={onBack} style={styles.backButton}>
-            <BackIcon />
-          </TouchableOpacity>
-          <Text style={styles.headerTitle}>Pending Records</Text>
+          <View style={styles.headerLeft}>
+            <TouchableOpacity onPress={onBack} style={styles.backButton}>
+              <BackIcon />
+            </TouchableOpacity>
+            <Text style={styles.headerTitle}>Pending Records</Text>
+          </View>
         </View>
 
             {/* Detailed Card 1 */}
@@ -324,9 +315,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: spacing.md,
-    paddingTop: 0,
+    paddingTop: spacing.sm,
     paddingBottom: spacing.xs,
     marginBottom: spacing.xs,
+    marginLeft: -4,
+    height: 40,
+  },
+  headerLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.xs,
     height: 40,
   },
   backButton: {
@@ -340,7 +338,7 @@ const styles = StyleSheet.create({
     fontSize: typography.sizes.xl,
     fontFamily: typography.fonts.bold,
     color: colors.text.primary,
-    lineHeight: typography.sizes.xl * 1.2,
+    lineHeight: 40,
   },
   filterButton: {
     width: 40,
@@ -534,32 +532,35 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     zIndex: 1000,
-  },
-  stickyHeaderContainer: {
     backgroundColor: colors.primary.pink,
+    paddingHorizontal: spacing.lg,
+    paddingTop: spacing.xl,
+    paddingBottom: 20,
     elevation: 4,
     shadowColor: '#000',
     shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.1,
     shadowRadius: 4,
   },
-  stickyHeaderGradient: {
-    paddingTop: spacing.lg,
-    paddingBottom: spacing.lg,
-    paddingHorizontal: spacing.lg,
-  },
-  stickyHeaderContent: {
+  stickyHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: spacing.md,
+    paddingTop: spacing.sm,
+    paddingBottom: spacing.xs,
+    marginBottom: spacing.xs,
+    marginLeft: -4,
     height: 40,
+  },
+  stickyHeaderButton: {
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   stickyHeaderTitle: {
     fontSize: typography.sizes.xl,
     fontFamily: typography.fonts.bold,
     color: 'white',
-    lineHeight: typography.sizes.xl * 1.2,
-    includeFontPadding: false,
-    textAlignVertical: 'center',
+    lineHeight: 40,
   },
 });

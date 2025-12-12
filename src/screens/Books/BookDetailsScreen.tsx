@@ -457,7 +457,7 @@ export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({onBack, onP
           {
             width: buttonWidth.interpolate({
               inputRange: [0, 1],
-              outputRange: [56, 180], // 56px collapsed (circle), 180px expanded
+              outputRange: [56, 170], // 56px collapsed (circle), 170px expanded
             }),
           },
         ]}>
@@ -472,10 +472,10 @@ export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({onBack, onP
               justifyContent: 'center',
               maxWidth: buttonWidth.interpolate({
                 inputRange: [0, 1],
-                outputRange: [0, 120],
+                outputRange: [0, 110],
               }),
             }}>
-            <Text style={styles.floatingButtonLabel}> Add Record</Text>
+            <Text style={styles.floatingButtonLabel}>Add Record</Text>
           </Animated.View>
         </TouchableOpacity>
       </Animated.View>
@@ -838,15 +838,16 @@ const styles = StyleSheet.create({
   },
   floatingButtonText: {
     color: 'white',
-    fontSize: 32,
-    fontFamily: typography.fonts.regular,
-    lineHeight: 32,
+    fontSize: 28,
+    fontFamily: typography.fonts.light,
+    textAlign: 'center',
+    lineHeight: 28,
   },
   floatingButtonLabel: {
     color: 'white',
-    fontSize: typography.sizes.base,
+    fontSize: typography.sizes.sm,
     fontFamily: typography.fonts.medium,
-    lineHeight: 20,
+    lineHeight: 18,
     marginTop: -2,
   },
 });

@@ -1,14 +1,12 @@
 import React, {useState} from 'react';
 import {View, StyleSheet, StatusBar} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import LinearGradient from 'react-native-linear-gradient';
 import {BottomNavigation} from '../../components/BottomNavigation';
 import {BooksNavigator} from '../../navigation/BooksNavigator';
 import {FriendsNavigator} from '../../navigation/FriendsNavigator';
 import {NotificationsScreen} from '../Notifications';
 import {InsightsScreen} from '../Insights';
 import {ProfileScreen} from '../Profile';
-import {colors} from '../../theme';
 
 export const HomeScreen: React.FC = () => {
   const [activeTab, setActiveTab] = useState('books');
@@ -42,43 +40,27 @@ export const HomeScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <LinearGradient
-        colors={[colors.gradients.home.start, colors.gradients.home.middle, colors.gradients.home.end]}
-        start={{x: 1, y: 0}}
-        end={{x: 0, y: 1}}
-        style={styles.gradient}>
-        <SafeAreaView style={styles.safeArea} edges={['top']}>
-          <StatusBar
-            barStyle="dark-content"
-            backgroundColor="transparent"
-            translucent
-          />
+      <StatusBar
+        barStyle="dark-content"
+        backgroundColor="transparent"
+        translucent
+      />
+      <View style={styles.contentArea}>
+        {renderContent()}
+      </View>
 
-          {/* Content Area */}
-          <View style={styles.contentArea}>
-            {renderContent()}
-          </View>
-
-          {/* Bottom Navigation */}
-          <BottomNavigation
-            activeTab={activeTab}
-            onTabPress={handleTabPress}
-            isVisible={isNavVisible}
-          />
-        </SafeAreaView>
-      </LinearGradient>
+      {/* Bottom Navigation */}
+      <BottomNavigation
+        activeTab={activeTab}
+        onTabPress={handleTabPress}
+        isVisible={isNavVisible}
+      />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-  },
-  gradient: {
-    flex: 1,
-  },
-  safeArea: {
     flex: 1,
   },
   contentArea: {

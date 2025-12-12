@@ -10,6 +10,7 @@ import {
   NativeSyntheticEvent,
   NativeScrollEvent,
 } from 'react-native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RouteProp} from '@react-navigation/native';
 import Svg, {Path, Rect} from 'react-native-svg';
@@ -96,6 +97,7 @@ interface RecordDetailsScreenProps {
 }
 
 export const RecordDetailsScreen: React.FC<RecordDetailsScreenProps> = ({navigation, route, onScrollDirectionChange}) => {
+  const insets = useSafeAreaInsets();
   const [totalAmount] = useState(5000);
   const [paymentDate] = useState('20 Dec 2024');
   const [billId] = useState('DAS124');
@@ -125,27 +127,27 @@ export const RecordDetailsScreen: React.FC<RecordDetailsScreenProps> = ({navigat
   return (
     <View style={styles.container}>
       {/* Top Section with Secondary Color Background */}
-      <View style={[styles.topSection, {backgroundColor: colors.secondary.darkBlueGray}]}>
-        {/* Header */}
-        <View style={styles.header}>
-          <View style={styles.headerLeft}>
-            <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-              <BackIcon />
-            </TouchableOpacity>
-            <Text style={styles.headerTitle}>Food Panda Bills</Text>
+      <View style={[styles.topSection, {backgroundColor: colors.secondary.darkBlueGray, paddingTop: insets.top + spacing.lg}]}>
+          {/* Header */}
+          <View style={styles.header}>
+            <View style={styles.headerLeft}>
+              <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+                <BackIcon />
+              </TouchableOpacity>
+              <Text style={styles.headerTitle}>Food Panda Bills</Text>
+            </View>
           </View>
-        </View>
 
-        {/* Total Amount */}
-        <View style={styles.totalSection}>
-          {/* Status Badge */}
-          <View style={styles.statusBadge}>
-            <View style={styles.statusDot} />
-            <Text style={styles.statusText}>Cash</Text>
+          {/* Total Amount */}
+          <View style={styles.totalSection}>
+            {/* Status Badge */}
+            <View style={styles.statusBadge}>
+              <View style={styles.statusDot} />
+              <Text style={styles.statusText}>Cash</Text>
+            </View>
+            <Text style={styles.totalAmount}>{formatINR(totalAmount)}</Text>
+            <Text style={styles.paymentDate}>Payment Date: {paymentDate}</Text>
           </View>
-          <Text style={styles.totalAmount}>{formatINR(totalAmount)}</Text>
-          <Text style={styles.paymentDate}>Payment Date: {paymentDate}</Text>
-        </View>
       </View>
 
       {/* Bill Edge Effect with Semi-circles */}
@@ -250,7 +252,6 @@ const styles = StyleSheet.create({
   },
   topSection: {
     paddingHorizontal: spacing.lg,
-    paddingTop: spacing.lg,
     paddingBottom: spacing.md,
   },
   header: {

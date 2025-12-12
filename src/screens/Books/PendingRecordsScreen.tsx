@@ -9,6 +9,7 @@ import {
   NativeSyntheticEvent,
   NativeScrollEvent,
 } from 'react-native';
+import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 import {StackNavigationProp} from '@react-navigation/stack';
 import Svg, {Path} from 'react-native-svg';
 import LinearGradient from 'react-native-linear-gradient';
@@ -81,6 +82,7 @@ interface PendingRecordsScreenProps {
 }
 
 export const PendingRecordsScreen: React.FC<PendingRecordsScreenProps> = ({navigation, onScrollDirectionChange}) => {
+  const insets = useSafeAreaInsets();
   const [showStickyHeader, setShowStickyHeader] = useState(false);
   const stickyHeaderThreshold = 100;
   const lastScrollY = useRef(0);
@@ -109,7 +111,7 @@ export const PendingRecordsScreen: React.FC<PendingRecordsScreenProps> = ({navig
     <View style={styles.container}>
       {/* Sticky Header - Only shown when scrolled */}
       {showStickyHeader && (
-        <View style={styles.stickyHeaderFixed}>
+        <View style={[styles.stickyHeaderFixed, {paddingTop: insets.top + spacing.lg}]}>
           <View style={styles.stickyHeader}>
             <View style={styles.headerLeft}>
               <TouchableOpacity onPress={() => navigation.goBack()} style={styles.stickyHeaderButton}>
@@ -121,14 +123,15 @@ export const PendingRecordsScreen: React.FC<PendingRecordsScreenProps> = ({navig
         </View>
       )}
 
-      <ScrollView
-        style={styles.scrollView}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.contentContainer}
-        onScroll={handleScroll}
-        scrollEventThrottle={16}
-        bounces={false}
-        overScrollMode="never">
+      <SafeAreaView style={styles.safeArea} edges={['top']}>
+        <ScrollView
+          style={styles.scrollView}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.contentContainer}
+          onScroll={handleScroll}
+          scrollEventThrottle={16}
+          bounces={false}
+          overScrollMode="never">
         {/* Header */}
         <View style={styles.header}>
           <View style={styles.headerLeft}>
@@ -305,13 +308,17 @@ export const PendingRecordsScreen: React.FC<PendingRecordsScreenProps> = ({navig
 
         {/* Bottom padding */}
         <View style={{height: 100}} />
-      </ScrollView>
+        </ScrollView>
+      </SafeAreaView>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+  },
+  safeArea: {
     flex: 1,
   },
   header: {
@@ -537,7 +544,6 @@ const styles = StyleSheet.create({
     zIndex: 1000,
     backgroundColor: colors.primary.pink,
     paddingHorizontal: spacing.lg,
-    paddingTop: spacing.xl,
     paddingBottom: 20,
     elevation: 4,
     shadowColor: '#000',

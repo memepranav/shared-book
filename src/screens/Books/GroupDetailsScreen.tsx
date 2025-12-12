@@ -10,6 +10,7 @@ import {
   NativeScrollEvent,
   Image,
 } from 'react-native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RouteProp} from '@react-navigation/native';
 import Svg, {Path, Circle} from 'react-native-svg';
@@ -191,6 +192,7 @@ interface GroupDetailsScreenProps {
 }
 
 export const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({navigation, route}) => {
+  const insets = useSafeAreaInsets();
   const [groupName] = useState('Members');
   const [bookName] = useState('Goa Trip');
   const [bookType] = useState<'trip' | 'daily' | 'event' | 'group'>('trip');
@@ -336,7 +338,7 @@ export const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({navigatio
     <View style={styles.container}>
       {/* Sticky Header - Only shown when scrolled */}
       {showStickyHeader && (
-        <View style={styles.stickyHeaderFixed}>
+        <View style={[styles.stickyHeaderFixed, {paddingTop: insets.top + spacing.lg}]}>
           <View style={styles.stickyHeader}>
             <View style={styles.headerLeft}>
               <TouchableOpacity onPress={() => navigation.goBack()} style={styles.stickyHeaderButton}>
@@ -357,7 +359,7 @@ export const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({navigatio
         bounces={false}
         overScrollMode="never">
         {/* Top Section with Primary Color Background */}
-        <View style={styles.topSection}>
+        <View style={[styles.topSection, {paddingTop: insets.top + spacing.lg}]}>
           {/* Header */}
           <View style={styles.header}>
             <View style={styles.headerLeft}>
@@ -603,7 +605,6 @@ const styles = StyleSheet.create({
   topSection: {
     backgroundColor: colors.primary.pink,
     paddingHorizontal: spacing.lg,
-    paddingTop: spacing.xl,
     paddingBottom: 146,
   },
   summaryCardWrapper: {
@@ -989,7 +990,6 @@ const styles = StyleSheet.create({
     zIndex: 1000,
     backgroundColor: colors.primary.pink,
     paddingHorizontal: spacing.lg,
-    paddingTop: spacing.xl,
     paddingBottom: 20,
     elevation: 4,
     shadowColor: '#000',

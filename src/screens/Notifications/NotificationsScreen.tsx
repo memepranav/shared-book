@@ -9,6 +9,7 @@ import {
   NativeSyntheticEvent,
   NativeScrollEvent,
 } from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import Svg, {Path, Circle} from 'react-native-svg';
 import LinearGradient from 'react-native-linear-gradient';
 import {colors, typography, spacing} from '../../theme';
@@ -293,7 +294,8 @@ export const NotificationsScreen: React.FC<NotificationsScreenProps> = ({
       start={{x: 1, y: 0}}
       end={{x: 0, y: 1}}
       style={styles.container}>
-      <ScrollView
+      <SafeAreaView style={styles.safeArea} edges={['top']}>
+        <ScrollView
         style={styles.scrollView}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.contentContainer}
@@ -379,12 +381,16 @@ export const NotificationsScreen: React.FC<NotificationsScreenProps> = ({
 
         <View style={{height: 80}} />
       </ScrollView>
+      </SafeAreaView>
     </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+  },
+  safeArea: {
     flex: 1,
   },
   scrollView: {

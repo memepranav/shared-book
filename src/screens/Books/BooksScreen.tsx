@@ -10,7 +10,9 @@ import {
   Animated,
   Platform,
 } from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import {StackNavigationProp} from '@react-navigation/stack';
+import LinearGradient from 'react-native-linear-gradient';
 import Svg, {Path, Rect} from 'react-native-svg';
 import {CustomBarChart} from '../../components/CustomBarChart';
 import {colors, typography, spacing} from '../../theme';
@@ -374,8 +376,17 @@ export const BooksScreen: React.FC<BooksScreenProps> = ({navigation, onScrollDir
   };
 
   return (
-    <View style={styles.container}>
-      <ScrollView
+    <LinearGradient
+      colors={[
+        colors.gradients.home.start,
+        colors.gradients.home.middle,
+        colors.gradients.home.end,
+      ]}
+      start={{x: 1, y: 0}}
+      end={{x: 0, y: 1}}
+      style={styles.container}>
+      <SafeAreaView style={styles.safeArea} edges={['top']}>
+        <ScrollView
         style={styles.scrollView}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.contentContainer}
@@ -524,6 +535,7 @@ export const BooksScreen: React.FC<BooksScreenProps> = ({navigation, onScrollDir
         {/* Bottom padding for navigation */}
         <View style={{height: 100}} />
       </ScrollView>
+      </SafeAreaView>
 
       {/* Book Type Menu */}
       <BookTypeMenu
@@ -531,12 +543,15 @@ export const BooksScreen: React.FC<BooksScreenProps> = ({navigation, onScrollDir
         onClose={handleCloseMenu}
         onSelectType={handleSelectBookType}
       />
-    </View>
+    </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+  },
+  safeArea: {
     flex: 1,
   },
   scrollView: {

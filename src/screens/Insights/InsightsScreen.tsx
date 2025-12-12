@@ -127,6 +127,7 @@ const YouOweIcon = () => (
 
 interface InsightsScreenProps {
   onBack?: () => void;
+  onScrollDirectionChange?: (isScrollingDown: boolean) => void;
 }
 
 // Static data - moved outside component to prevent re-creation on every render
@@ -186,7 +187,7 @@ const books = [
   {name: 'Netflix Share', you: 600, avg: 750},
 ];
 
-export const InsightsScreen: React.FC<InsightsScreenProps> = ({onBack}) => {
+export const InsightsScreen: React.FC<InsightsScreenProps> = ({onBack, onScrollDirectionChange}) => {
   const scrollY = useRef(0);
   const headerOpacity = useRef(new Animated.Value(0)).current;
   const stickyHeaderThreshold = 100; // When header becomes sticky
@@ -213,6 +214,7 @@ export const InsightsScreen: React.FC<InsightsScreenProps> = ({onBack}) => {
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const currentScrollY = event.nativeEvent.contentOffset.y;
+    const scrollDiff = currentScrollY - scrollY.current;
 
     // Check if header has become sticky
     const shouldBeSticky = currentScrollY >= stickyHeaderThreshold;
@@ -224,6 +226,12 @@ export const InsightsScreen: React.FC<InsightsScreenProps> = ({onBack}) => {
         duration: 200,
         useNativeDriver: true,
       }).start();
+    }
+
+    // Only trigger if scroll difference is significant (more than 5px)
+    if (Math.abs(scrollDiff) > 5) {
+      const isScrollingDown = scrollDiff > 0;
+      onScrollDirectionChange?.(isScrollingDown);
     }
 
     scrollY.current = currentScrollY;

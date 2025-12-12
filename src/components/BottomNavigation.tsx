@@ -141,11 +141,11 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
   const widthAnim = useRef(new Animated.Value(124)).current;
 
   const navItems: NavItem[] = [
-    {id: 'books', label: 'Books', icon: AccountingIcon},
-    {id: 'friends', label: 'Friends', icon: FriendsIcon},
-    {id: 'notifications', label: 'Alerts', icon: NotificationIcon},
-    {id: 'insights', label: 'Insights', icon: InsightsIcon},
-    {id: 'profile', label: 'Profile', icon: ProfileIcon},
+    {id: 'books', label: 'Books', icon: (isActive) => <AccountingIcon isActive={isActive} />},
+    {id: 'friends', label: 'Friends', icon: (isActive) => <FriendsIcon isActive={isActive} />},
+    {id: 'notifications', label: 'Alerts', icon: (isActive) => <NotificationIcon isActive={isActive} />},
+    {id: 'insights', label: 'Insights', icon: (isActive) => <InsightsIcon isActive={isActive} />},
+    {id: 'profile', label: 'Profile', icon: (isActive) => <ProfileIcon isActive={isActive} />},
   ];
 
   // Calculate positions for each tab
@@ -199,7 +199,8 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
           bottom: insets.bottom + spacing.lg - 15,
           transform: [{translateY}],
         },
-      ]}>
+      ]}
+      pointerEvents={isVisible ? 'auto' : 'none'}>
       <View style={styles.navContainer}>
         {/* Animated Background */}
         <Animated.View
@@ -215,7 +216,6 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
         {/* Nav Items */}
         {navItems.map(item => {
           const isActive = activeTab === item.id;
-          const Icon = item.icon;
 
           return (
             <TouchableOpacity
@@ -227,7 +227,7 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
               onPress={() => onTabPress(item.id)}
               activeOpacity={0.7}>
               <View style={styles.iconContainer}>
-                <Icon isActive={isActive} />
+                {item.icon(isActive)}
               </View>
               {isActive && (
                 <Text style={styles.activeLabel}>

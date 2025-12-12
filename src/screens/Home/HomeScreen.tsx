@@ -129,7 +129,7 @@ export const HomeScreen: React.FC = () => {
 
   const renderContent = () => {
     if (currentScreen === 'notifications') {
-      return <NotificationsScreen onBack={handleBackFromNotifications} />;
+      return <NotificationsScreen onBack={handleBackFromNotifications} onScrollDirectionChange={handleScrollDirectionChange} />;
     }
 
     if (currentScreen === 'friendProfile') {
@@ -156,13 +156,13 @@ export const HomeScreen: React.FC = () => {
       case 'books':
         return <BooksScreen onScrollDirectionChange={handleScrollDirectionChange} onBookPress={handleBookPress} onGroupDetailsPress={handleGroupDetailsPressFromBooks} />;
       case 'notifications':
-        return <NotificationsScreen onBack={handleBackFromNotifications} />;
+        return <NotificationsScreen onBack={handleBackFromNotifications} onScrollDirectionChange={handleScrollDirectionChange} />;
       case 'friends':
-        return <FriendsScreen onFriendPress={handleFriendPress} />;
+        return <FriendsScreen onFriendPress={handleFriendPress} onScrollDirectionChange={handleScrollDirectionChange} />;
       case 'insights':
-        return <InsightsScreen />;
+        return <InsightsScreen onScrollDirectionChange={handleScrollDirectionChange} />;
       case 'profile':
-        return <ProfileScreen />;
+        return <ProfileScreen onScrollDirectionChange={handleScrollDirectionChange} />;
       default:
         return <BooksScreen onScrollDirectionChange={handleScrollDirectionChange} onBookPress={handleBookPress} onGroupDetailsPress={handleGroupDetailsPressFromBooks} />;
     }

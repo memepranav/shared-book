@@ -150,9 +150,10 @@ interface Friend {
 interface FriendsScreenProps {
   onBack?: () => void;
   onFriendPress?: (friendId: string) => void;
+  onScrollDirectionChange?: (isScrollingDown: boolean) => void;
 }
 
-export const FriendsScreen: React.FC<FriendsScreenProps> = ({onBack, onFriendPress}) => {
+export const FriendsScreen: React.FC<FriendsScreenProps> = ({onBack, onFriendPress, onScrollDirectionChange}) => {
   const scrollY = useRef(0);
   const headerOpacity = useRef(new Animated.Value(0)).current;
   const stickyHeaderThreshold = 180; // When header becomes sticky
@@ -263,6 +264,7 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({onBack, onFriendPre
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const currentScrollY = event.nativeEvent.contentOffset.y;
+    const scrollDiff = currentScrollY - scrollY.current;
 
     // Check if header has become sticky
     const shouldBeSticky = currentScrollY >= stickyHeaderThreshold;
@@ -274,6 +276,12 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({onBack, onFriendPre
         duration: 200,
         useNativeDriver: true,
       }).start();
+    }
+
+    // Only trigger if scroll difference is significant (more than 5px)
+    if (Math.abs(scrollDiff) > 5) {
+      const isScrollingDown = scrollDiff > 0;
+      onScrollDirectionChange?.(isScrollingDown);
     }
 
     scrollY.current = currentScrollY;

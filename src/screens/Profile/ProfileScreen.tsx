@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import {
   View,
   Text,
@@ -6,6 +6,8 @@ import {
   ScrollView,
   TouchableOpacity,
   Image,
+  NativeSyntheticEvent,
+  NativeScrollEvent,
 } from 'react-native';
 import Svg, {Path, Circle, Rect} from 'react-native-svg';
 import LinearGradient from 'react-native-linear-gradient';
@@ -210,9 +212,12 @@ const ChevronRightIcon = () => (
 
 interface ProfileScreenProps {
   onBack?: () => void;
+  onScrollDirectionChange?: (isScrollingDown: boolean) => void;
 }
 
-export const ProfileScreen: React.FC<ProfileScreenProps> = ({onBack}) => {
+export const ProfileScreen: React.FC<ProfileScreenProps> = ({onBack, onScrollDirectionChange}) => {
+  const scrollY = useRef(0);
+
   const accountSettings = [
     {id: 'edit', label: 'Edit Profile', icon: EditProfileIcon},
     {id: 'booking', label: 'Booking History', icon: BookingHistoryIcon},
@@ -231,6 +236,19 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({onBack}) => {
     console.log('Item pressed:', id);
   };
 
+  const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const currentScrollY = event.nativeEvent.contentOffset.y;
+    const scrollDiff = currentScrollY - scrollY.current;
+
+    // Only trigger if scroll difference is significant (more than 5px)
+    if (Math.abs(scrollDiff) > 5) {
+      const isScrollingDown = scrollDiff > 0;
+      onScrollDirectionChange?.(isScrollingDown);
+    }
+
+    scrollY.current = currentScrollY;
+  };
+
   return (
     <LinearGradient
       colors={[
@@ -246,7 +264,9 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({onBack}) => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.contentContainer}
         bounces={false}
-        overScrollMode="never">
+        overScrollMode="never"
+        onScroll={handleScroll}
+        scrollEventThrottle={16}>
         {/* Header */}
         <View style={styles.header}>
           <View style={styles.headerLeft}>
@@ -413,8 +433,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: spacing.md,
+    paddingVertical: spacing.lg,
     paddingHorizontal: spacing.md,
+    minHeight: 56,
   },
   menuItemLeft: {
     flexDirection: 'row',

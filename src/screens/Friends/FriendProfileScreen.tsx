@@ -594,7 +594,7 @@ const styles = StyleSheet.create({
   reminderContent: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'flex-start',
   },
   reminderTitle: {
     fontSize: typography.sizes.lg,
@@ -615,6 +615,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 255, 255, 0.2)',
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: 4,
   },
   activitySection: {
     paddingHorizontal: spacing.lg,

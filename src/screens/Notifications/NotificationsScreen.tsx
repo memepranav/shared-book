@@ -87,10 +87,12 @@ interface GroupedNotifications {
 
 interface NotificationsScreenProps {
   onBack?: () => void;
+  onScrollDirectionChange?: (isScrollingDown: boolean) => void;
 }
 
 export const NotificationsScreen: React.FC<NotificationsScreenProps> = ({
   onBack,
+  onScrollDirectionChange,
 }) => {
   const scrollY = useRef(0);
   const headerOpacity = useRef(new Animated.Value(0)).current;
@@ -222,6 +224,7 @@ export const NotificationsScreen: React.FC<NotificationsScreenProps> = ({
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const currentScrollY = event.nativeEvent.contentOffset.y;
+    const scrollDiff = currentScrollY - scrollY.current;
     const shouldBeSticky = currentScrollY >= stickyHeaderThreshold;
 
     if (shouldBeSticky !== isHeaderSticky) {
@@ -248,6 +251,12 @@ export const NotificationsScreen: React.FC<NotificationsScreenProps> = ({
       if (visibleDate !== currentVisibleDate) {
         setCurrentVisibleDate(visibleDate);
       }
+    }
+
+    // Only trigger if scroll difference is significant (more than 5px)
+    if (Math.abs(scrollDiff) > 5) {
+      const isScrollingDown = scrollDiff > 0;
+      onScrollDirectionChange?.(isScrollingDown);
     }
 
     scrollY.current = currentScrollY;

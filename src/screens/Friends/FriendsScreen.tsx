@@ -10,10 +10,12 @@ import {
   NativeSyntheticEvent,
   NativeScrollEvent,
 } from 'react-native';
+import {StackNavigationProp} from '@react-navigation/stack';
 import Svg, {Path, Circle, G} from 'react-native-svg';
 import LinearGradient from 'react-native-linear-gradient';
 import {colors, typography, spacing} from '../../theme';
 import {formatINR} from '../../utils/currency';
+import {FriendsStackParamList} from '../../navigation/FriendsNavigator';
 
 // Avatar images
 const avatarImages = [
@@ -147,13 +149,14 @@ interface Friend {
   onlineStatus: OnlineStatus;
 }
 
+type FriendsScreenNavigationProp = StackNavigationProp<FriendsStackParamList, 'FriendsList'>;
+
 interface FriendsScreenProps {
-  onBack?: () => void;
-  onFriendPress?: (friendId: string) => void;
+  navigation: FriendsScreenNavigationProp;
   onScrollDirectionChange?: (isScrollingDown: boolean) => void;
 }
 
-export const FriendsScreen: React.FC<FriendsScreenProps> = ({onBack, onFriendPress, onScrollDirectionChange}) => {
+export const FriendsScreen: React.FC<FriendsScreenProps> = ({navigation, onScrollDirectionChange}) => {
   const scrollY = useRef(0);
   const headerOpacity = useRef(new Animated.Value(0)).current;
   const stickyHeaderThreshold = 180; // When header becomes sticky
@@ -356,7 +359,7 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({onBack, onFriendPre
               <TouchableOpacity
                 key={`top-${friend.id}`}
                 style={styles.topFriendItem}
-                onPress={() => onFriendPress?.(friend.id)}>
+                onPress={() => navigation.navigate('FriendProfile', {friendId: friend.id})}>
                 <View style={styles.topFriendAvatarContainer}>
                   <Image
                     source={friend.avatarImage}
@@ -384,7 +387,7 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({onBack, onFriendPre
           <TouchableOpacity
             key={`friend-${friend.id}`}
             style={styles.friendCard}
-            onPress={() => onFriendPress?.(friend.id)}>
+            onPress={() => navigation.navigate('FriendProfile', {friendId: friend.id})}>
             <View style={styles.friendLeft}>
               {/* Avatar with Status */}
               <View style={styles.avatarContainer}>

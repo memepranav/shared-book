@@ -10,9 +10,12 @@ import {
   NativeSyntheticEvent,
   NativeScrollEvent,
 } from 'react-native';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RouteProp} from '@react-navigation/native';
 import Svg, {Path, Rect} from 'react-native-svg';
 import {colors, typography, spacing} from '../../theme';
 import {formatINR} from '../../utils/currency';
+import {BooksStackParamList} from '../../navigation/BooksNavigator';
 
 // Icons
 const BackIcon = () => (
@@ -83,12 +86,16 @@ const BillIcon = () => (
   </Svg>
 );
 
+type RecordDetailsScreenNavigationProp = StackNavigationProp<BooksStackParamList, 'RecordDetails'>;
+type RecordDetailsScreenRouteProp = RouteProp<BooksStackParamList, 'RecordDetails'>;
+
 interface RecordDetailsScreenProps {
-  onBack?: () => void;
+  navigation: RecordDetailsScreenNavigationProp;
+  route: RecordDetailsScreenRouteProp;
   onScrollDirectionChange?: (isScrollingDown: boolean) => void;
 }
 
-export const RecordDetailsScreen: React.FC<RecordDetailsScreenProps> = ({onBack, onScrollDirectionChange}) => {
+export const RecordDetailsScreen: React.FC<RecordDetailsScreenProps> = ({navigation, route, onScrollDirectionChange}) => {
   const [totalAmount] = useState(5000);
   const [paymentDate] = useState('20 Dec 2024');
   const [billId] = useState('DAS124');
@@ -122,7 +129,7 @@ export const RecordDetailsScreen: React.FC<RecordDetailsScreenProps> = ({onBack,
         {/* Header */}
         <View style={styles.header}>
           <View style={styles.headerLeft}>
-            <TouchableOpacity onPress={onBack} style={styles.backButton}>
+            <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
               <BackIcon />
             </TouchableOpacity>
             <Text style={styles.headerTitle}>Food Panda Bills</Text>

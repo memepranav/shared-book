@@ -7,10 +7,13 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RouteProp} from '@react-navigation/native';
 import Svg, {Path, Circle, Rect} from 'react-native-svg';
 import LinearGradient from 'react-native-linear-gradient';
 import {colors, typography, spacing} from '../../theme';
 import {formatINR} from '../../utils/currency';
+import {FriendsStackParamList} from '../../navigation/FriendsNavigator';
 
 // Icons
 const BackIcon = () => (
@@ -142,12 +145,17 @@ interface Activity {
   dotColor: string;
 }
 
+type FriendProfileScreenNavigationProp = StackNavigationProp<FriendsStackParamList, 'FriendProfile'>;
+type FriendProfileScreenRouteProp = RouteProp<FriendsStackParamList, 'FriendProfile'>;
+
 interface FriendProfileScreenProps {
-  onBack?: () => void;
+  navigation: FriendProfileScreenNavigationProp;
+  route: FriendProfileScreenRouteProp;
 }
 
 export const FriendProfileScreen: React.FC<FriendProfileScreenProps> = ({
-  onBack,
+  navigation,
+  route,
 }) => {
   const [friendName] = useState('Rahul Kumar');
   const [isPro] = useState(true);
@@ -225,7 +233,7 @@ export const FriendProfileScreen: React.FC<FriendProfileScreenProps> = ({
         {/* Header */}
         <View style={styles.header}>
           <View style={styles.headerLeft}>
-            <TouchableOpacity onPress={onBack} style={styles.headerButton}>
+            <TouchableOpacity onPress={() => navigation.goBack()} style={styles.headerButton}>
               <BackIcon />
             </TouchableOpacity>
             <Text style={styles.headerTitle}>Friend Profile</Text>

@@ -9,10 +9,12 @@ import {
   NativeSyntheticEvent,
   NativeScrollEvent,
 } from 'react-native';
+import {StackNavigationProp} from '@react-navigation/stack';
 import Svg, {Path} from 'react-native-svg';
 import LinearGradient from 'react-native-linear-gradient';
 import {colors, typography, spacing} from '../../theme';
 import {formatINR} from '../../utils/currency';
+import {BooksStackParamList} from '../../navigation/BooksNavigator';
 
 // Avatar images
 const avatarImages = [
@@ -71,13 +73,14 @@ const IncomeArrow = () => (
   </Svg>
 );
 
+type PendingRecordsScreenNavigationProp = StackNavigationProp<BooksStackParamList, 'PendingRecords'>;
+
 interface PendingRecordsScreenProps {
-  onBack?: () => void;
-  onRecordPress?: () => void;
+  navigation: PendingRecordsScreenNavigationProp;
   onScrollDirectionChange?: (isScrollingDown: boolean) => void;
 }
 
-export const PendingRecordsScreen: React.FC<PendingRecordsScreenProps> = ({onBack, onRecordPress, onScrollDirectionChange}) => {
+export const PendingRecordsScreen: React.FC<PendingRecordsScreenProps> = ({navigation, onScrollDirectionChange}) => {
   const [showStickyHeader, setShowStickyHeader] = useState(false);
   const stickyHeaderThreshold = 100;
   const lastScrollY = useRef(0);
@@ -109,7 +112,7 @@ export const PendingRecordsScreen: React.FC<PendingRecordsScreenProps> = ({onBac
         <View style={styles.stickyHeaderFixed}>
           <View style={styles.stickyHeader}>
             <View style={styles.headerLeft}>
-              <TouchableOpacity onPress={onBack} style={styles.stickyHeaderButton}>
+              <TouchableOpacity onPress={() => navigation.goBack()} style={styles.stickyHeaderButton}>
                 <BackIcon color="white" />
               </TouchableOpacity>
               <Text style={styles.stickyHeaderTitle}>Pending Records</Text>
@@ -129,7 +132,7 @@ export const PendingRecordsScreen: React.FC<PendingRecordsScreenProps> = ({onBac
         {/* Header */}
         <View style={styles.header}>
           <View style={styles.headerLeft}>
-            <TouchableOpacity onPress={onBack} style={styles.backButton}>
+            <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
               <BackIcon />
             </TouchableOpacity>
             <Text style={styles.headerTitle}>Pending Records</Text>

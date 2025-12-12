@@ -11,12 +11,15 @@ import {
   NativeScrollEvent,
 } from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RouteProp} from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
 import Svg, {Path} from 'react-native-svg';
 import {colors, typography, spacing} from '../../theme';
 import {BookTypeIcon} from '../../components/BookTypeIcons';
 import {AvatarGroup} from '../../components/AvatarGroup';
 import {formatINR} from '../../utils/currency';
+import {BooksStackParamList} from '../../navigation/BooksNavigator';
 
 // Avatar images
 const avatarImages = [
@@ -112,15 +115,16 @@ const ExclamationIcon = () => (
   </Svg>
 );
 
+type BookDetailsScreenNavigationProp = StackNavigationProp<BooksStackParamList, 'BookDetails'>;
+type BookDetailsScreenRouteProp = RouteProp<BooksStackParamList, 'BookDetails'>;
+
 interface BookDetailsScreenProps {
-  onBack?: () => void;
-  onPendingRecordsPress?: () => void;
-  onRecordDetailsPress?: () => void;
-  onGroupDetailsPress?: () => void;
+  navigation: BookDetailsScreenNavigationProp;
+  route: BookDetailsScreenRouteProp;
   onScrollDirectionChange?: (isScrollingDown: boolean) => void;
 }
 
-export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({onBack, onPendingRecordsPress, onRecordDetailsPress, onGroupDetailsPress, onScrollDirectionChange}) => {
+export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({navigation, route, onScrollDirectionChange}) => {
   const insets = useSafeAreaInsets();
   const [selectedMonth, setSelectedMonth] = useState('Jan 2024');
   const [totalExpenses] = useState(2578000);
@@ -192,13 +196,13 @@ export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({onBack, onP
 
 
   return (
-    <View style={styles.container}>
+      <View style={styles.container}>
       {/* Sticky Header - Only shown when scrolled */}
       {showStickyHeader && (
         <View style={styles.stickyHeaderFixed}>
           <View style={styles.stickyHeader}>
             <View style={styles.headerLeft}>
-              <TouchableOpacity onPress={onBack} style={styles.stickyHeaderButton}>
+              <TouchableOpacity onPress={() => navigation.goBack()} style={styles.stickyHeaderButton}>
                 <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                   <Path
                     d="M15 18L9 12L15 6"
@@ -229,7 +233,7 @@ export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({onBack, onP
             {/* Header */}
             <View style={styles.header}>
               <View style={styles.headerLeft}>
-                <TouchableOpacity onPress={onBack} style={styles.headerButton}>
+                <TouchableOpacity onPress={() => navigation.goBack()} style={styles.headerButton}>
                   <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                     <Path
                       d="M15 18L9 12L15 6"
@@ -261,7 +265,7 @@ export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({onBack, onP
                 <Text style={styles.expensesAmount}>
                   {formatINR(totalExpenses)}
                 </Text>
-                <TouchableOpacity onPress={onGroupDetailsPress} activeOpacity={0.7}>
+                <TouchableOpacity onPress={() => navigation.navigate('GroupDetails', {groupId: route.params.bookId})} activeOpacity={0.7}>
                   <AvatarGroup
                     members={[
                       {image: avatarImages[0], color: '#FF6B9D'},
@@ -357,7 +361,7 @@ export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({onBack, onP
             </View>
 
             {/* Pending Transactions Card */}
-            <TouchableOpacity style={styles.pendingCard} onPress={onPendingRecordsPress}>
+            <TouchableOpacity style={styles.pendingCard} onPress={() => navigation.navigate('PendingRecords')}>
               <View style={styles.pendingCardLeft}>
                 <ExclamationIcon />
                 <Text style={styles.pendingCardText}>Pending Records (10)</Text>
@@ -376,7 +380,7 @@ export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({onBack, onP
 
               {/* Dec 08, 2023 */}
               <Text style={styles.dateHeader}>Dec 08, 2023</Text>
-              <TouchableOpacity activeOpacity={0.7} onPress={onRecordDetailsPress}>
+              <TouchableOpacity activeOpacity={0.7} onPress={() => navigation.navigate('RecordDetails', {recordId: '1'})}>
                 <View style={styles.transactionCard}>
                   <View style={styles.avatarColumn}>
                     <Image source={avatarImages[0]} style={styles.transactionAvatarImage} resizeMode="cover" />
@@ -394,7 +398,7 @@ export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({onBack, onP
 
               {/* Dec 07, 2023 */}
               <Text style={styles.dateHeader}>Dec 07, 2023</Text>
-              <TouchableOpacity activeOpacity={0.7} onPress={onRecordDetailsPress}>
+              <TouchableOpacity activeOpacity={0.7} onPress={() => navigation.navigate('RecordDetails', {recordId: '2'})}>
                 <View style={styles.transactionCard}>
                   <View style={styles.avatarColumn}>
                     <Image source={avatarImages[1]} style={styles.transactionAvatarImage} resizeMode="cover" />
@@ -410,7 +414,7 @@ export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({onBack, onP
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity activeOpacity={0.7} onPress={onRecordDetailsPress}>
+              <TouchableOpacity activeOpacity={0.7} onPress={() => navigation.navigate('RecordDetails', {recordId: '3'})}>
                 <View style={styles.transactionCard}>
                   <View style={styles.avatarColumn}>
                     <Image source={avatarImages[3]} style={styles.transactionAvatarImage} resizeMode="cover" />
@@ -428,7 +432,7 @@ export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({onBack, onP
 
               {/* Dec 06, 2023 */}
               <Text style={styles.dateHeader}>Dec 06, 2023</Text>
-              <TouchableOpacity activeOpacity={0.7} onPress={onRecordDetailsPress}>
+              <TouchableOpacity activeOpacity={0.7} onPress={() => navigation.navigate('RecordDetails', {recordId: '4'})}>
                 <View style={styles.transactionCard}>
                   <View style={styles.avatarColumn}>
                     <Image source={avatarImages[4]} style={styles.transactionAvatarImage} resizeMode="cover" />

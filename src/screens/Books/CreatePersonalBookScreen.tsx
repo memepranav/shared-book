@@ -8,9 +8,11 @@ import {
   TouchableOpacity,
   StatusBar,
 } from 'react-native';
+import {StackNavigationProp} from '@react-navigation/stack';
 import LinearGradient from 'react-native-linear-gradient';
 import Svg, {Path} from 'react-native-svg';
 import {colors, typography, spacing} from '../../theme';
+import {BooksStackParamList} from '../../navigation/BooksNavigator';
 
 // Icons
 const BackIcon = () => (
@@ -112,11 +114,13 @@ const recentContacts: Contact[] = [
   },
 ];
 
+type CreatePersonalBookScreenNavigationProp = StackNavigationProp<BooksStackParamList, 'CreatePersonalBook'>;
+
 interface CreatePersonalBookScreenProps {
-  onBack: () => void;
+  navigation: CreatePersonalBookScreenNavigationProp;
 }
 
-export const CreatePersonalBookScreen: React.FC<CreatePersonalBookScreenProps> = ({onBack}) => {
+export const CreatePersonalBookScreen: React.FC<CreatePersonalBookScreenProps> = ({navigation}) => {
   const [bookName, setBookName] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -153,7 +157,7 @@ export const CreatePersonalBookScreen: React.FC<CreatePersonalBookScreenProps> =
           {/* Header */}
           <View style={styles.header}>
             <View style={styles.headerLeft}>
-              <TouchableOpacity onPress={onBack} style={styles.backButton}>
+              <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
                 <BackIcon />
               </TouchableOpacity>
               <Text style={styles.headerTitle}>Personal Book</Text>

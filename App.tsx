@@ -6,6 +6,7 @@
 
 import React, {useState} from 'react';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
+import {NavigationContainer} from '@react-navigation/native';
 import {OnboardingContainer} from './src/screens/Onboarding';
 import {HomeScreen} from './src/screens/Home/HomeScreen';
 
@@ -18,11 +19,13 @@ function App() {
 
   return (
     <SafeAreaProvider>
-      {showOnboarding ? (
-        <OnboardingContainer onComplete={handleOnboardingComplete} />
-      ) : (
-        <HomeScreen />
-      )}
+      <NavigationContainer>
+        {showOnboarding ? (
+          <OnboardingContainer onComplete={handleOnboardingComplete} />
+        ) : (
+          <HomeScreen />
+        )}
+      </NavigationContainer>
     </SafeAreaProvider>
   );
 }

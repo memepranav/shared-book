@@ -10,6 +10,7 @@ import {
   Animated,
   Platform,
 } from 'react-native';
+import {StackNavigationProp} from '@react-navigation/stack';
 import Svg, {Path, Rect} from 'react-native-svg';
 import {CustomBarChart} from '../../components/CustomBarChart';
 import {colors, typography, spacing} from '../../theme';
@@ -17,6 +18,7 @@ import {BookTypeIcon, BookType} from '../../components/BookTypeIcons';
 import {AvatarGroup} from '../../components/AvatarGroup';
 import {formatINR} from '../../utils/currency';
 import {BookTypeMenu} from '../../components/BookTypeMenu';
+import {BooksStackParamList} from '../../navigation/BooksNavigator';
 
 // Avatar images
 const avatarImages = [
@@ -256,14 +258,14 @@ const monthChartData = [
   {value: 9200, label: 'W4'},
 ];
 
+type BooksScreenNavigationProp = StackNavigationProp<BooksStackParamList, 'BooksList'>;
+
 interface BooksScreenProps {
+  navigation: BooksScreenNavigationProp;
   onScrollDirectionChange?: (isScrollingDown: boolean) => void;
-  onBookPress?: (bookId: string) => void;
-  onGroupDetailsPress?: () => void;
-  onCreatePersonalBook?: () => void;
 }
 
-export const BooksScreen: React.FC<BooksScreenProps> = ({onScrollDirectionChange, onBookPress, onGroupDetailsPress, onCreatePersonalBook}) => {
+export const BooksScreen: React.FC<BooksScreenProps> = ({navigation, onScrollDirectionChange}) => {
   const [selectedCategory, setSelectedCategory] = useState('Expenses');
   const [selectedPeriod, setSelectedPeriod] = useState('Week');
   const [selectedBar, setSelectedBar] = useState<number | null>(null); // No bar selected by default
@@ -289,7 +291,7 @@ export const BooksScreen: React.FC<BooksScreenProps> = ({onScrollDirectionChange
     console.log('Selected book type:', type);
 
     if (type === 'personal') {
-      onCreatePersonalBook?.();
+      navigation.navigate('CreatePersonalBook');
     } else {
       // TODO: Navigate to create book screen for other types
       console.log('Create book screen for type:', type);
@@ -454,7 +456,7 @@ export const BooksScreen: React.FC<BooksScreenProps> = ({onScrollDirectionChange
             <TouchableOpacity
               key={book.id}
               style={styles.bookItem}
-              onPress={() => onBookPress?.(book.id)}
+              onPress={() => navigation.navigate('BookDetails', {bookId: book.id})}
               activeOpacity={0.7}>
               {/* Header Section */}
               <View style={styles.bookHeader}>
@@ -465,7 +467,7 @@ export const BooksScreen: React.FC<BooksScreenProps> = ({onScrollDirectionChange
                 <TouchableOpacity
                   onPress={(e) => {
                     e.stopPropagation();
-                    onGroupDetailsPress?.();
+                    navigation.navigate('GroupDetails', {groupId: book.id});
                   }}
                   activeOpacity={0.7}>
                   <AvatarGroup

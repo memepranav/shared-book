@@ -10,11 +10,14 @@ import {
   NativeScrollEvent,
   Image,
 } from 'react-native';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RouteProp} from '@react-navigation/native';
 import Svg, {Path, Circle} from 'react-native-svg';
 import LinearGradient from 'react-native-linear-gradient';
 import {colors, typography, spacing} from '../../theme';
 import {formatINR} from '../../utils/currency';
 import {BookTypeIcon} from '../../components/BookTypeIcons';
+import {BooksStackParamList} from '../../navigation/BooksNavigator';
 
 // Avatar images
 const avatarImages = [
@@ -179,11 +182,15 @@ interface Member {
   status: 'settled' | 'owes_you' | 'hasnt_paid';
 }
 
+type GroupDetailsScreenNavigationProp = StackNavigationProp<BooksStackParamList, 'GroupDetails'>;
+type GroupDetailsScreenRouteProp = RouteProp<BooksStackParamList, 'GroupDetails'>;
+
 interface GroupDetailsScreenProps {
-  onBack?: () => void;
+  navigation: GroupDetailsScreenNavigationProp;
+  route: GroupDetailsScreenRouteProp;
 }
 
-export const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({onBack}) => {
+export const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({navigation, route}) => {
   const [groupName] = useState('Members');
   const [bookName] = useState('Goa Trip');
   const [bookType] = useState<'trip' | 'daily' | 'event' | 'group'>('trip');
@@ -332,7 +339,7 @@ export const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({onBack}) 
         <View style={styles.stickyHeaderFixed}>
           <View style={styles.stickyHeader}>
             <View style={styles.headerLeft}>
-              <TouchableOpacity onPress={onBack} style={styles.stickyHeaderButton}>
+              <TouchableOpacity onPress={() => navigation.goBack()} style={styles.stickyHeaderButton}>
                 <BackIcon />
               </TouchableOpacity>
               <Text style={styles.stickyHeaderTitle}>{groupName}</Text>
@@ -354,7 +361,7 @@ export const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({onBack}) 
           {/* Header */}
           <View style={styles.header}>
             <View style={styles.headerLeft}>
-              <TouchableOpacity onPress={onBack} style={styles.headerButton}>
+              <TouchableOpacity onPress={() => navigation.goBack()} style={styles.headerButton}>
                 <BackIcon />
               </TouchableOpacity>
               <Text style={styles.headerTitle}>{groupName}</Text>

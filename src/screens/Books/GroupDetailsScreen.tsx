@@ -526,7 +526,7 @@ export const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({onBack}) 
           {
             width: buttonWidth.interpolate({
               inputRange: [0, 1],
-              outputRange: [56, 170], // 56px collapsed (circle), 170px expanded
+              outputRange: [56, 180], // 56px collapsed (circle), 180px expanded
             }),
           },
         ]}>
@@ -541,7 +541,7 @@ export const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({onBack}) 
               justifyContent: 'center',
               maxWidth: buttonWidth.interpolate({
                 inputRange: [0, 1],
-                outputRange: [0, 110],
+                outputRange: [0, 120],
               }),
             }}>
             <Text style={styles.floatingButtonLabel}>Add Member</Text>

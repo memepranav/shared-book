@@ -1,5 +1,5 @@
-import React, {useEffect, useRef} from 'react';
-import {View, TouchableOpacity, StyleSheet, Text, Animated} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {View, TouchableOpacity, StyleSheet, Text, Animated, Platform} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Svg, {Path, Rect} from 'react-native-svg';
 import {colors, spacing} from '../theme';
@@ -139,6 +139,7 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
   const translateY = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(0)).current;
   const widthAnim = useRef(new Animated.Value(124)).current;
+  const [isInteractive, setIsInteractive] = useState(true);
 
   const navItems: NavItem[] = [
     {id: 'books', label: 'Books', icon: (isActive) => <AccountingIcon isActive={isActive} />},
@@ -162,12 +163,22 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
   };
 
   useEffect(() => {
+    // Immediately disable interaction when hiding
+    if (!isVisible) {
+      setIsInteractive(false);
+    }
+
     Animated.spring(translateY, {
       toValue: isVisible ? 0 : 150,
       useNativeDriver: true,
       tension: 65,
       friction: 11,
-    }).start();
+    }).start(() => {
+      // Enable interaction only after show animation completes
+      if (isVisible) {
+        setIsInteractive(true);
+      }
+    });
   }, [isVisible, translateY]);
 
   useEffect(() => {
@@ -196,7 +207,7 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
         styles.container,
         {
           paddingBottom: insets.bottom + spacing.sm,
-          bottom: insets.bottom + spacing.lg - 15,
+          bottom: insets.bottom + spacing.lg - 15 - (Platform.OS === 'ios' ? 50 : 0),
           transform: [{translateY}],
         },
       ]}
@@ -225,7 +236,8 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
                 isActive && styles.activeNavItem,
               ]}
               onPress={() => onTabPress(item.id)}
-              activeOpacity={0.7}>
+              activeOpacity={0.7}
+              disabled={!isInteractive}>
               <View style={styles.iconContainer}>
                 {item.icon(isActive)}
               </View>

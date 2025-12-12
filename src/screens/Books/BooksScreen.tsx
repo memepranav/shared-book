@@ -8,6 +8,7 @@ import {
   NativeSyntheticEvent,
   NativeScrollEvent,
   Animated,
+  Platform,
 } from 'react-native';
 import Svg, {Path, Rect} from 'react-native-svg';
 import {CustomBarChart} from '../../components/CustomBarChart';
@@ -15,6 +16,7 @@ import {colors, typography, spacing} from '../../theme';
 import {BookTypeIcon, BookType} from '../../components/BookTypeIcons';
 import {AvatarGroup} from '../../components/AvatarGroup';
 import {formatINR} from '../../utils/currency';
+import {BookTypeMenu} from '../../components/BookTypeMenu';
 
 // Avatar images
 const avatarImages = [
@@ -258,12 +260,14 @@ interface BooksScreenProps {
   onScrollDirectionChange?: (isScrollingDown: boolean) => void;
   onBookPress?: (bookId: string) => void;
   onGroupDetailsPress?: () => void;
+  onCreatePersonalBook?: () => void;
 }
 
-export const BooksScreen: React.FC<BooksScreenProps> = ({onScrollDirectionChange, onBookPress, onGroupDetailsPress}) => {
+export const BooksScreen: React.FC<BooksScreenProps> = ({onScrollDirectionChange, onBookPress, onGroupDetailsPress, onCreatePersonalBook}) => {
   const [selectedCategory, setSelectedCategory] = useState('Expenses');
   const [selectedPeriod, setSelectedPeriod] = useState('Week');
   const [selectedBar, setSelectedBar] = useState<number | null>(null); // No bar selected by default
+  const [isMenuVisible, setIsMenuVisible] = useState(false);
   const scrollY = useRef(0);
   const headerOpacity = useRef(new Animated.Value(0)).current;
   const stickyHeaderThreshold = 380; // When header becomes sticky (adjust based on content above)
@@ -271,6 +275,25 @@ export const BooksScreen: React.FC<BooksScreenProps> = ({onScrollDirectionChange
 
   const handleBarPress = (index: number) => {
     setSelectedBar(index);
+  };
+
+  const handleAddBookPress = () => {
+    setIsMenuVisible(true);
+  };
+
+  const handleCloseMenu = () => {
+    setIsMenuVisible(false);
+  };
+
+  const handleSelectBookType = (type: BookType) => {
+    console.log('Selected book type:', type);
+
+    if (type === 'personal') {
+      onCreatePersonalBook?.();
+    } else {
+      // TODO: Navigate to create book screen for other types
+      console.log('Create book screen for type:', type);
+    }
   };
 
   // Get chart data based on selected period
@@ -370,7 +393,10 @@ export const BooksScreen: React.FC<BooksScreenProps> = ({onScrollDirectionChange
             <BooksIcon />
             <Text style={styles.headerTitle}>My Books</Text>
           </View>
-          <TouchableOpacity style={styles.addBookButton}>
+          <TouchableOpacity
+            style={styles.addBookButton}
+            onPress={handleAddBookPress}
+            activeOpacity={0.7}>
             <Text style={styles.addBookButtonText}>+</Text>
           </TouchableOpacity>
         </View>
@@ -496,6 +522,13 @@ export const BooksScreen: React.FC<BooksScreenProps> = ({onScrollDirectionChange
         {/* Bottom padding for navigation */}
         <View style={{height: 100}} />
       </ScrollView>
+
+      {/* Book Type Menu */}
+      <BookTypeMenu
+        visible={isMenuVisible}
+        onClose={handleCloseMenu}
+        onSelectType={handleSelectBookType}
+      />
     </View>
   );
 };
@@ -516,6 +549,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: spacing.lg,
+    minHeight: 44,
   },
   headerLeft: {
     flexDirection: 'row',
@@ -526,8 +560,6 @@ const styles = StyleSheet.create({
     fontSize: typography.sizes.xl,
     fontFamily: typography.fonts.bold,
     color: colors.text.primary,
-    includeFontPadding: false,
-    textAlignVertical: 'center',
   },
   addBookButton: {
     backgroundColor: colors.secondary.darkBlueGray,
@@ -539,9 +571,10 @@ const styles = StyleSheet.create({
   },
   addBookButtonText: {
     color: 'white',
-    fontSize: 24,
-    fontFamily: typography.fonts.regular,
-    lineHeight: 24,
+    fontSize: 28,
+    fontFamily: typography.fonts.light,
+    textAlign: 'center',
+    lineHeight: 28,
   },
   filterSection: {
     flexDirection: 'row',
@@ -567,8 +600,6 @@ const styles = StyleSheet.create({
     fontFamily: typography.fonts.medium,
     color: colors.text.primary,
     lineHeight: 16,
-    textAlignVertical: 'center',
-    includeFontPadding: false,
   },
   periodSelector: {
     flexDirection: 'row',
@@ -598,8 +629,6 @@ const styles = StyleSheet.create({
     fontFamily: typography.fonts.medium,
     color: colors.text.secondary,
     lineHeight: 16,
-    textAlignVertical: 'center',
-    includeFontPadding: false,
   },
   periodTextActive: {
     color: 'white',
@@ -683,8 +712,6 @@ const styles = StyleSheet.create({
     fontFamily: typography.fonts.bold,
     color: colors.text.primary,
     flex: 1,
-    includeFontPadding: false,
-    textAlignVertical: 'center',
   },
   separator: {
     height: 1,

@@ -10,7 +10,7 @@ import {
   NativeSyntheticEvent,
   NativeScrollEvent,
 } from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
 import Svg, {Path} from 'react-native-svg';
 import {colors, typography, spacing} from '../../theme';
@@ -121,6 +121,7 @@ interface BookDetailsScreenProps {
 }
 
 export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({onBack, onPendingRecordsPress, onRecordDetailsPress, onGroupDetailsPress, onScrollDirectionChange}) => {
+  const insets = useSafeAreaInsets();
   const [selectedMonth, setSelectedMonth] = useState('Jan 2024');
   const [totalExpenses] = useState(2578000);
   const [budgetLimit] = useState(5500);
@@ -189,37 +190,28 @@ export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({onBack, onP
     lastScrollY.current = scrollY;
   };
 
-  const renderStickyHeader = () => {
-    return (
-      <View style={styles.stickyHeaderContainer}>
-        <LinearGradient
-          colors={[colors.primary.pink, colors.primary.pink]}
-          style={styles.stickyHeaderGradient}>
-          <View style={styles.stickyHeaderContent}>
-            <TouchableOpacity onPress={onBack} style={styles.headerButton}>
-              <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <Path
-                  d="M15 18L9 12L15 6"
-                  stroke="white"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </Svg>
-            </TouchableOpacity>
-            <Text style={styles.stickyHeaderTitle}>{tripName}</Text>
-          </View>
-        </LinearGradient>
-      </View>
-    );
-  };
 
   return (
     <View style={styles.container}>
       {/* Sticky Header - Only shown when scrolled */}
       {showStickyHeader && (
         <View style={styles.stickyHeaderFixed}>
-          {renderStickyHeader()}
+          <View style={styles.stickyHeader}>
+            <View style={styles.headerLeft}>
+              <TouchableOpacity onPress={onBack} style={styles.stickyHeaderButton}>
+                <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <Path
+                    d="M15 18L9 12L15 6"
+                    stroke="white"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </Svg>
+              </TouchableOpacity>
+              <Text style={styles.stickyHeaderTitle}>{tripName}</Text>
+            </View>
+          </View>
         </View>
       )}
 
@@ -232,22 +224,24 @@ export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({onBack, onP
         bounces={false}
         alwaysBounceVertical={false}
         overScrollMode="never">
-      {/* Top Section with Primary Color Background */}
-      <View style={styles.topSection}>
+        {/* Top Section with Primary Color Background */}
+        <View style={styles.topSection}>
             {/* Header */}
             <View style={styles.header}>
-              <TouchableOpacity onPress={onBack} style={styles.headerButton}>
-                <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                  <Path
-                    d="M15 18L9 12L15 6"
-                    stroke="white"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </Svg>
-              </TouchableOpacity>
-              <Text style={styles.headerTitle}>{tripName}</Text>
+              <View style={styles.headerLeft}>
+                <TouchableOpacity onPress={onBack} style={styles.headerButton}>
+                  <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <Path
+                      d="M15 18L9 12L15 6"
+                      stroke="white"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </Svg>
+                </TouchableOpacity>
+                <Text style={styles.headerTitle}>{tripName}</Text>
+              </View>
             </View>
 
             {/* Expenses Section */}
@@ -297,12 +291,8 @@ export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({onBack, onP
             </View>
           </View>
 
-          {/* Content Section with Gradient Background */}
-          <LinearGradient
-            colors={['#fdd4d2', '#fef9f9', '#e8e8e8']}
-            start={{x: 1, y: 0}}
-            end={{x: 0, y: 1}}
-            style={styles.contentSection}>
+          {/* Content Section */}
+          <View style={styles.contentSection}>
             {/* Combined Income and Expenses Card */}
             <View style={styles.card}>
               {/* Income Section */}
@@ -457,7 +447,7 @@ export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({onBack, onP
 
         {/* Bottom padding */}
         <View style={{height: 100}} />
-      </LinearGradient>
+        </View>
       </ScrollView>
 
       {/* Floating Add Button */}
@@ -496,6 +486,7 @@ export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({onBack, onP
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: colors.background.primary,
   },
   stickyHeaderFixed: {
     position: 'absolute',
@@ -503,31 +494,35 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     zIndex: 1000,
-  },
-  stickyHeaderContainer: {
     backgroundColor: colors.primary.pink,
+    paddingHorizontal: spacing.lg,
+    paddingTop: spacing.xl,
     elevation: 4,
     shadowColor: '#000',
     shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.1,
     shadowRadius: 4,
   },
-  stickyHeaderGradient: {
-    paddingTop: spacing.lg,
-    paddingBottom: spacing.lg,
-    paddingHorizontal: spacing.lg,
-  },
-  stickyHeaderContent: {
+  stickyHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: spacing.md,
+    paddingTop: spacing.sm,
+    paddingBottom: spacing.xs,
+    marginBottom: spacing.xs,
+    marginLeft: -4,
     height: 40,
+  },
+  stickyHeaderButton: {
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   stickyHeaderTitle: {
     fontSize: typography.sizes.xl,
     fontFamily: typography.fonts.bold,
     color: 'white',
-    lineHeight: typography.sizes.xl * 1.2,
+    lineHeight: 40,
   },
   scrollView: {
     flex: 1,
@@ -542,7 +537,6 @@ const styles = StyleSheet.create({
     paddingBottom: 96,
   },
   contentSection: {
-    flex: 1,
     paddingHorizontal: spacing.lg,
     paddingTop: 0,
   },
@@ -550,9 +544,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: spacing.md,
-    paddingTop: 0,
+    paddingTop: spacing.sm,
     paddingBottom: spacing.xs,
     marginBottom: spacing.xs,
+    marginLeft: -4,
+    height: 40,
+  },
+  headerLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.xs,
     height: 40,
   },
   headerButton: {
@@ -566,7 +567,7 @@ const styles = StyleSheet.create({
     fontSize: typography.sizes.xl,
     fontFamily: typography.fonts.bold,
     color: 'white',
-    lineHeight: typography.sizes.xl * 1.2,
+    lineHeight: 40,
   },
   expensesSection: {
     marginTop: spacing.md,
@@ -608,8 +609,6 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontFamily: typography.fonts.bold,
     color: 'white',
-    includeFontPadding: false,
-    textAlignVertical: 'center',
   },
   progressBarContainer: {
     marginBottom: 4,
@@ -728,8 +727,6 @@ const styles = StyleSheet.create({
     fontFamily: typography.fonts.medium,
     color: colors.text.primary,
     lineHeight: typography.sizes.base * 1.2,
-    includeFontPadding: false,
-    textAlignVertical: 'center',
   },
   viewAllText: {
     fontSize: typography.sizes.base,
@@ -766,8 +763,6 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.xs,
     paddingHorizontal: spacing.md,
     marginHorizontal: -spacing.lg,
-    includeFontPadding: false,
-    textAlignVertical: 'center',
   },
   transactionCard: {
     backgroundColor: 'rgba(255, 255, 255, 0.8)',
@@ -845,16 +840,12 @@ const styles = StyleSheet.create({
     fontSize: 32,
     fontFamily: typography.fonts.regular,
     lineHeight: 32,
-    includeFontPadding: false,
-    textAlignVertical: 'center',
   },
   floatingButtonLabel: {
     color: 'white',
     fontSize: typography.sizes.base,
     fontFamily: typography.fonts.medium,
     lineHeight: 20,
-    includeFontPadding: false,
-    textAlignVertical: 'center',
     marginTop: -2,
   },
 });

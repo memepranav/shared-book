@@ -10,6 +10,8 @@ import {
   Animated,
   NativeSyntheticEvent,
   NativeScrollEvent,
+  Modal,
+  Pressable,
 } from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -129,6 +131,112 @@ const SettingsIcon = () => (
   </Svg>
 );
 
+const LocationPinIcon = () => (
+  <Svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+    <Path
+      d="M21 10C21 17 12 23 12 23C12 23 3 17 3 10C3 7.61305 3.94821 5.32387 5.63604 3.63604C7.32387 1.94821 9.61305 1 12 1C14.3869 1 16.6761 1.94821 18.364 3.63604C20.0518 5.32387 21 7.61305 21 10Z"
+      stroke={colors.text.secondary}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M12 13C13.6569 13 15 11.6569 15 10C15 8.34315 13.6569 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13Z"
+      stroke={colors.text.secondary}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </Svg>
+);
+
+const CalendarIcon = () => (
+  <Svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+    <Path
+      d="M19 4H5C3.89543 4 3 4.89543 3 6V20C3 21.1046 3.89543 22 5 22H19C20.1046 22 21 21.1046 21 20V6C21 4.89543 20.1046 4 19 4Z"
+      stroke={colors.text.secondary}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M16 2V6"
+      stroke={colors.text.secondary}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M8 2V6"
+      stroke={colors.text.secondary}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M3 10H21"
+      stroke={colors.text.secondary}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </Svg>
+);
+
+const MoneyBagIcon = () => (
+  <Svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+    <Path
+      d="M12 1C10.3431 1 9 2.34315 9 4C9 4 9 4 9 4C9 4 7 6 7 8C7 8 7 8 7 8L5 10C3.89543 10 3 10.8954 3 12V19C3 20.6569 4.34315 22 6 22H18C19.6569 22 21 20.6569 21 19V12C21 10.8954 20.1046 10 19 10L17 8C17 8 17 8 17 8C17 6 15 4 15 4C15 4 15 4 15 4C15 2.34315 13.6569 1 12 1Z"
+      stroke={colors.text.secondary}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z"
+      stroke={colors.text.secondary}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </Svg>
+);
+
+const CurrencyIcon = () => (
+  <Svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+    <Circle
+      cx="12"
+      cy="12"
+      r="9"
+      stroke={colors.text.secondary}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M12 6V8"
+      stroke={colors.text.secondary}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M12 16V18"
+      stroke={colors.text.secondary}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M15 9.5C14.7 8.5 13.5 8 12 8C10 8 9 9 9 10C9 11.5 11 11.5 12 11.5C13.5 11.5 15 12 15 13.5C15 15 14 16 12 16C10.5 16 9.3 15.5 9 14.5"
+      stroke={colors.text.secondary}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </Svg>
+);
+
 const CheckCircleFilledIcon = () => (
   <Svg width="20" height="20" viewBox="0 0 24 24" fill="none">
     <Circle cx="12" cy="12" r="10" fill={colors.primary.pink} />
@@ -216,14 +324,25 @@ interface CreateTripBookScreenProps {
 
 export const CreateTripBookScreen: React.FC<CreateTripBookScreenProps> = ({navigation}) => {
   const insets = useSafeAreaInsets();
-  const [bookName, setBookName] = useState('');
+  const [tripName, setTripName] = useState('');
+  const [destination, setDestination] = useState('');
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
+  const [budgetPerPerson, setBudgetPerPerson] = useState('');
+  const [currency, setCurrency] = useState('INR - Indian Rupee');
   const [searchQuery, setSearchQuery] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [inviteName, setInviteName] = useState('');
   const [selectedContacts, setSelectedContacts] = useState<string[]>([]);
   const [recentContacts, setRecentContacts] = useState<Contact[]>(initialContacts);
   const [isSettingsExpanded, setIsSettingsExpanded] = useState(false);
-  const [splitOption, setSplitOption] = useState<'equal' | 'later'>('equal');
+  const [splitOption, setSplitOption] = useState<'equal' | 'later' | 'by-person' | 'custom-amount' | 'percentage'>('equal');
+  const [selectedSplitPersons, setSelectedSplitPersons] = useState<string[]>([]);
+  const [customAmounts, setCustomAmounts] = useState<{[key: string]: string}>({});
+  const [percentages, setPercentages] = useState<{[key: string]: string}>({});
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [datePickerType, setDatePickerType] = useState<'start' | 'end'>('start');
+  const [tempDate, setTempDate] = useState(new Date());
 
   // Animation values for accordion
   const animatedHeight = useRef(new Animated.Value(0)).current;
@@ -260,6 +379,59 @@ export const CreateTripBookScreen: React.FC<CreateTripBookScreenProps> = ({navig
 
   const handleRemoveContact = (contactId: string) => {
     setSelectedContacts(selectedContacts.filter(id => id !== contactId));
+  };
+
+  const handleToggleSplitPerson = (contactId: string) => {
+    if (selectedSplitPersons.includes(contactId)) {
+      setSelectedSplitPersons(selectedSplitPersons.filter(id => id !== contactId));
+    } else {
+      setSelectedSplitPersons([...selectedSplitPersons, contactId]);
+    }
+  };
+
+  const handleCustomAmountChange = (contactId: string, amount: string) => {
+    setCustomAmounts({...customAmounts, [contactId]: amount});
+  };
+
+  const handlePercentageChange = (contactId: string, percentage: string) => {
+    setPercentages({...percentages, [contactId]: percentage});
+  };
+
+  const formatDate = (date: Date | null) => {
+    if (!date) return null;
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    return {
+      day: months[date.getMonth()] + ' ' + date.getDate(),
+      year: date.getFullYear().toString(),
+    };
+  };
+
+  const calculateDuration = () => {
+    if (startDate && endDate) {
+      const diffTime = Math.abs(endDate.getTime() - startDate.getTime());
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      return diffDays;
+    }
+    return 6; // Default
+  };
+
+  const handleOpenDatePicker = (type: 'start' | 'end') => {
+    setDatePickerType(type);
+    setTempDate(type === 'start' ? (startDate || new Date()) : (endDate || new Date()));
+    setShowDatePicker(true);
+  };
+
+  const handleDateConfirm = () => {
+    if (datePickerType === 'start') {
+      setStartDate(tempDate);
+    } else {
+      setEndDate(tempDate);
+    }
+    setShowDatePicker(false);
+  };
+
+  const handleDateCancel = () => {
+    setShowDatePicker(false);
   };
 
   const handleInvite = () => {
@@ -376,25 +548,106 @@ export const CreateTripBookScreen: React.FC<CreateTripBookScreenProps> = ({navig
           <View style={styles.infoBox}>
             <TripBookIcon />
             <Text style={styles.infoText}>
-              Track expenses between two people effortlessly. Perfect for couples, roommates, or friends.
+              Plan and track your trip expenses with friends. Perfect for vacations, weekend getaways, and group adventures.
             </Text>
           </View>
 
-          {/* Book Name Section */}
+          {/* Trip Name Section */}
           <View style={styles.section}>
             <Text style={styles.label}>
-              Book Name <Text style={styles.optionalText}>(Optional)</Text>
+              Trip Name <Text style={styles.requiredText}>*</Text>
             </Text>
             <TextInput
               style={styles.input}
-              placeholder="e.g., You & Rahul"
+              placeholder="e.g., Goa Trip Dec 2025"
               placeholderTextColor={colors.text.tertiary}
-              value={bookName}
-              onChangeText={setBookName}
+              value={tripName}
+              onChangeText={setTripName}
             />
-            <Text style={styles.helperText}>
-              Give your shared book a recognizable name.
+          </View>
+
+          {/* Destination Section */}
+          <View style={styles.section}>
+            <Text style={styles.label}>
+              Destination <Text style={styles.requiredText}>*</Text>
             </Text>
+            <View style={styles.inputWithIcon}>
+              <LocationPinIcon />
+              <TextInput
+                style={styles.inputWithIconText}
+                placeholder="e.g., Goa, India"
+                placeholderTextColor={colors.text.tertiary}
+                value={destination}
+                onChangeText={setDestination}
+              />
+            </View>
+          </View>
+
+          {/* Trip Dates Section */}
+          <View style={styles.section}>
+            <Text style={styles.label}>
+              Trip Dates <Text style={styles.requiredText}>*</Text>
+            </Text>
+            <View style={styles.dateRow}>
+              <View style={styles.dateColumn}>
+                <Text style={styles.dateLabel}>Start Date</Text>
+                <TouchableOpacity
+                  style={styles.dateBox}
+                  activeOpacity={0.7}
+                  onPress={() => handleOpenDatePicker('start')}>
+                  <Text style={styles.dateLarge}>
+                    {formatDate(startDate)?.day || 'Dec 20'}
+                  </Text>
+                  <Text style={styles.dateSmall}>
+                    {formatDate(startDate)?.year || '2025'}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+              <View style={styles.dateColumn}>
+                <Text style={styles.dateLabel}>End Date</Text>
+                <TouchableOpacity
+                  style={styles.dateBox}
+                  activeOpacity={0.7}
+                  onPress={() => handleOpenDatePicker('end')}>
+                  <Text style={styles.dateLarge}>
+                    {formatDate(endDate)?.day || 'Dec 25'}
+                  </Text>
+                  <Text style={styles.dateSmall}>
+                    {formatDate(endDate)?.year || '2025'}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+            <Text style={styles.durationText}>Duration: {calculateDuration()} days</Text>
+          </View>
+
+          {/* Budget Per Person Section */}
+          <View style={styles.section}>
+            <Text style={styles.label}>
+              Budget Per Person <Text style={styles.optionalText}>(Optional)</Text>
+            </Text>
+            <View style={styles.inputWithIcon}>
+              <MoneyBagIcon />
+              <Text style={styles.currencySymbol}>₹</Text>
+              <TextInput
+                style={styles.inputWithIconText}
+                placeholder="15000"
+                placeholderTextColor={colors.text.tertiary}
+                value={budgetPerPerson}
+                onChangeText={setBudgetPerPerson}
+                keyboardType="numeric"
+              />
+            </View>
+          </View>
+
+          {/* Currency Section */}
+          <View style={styles.section}>
+            <Text style={styles.label}>Currency</Text>
+            <TouchableOpacity style={styles.currencySelector} activeOpacity={0.7}>
+              <CurrencyIcon />
+              <Text style={styles.currencyText}>{currency}</Text>
+              <ChevronDownIcon rotation={new Animated.Value(0)} />
+            </TouchableOpacity>
           </View>
 
           {/* Who are you sharing with Section */}
@@ -530,7 +783,7 @@ export const CreateTripBookScreen: React.FC<CreateTripBookScreenProps> = ({navig
                   {
                     maxHeight: animatedHeight.interpolate({
                       inputRange: [0, 1],
-                      outputRange: [0, 120],
+                      outputRange: [0, 250],
                     }),
                     opacity: animatedHeight,
                   },
@@ -546,6 +799,30 @@ export const CreateTripBookScreen: React.FC<CreateTripBookScreenProps> = ({navig
 
                   <TouchableOpacity
                     style={styles.radioOption}
+                    onPress={() => setSplitOption('by-person')}
+                    activeOpacity={0.7}>
+                    {splitOption === 'by-person' ? <CheckCircleFilledIcon /> : <CircleIcon />}
+                    <Text style={styles.radioLabel}>By Person</Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={styles.radioOption}
+                    onPress={() => setSplitOption('custom-amount')}
+                    activeOpacity={0.7}>
+                    {splitOption === 'custom-amount' ? <CheckCircleFilledIcon /> : <CircleIcon />}
+                    <Text style={styles.radioLabel}>Custom Amount</Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={styles.radioOption}
+                    onPress={() => setSplitOption('percentage')}
+                    activeOpacity={0.7}>
+                    {splitOption === 'percentage' ? <CheckCircleFilledIcon /> : <CircleIcon />}
+                    <Text style={styles.radioLabel}>Percentage</Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={styles.radioOption}
                     onPress={() => setSplitOption('later')}
                     activeOpacity={0.7}>
                     {splitOption === 'later' ? <CheckCircleFilledIcon /> : <CircleIcon />}
@@ -553,6 +830,109 @@ export const CreateTripBookScreen: React.FC<CreateTripBookScreenProps> = ({navig
                   </TouchableOpacity>
                 </View>
               </Animated.View>
+
+              {/* By Person - Select People */}
+              {isSettingsExpanded && splitOption === 'by-person' && (
+                <View style={styles.byPersonContainer}>
+                  <Text style={styles.byPersonLabel}>Select people to split with:</Text>
+                  {selectedContacts.length > 0 ? (
+                    recentContacts
+                      .filter(contact => selectedContacts.includes(contact.id))
+                      .map((contact) => (
+                        <TouchableOpacity
+                          key={contact.id}
+                          style={styles.personCheckbox}
+                          onPress={() => handleToggleSplitPerson(contact.id)}
+                          activeOpacity={0.7}>
+                          {selectedSplitPersons.includes(contact.id) ?
+                            <CheckCircleFilledIcon /> : <CircleIcon />}
+                          <Image
+                            source={contact.avatarImage}
+                            style={styles.personAvatar}
+                            resizeMode="cover"
+                          />
+                          <Text style={styles.personName}>{contact.name}</Text>
+                        </TouchableOpacity>
+                      ))
+                  ) : (
+                    <Text style={styles.byPersonHint}>
+                      Add members first to select people for split
+                    </Text>
+                  )}
+                </View>
+              )}
+
+              {/* Custom Amount - Enter amounts for each person */}
+              {isSettingsExpanded && splitOption === 'custom-amount' && (
+                <View style={styles.byPersonContainer}>
+                  <Text style={styles.byPersonLabel}>Enter amount for each person:</Text>
+                  {selectedContacts.length > 0 ? (
+                    recentContacts
+                      .filter(contact => selectedContacts.includes(contact.id))
+                      .map((contact) => (
+                        <View key={contact.id} style={styles.amountInputRow}>
+                          <Image
+                            source={contact.avatarImage}
+                            style={styles.personAvatar}
+                            resizeMode="cover"
+                          />
+                          <Text style={styles.amountPersonName}>{contact.name}</Text>
+                          <View style={styles.amountInputContainer}>
+                            <Text style={styles.currencySymbol}>₹</Text>
+                            <TextInput
+                              style={styles.amountInput}
+                              placeholder="0"
+                              placeholderTextColor={colors.text.tertiary}
+                              value={customAmounts[contact.id] || ''}
+                              onChangeText={(text) => handleCustomAmountChange(contact.id, text)}
+                              keyboardType="numeric"
+                            />
+                          </View>
+                        </View>
+                      ))
+                  ) : (
+                    <Text style={styles.byPersonHint}>
+                      Add members first to set custom amounts
+                    </Text>
+                  )}
+                </View>
+              )}
+
+              {/* Percentage - Enter percentage for each person */}
+              {isSettingsExpanded && splitOption === 'percentage' && (
+                <View style={styles.byPersonContainer}>
+                  <Text style={styles.byPersonLabel}>Enter percentage for each person:</Text>
+                  {selectedContacts.length > 0 ? (
+                    recentContacts
+                      .filter(contact => selectedContacts.includes(contact.id))
+                      .map((contact) => (
+                        <View key={contact.id} style={styles.amountInputRow}>
+                          <Image
+                            source={contact.avatarImage}
+                            style={styles.personAvatar}
+                            resizeMode="cover"
+                          />
+                          <Text style={styles.amountPersonName}>{contact.name}</Text>
+                          <View style={styles.percentageInputContainer}>
+                            <TextInput
+                              style={styles.percentageInput}
+                              placeholder="0"
+                              placeholderTextColor={colors.text.tertiary}
+                              value={percentages[contact.id] || ''}
+                              onChangeText={(text) => handlePercentageChange(contact.id, text)}
+                              keyboardType="numeric"
+                            />
+                            <Text style={styles.percentageSymbol}>%</Text>
+                          </View>
+                        </View>
+                      ))
+                  ) : (
+                    <Text style={styles.byPersonHint}>
+                      Add members first to set percentages
+                    </Text>
+                  )}
+                </View>
+              )}
             </View>
           </View>
           {/* Create Book Button */}
@@ -565,6 +945,105 @@ export const CreateTripBookScreen: React.FC<CreateTripBookScreenProps> = ({navig
             </TouchableOpacity>
           </View>
         </ScrollView>
+
+        {/* Date Picker Modal */}
+        <Modal
+          visible={showDatePicker}
+          transparent
+          animationType="fade"
+          onRequestClose={handleDateCancel}>
+          <Pressable style={styles.modalBackdrop} onPress={handleDateCancel}>
+            <Pressable style={styles.datePickerContainer} onPress={(e) => e.stopPropagation()}>
+              <View>
+                <View style={styles.datePickerHeader}>
+                  <Text style={styles.datePickerTitle}>
+                    Select {datePickerType === 'start' ? 'Start' : 'End'} Date
+                  </Text>
+                </View>
+
+                <View style={styles.datePickerContent}>
+                  {/* Month/Year Controls */}
+                  <View style={styles.monthYearRow}>
+                    <TouchableOpacity
+                      onPress={() => {
+                        const newDate = new Date(tempDate);
+                        newDate.setMonth(newDate.getMonth() - 1);
+                        setTempDate(newDate);
+                      }}
+                      style={styles.monthButton}>
+                      <Text style={styles.monthButtonText}>‹</Text>
+                    </TouchableOpacity>
+                    <Text style={styles.monthYearText}>
+                      {tempDate.toLocaleDateString('en-US', {month: 'long', year: 'numeric'})}
+                    </Text>
+                    <TouchableOpacity
+                      onPress={() => {
+                        const newDate = new Date(tempDate);
+                        newDate.setMonth(newDate.getMonth() + 1);
+                        setTempDate(newDate);
+                      }}
+                      style={styles.monthButton}>
+                      <Text style={styles.monthButtonText}>›</Text>
+                    </TouchableOpacity>
+                  </View>
+
+                  {/* Day Grid */}
+                  <View style={styles.daysGrid}>
+                    {['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'].map((day) => (
+                      <Text key={day} style={styles.dayHeader}>{day}</Text>
+                    ))}
+                    {(() => {
+                      const year = tempDate.getFullYear();
+                      const month = tempDate.getMonth();
+                      const firstDay = new Date(year, month, 1).getDay();
+                      const daysInMonth = new Date(year, month + 1, 0).getDate();
+                      const days = [];
+
+                      // Empty cells before first day
+                      for (let i = 0; i < firstDay; i++) {
+                        days.push(<View key={`empty-${i}`} style={styles.dayCell} />);
+                      }
+
+                      // Days of month
+                      for (let day = 1; day <= daysInMonth; day++) {
+                        const isSelected = tempDate.getDate() === day;
+                        days.push(
+                          <TouchableOpacity
+                            key={day}
+                            style={[styles.dayCell, isSelected && styles.selectedDayCell]}
+                            onPress={() => {
+                              const newDate = new Date(tempDate);
+                              newDate.setDate(day);
+                              setTempDate(newDate);
+                            }}>
+                            <Text style={[styles.dayText, isSelected && styles.selectedDayText]}>
+                              {day}
+                            </Text>
+                          </TouchableOpacity>
+                        );
+                      }
+
+                      return days;
+                    })()}
+                  </View>
+                </View>
+
+                <View style={styles.datePickerActions}>
+                  <TouchableOpacity
+                    style={styles.datePickerButton}
+                    onPress={handleDateCancel}>
+                    <Text style={styles.datePickerButtonTextCancel}>Cancel</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={[styles.datePickerButton, styles.datePickerButtonConfirm]}
+                    onPress={handleDateConfirm}>
+                    <Text style={styles.datePickerButtonText}>Confirm</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </Pressable>
+          </Pressable>
+        </Modal>
     </LinearGradient>
   );
 };
@@ -618,8 +1097,8 @@ const styles = StyleSheet.create({
   stickyHeaderContent: {
     position: 'absolute',
     top: 0,
-    left: spacing.lg,
-    right: spacing.lg,
+    left: 0,
+    right: 0,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -627,6 +1106,7 @@ const styles = StyleSheet.create({
   },
   infoBox: {
     flexDirection: 'row',
+    alignItems: 'center',
     backgroundColor: 'rgba(255, 255, 255, 0.7)',
     borderRadius: 12,
     padding: spacing.sm,
@@ -656,6 +1136,11 @@ const styles = StyleSheet.create({
     fontFamily: typography.fonts.regular,
     color: colors.text.secondary,
   },
+  requiredText: {
+    fontSize: 12.8,
+    fontFamily: typography.fonts.semibold,
+    color: colors.primary.pink,
+  },
   input: {
     backgroundColor: 'rgba(255, 255, 255, 0.9)',
     borderRadius: 12,
@@ -665,6 +1150,83 @@ const styles = StyleSheet.create({
     color: colors.text.primary,
     borderWidth: 1,
     borderColor: `${colors.secondary.darkBlueGray}33`,
+  },
+  inputWithIcon: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    borderRadius: 12,
+    padding: spacing.sm,
+    borderWidth: 1,
+    borderColor: `${colors.secondary.darkBlueGray}33`,
+    gap: spacing.xs,
+  },
+  inputWithIconText: {
+    flex: 1,
+    fontSize: 12.8,
+    fontFamily: typography.fonts.regular,
+    color: colors.text.primary,
+    padding: 0,
+  },
+  currencySymbol: {
+    fontSize: 12.8,
+    fontFamily: typography.fonts.semibold,
+    color: colors.text.primary,
+  },
+  dateRow: {
+    flexDirection: 'row',
+    gap: spacing.sm,
+  },
+  dateColumn: {
+    flex: 1,
+  },
+  dateLabel: {
+    fontSize: 11.2,
+    fontFamily: typography.fonts.regular,
+    color: colors.text.secondary,
+    marginBottom: spacing.xs,
+  },
+  dateBox: {
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    borderRadius: 12,
+    padding: spacing.sm,
+    borderWidth: 1,
+    borderColor: `${colors.secondary.darkBlueGray}33`,
+    minHeight: 60,
+    justifyContent: 'center',
+  },
+  dateLarge: {
+    fontSize: 16,
+    fontFamily: typography.fonts.semibold,
+    color: colors.text.primary,
+    marginBottom: 2,
+  },
+  dateSmall: {
+    fontSize: 11.2,
+    fontFamily: typography.fonts.regular,
+    color: colors.text.secondary,
+  },
+  durationText: {
+    fontSize: 11.2,
+    fontFamily: typography.fonts.regular,
+    color: colors.text.secondary,
+    marginTop: spacing.xs,
+  },
+  currencySelector: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    borderRadius: 12,
+    padding: spacing.sm,
+    borderWidth: 1,
+    borderColor: `${colors.secondary.darkBlueGray}33`,
+    gap: spacing.xs,
+  },
+  currencyText: {
+    flex: 1,
+    fontSize: 12.8,
+    fontFamily: typography.fonts.regular,
+    color: colors.text.primary,
   },
   helperText: {
     fontSize: 11.2,
@@ -909,7 +1471,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: spacing.sm,
-    paddingVertical: spacing.xs,
+    paddingVertical: 4,
   },
   radioLabel: {
     fontSize: 12.8,
@@ -938,5 +1500,215 @@ const styles = StyleSheet.create({
     fontSize: 14.4,
     fontFamily: typography.fonts.bold,
     color: colors.neutral.white,
+  },
+  byPersonContainer: {
+    marginTop: spacing.sm,
+    paddingTop: spacing.sm,
+    borderTopWidth: 1,
+    borderTopColor: colors.neutral.gray200,
+  },
+  byPersonLabel: {
+    fontSize: 11.2,
+    fontFamily: typography.fonts.semibold,
+    color: colors.text.primary,
+    marginBottom: spacing.xs,
+  },
+  byPersonHint: {
+    fontSize: 11.2,
+    fontFamily: typography.fonts.regular,
+    color: colors.text.secondary,
+    fontStyle: 'italic',
+    marginTop: spacing.xs,
+  },
+  personCheckbox: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
+    paddingVertical: spacing.xs,
+  },
+  personAvatar: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: 'white',
+  },
+  personName: {
+    fontSize: 12.8,
+    fontFamily: typography.fonts.regular,
+    color: colors.text.primary,
+  },
+  amountInputRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.xs,
+    paddingVertical: spacing.xs,
+  },
+  amountPersonName: {
+    fontSize: 12.8,
+    fontFamily: typography.fonts.regular,
+    color: colors.text.primary,
+    flex: 1,
+  },
+  amountInputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: `${colors.secondary.darkBlueGray}33`,
+    paddingHorizontal: spacing.xs,
+    paddingVertical: 4,
+    gap: 4,
+    minWidth: 80,
+  },
+  amountInput: {
+    fontSize: 12.8,
+    fontFamily: typography.fonts.regular,
+    color: colors.text.primary,
+    padding: 0,
+    minWidth: 40,
+    textAlign: 'right',
+  },
+  percentageInputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: `${colors.secondary.darkBlueGray}33`,
+    paddingHorizontal: spacing.xs,
+    paddingVertical: 4,
+    gap: 4,
+    minWidth: 60,
+  },
+  percentageInput: {
+    fontSize: 12.8,
+    fontFamily: typography.fonts.regular,
+    color: colors.text.primary,
+    padding: 0,
+    minWidth: 30,
+    textAlign: 'right',
+  },
+  percentageSymbol: {
+    fontSize: 12.8,
+    fontFamily: typography.fonts.semibold,
+    color: colors.text.primary,
+  },
+  modalBackdrop: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: spacing.lg,
+  },
+  datePickerContainer: {
+    backgroundColor: colors.background.card,
+    borderRadius: 20,
+    width: '100%',
+    maxWidth: 400,
+    paddingBottom: spacing.md,
+  },
+  datePickerHeader: {
+    paddingVertical: spacing.md,
+    paddingHorizontal: spacing.lg,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.neutral.gray200,
+  },
+  datePickerTitle: {
+    fontSize: 16,
+    fontFamily: typography.fonts.bold,
+    color: colors.text.primary,
+    textAlign: 'center',
+  },
+  datePickerContent: {
+    paddingVertical: spacing.sm,
+    alignItems: 'center',
+  },
+  monthYearRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: spacing.md,
+    width: '95%',
+  },
+  monthButton: {
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  monthButtonText: {
+    fontSize: 24,
+    fontFamily: typography.fonts.bold,
+    color: colors.primary.pink,
+  },
+  monthYearText: {
+    fontSize: 14.4,
+    fontFamily: typography.fonts.semibold,
+    color: colors.text.primary,
+  },
+  daysGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    width: '95%',
+  },
+  dayHeader: {
+    width: `${100 / 7}%`,
+    textAlign: 'center',
+    fontSize: 12,
+    fontFamily: typography.fonts.semibold,
+    color: colors.text.secondary,
+    paddingVertical: spacing.sm,
+  },
+  dayCell: {
+    width: `${100 / 7}%`,
+    height: 44,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: spacing.xs,
+  },
+  selectedDayCell: {
+    backgroundColor: colors.primary.pink,
+    borderRadius: 22,
+  },
+  dayText: {
+    fontSize: 14,
+    fontFamily: typography.fonts.regular,
+    color: colors.text.primary,
+    textAlign: 'center',
+  },
+  selectedDayText: {
+    color: colors.neutral.white,
+    fontFamily: typography.fonts.semibold,
+  },
+  datePickerActions: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    gap: spacing.md,
+    paddingHorizontal: spacing.lg,
+    paddingTop: spacing.lg,
+  },
+  datePickerButton: {
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  datePickerButtonConfirm: {
+    backgroundColor: colors.primary.pink,
+  },
+  datePickerButtonText: {
+    fontSize: 12.8,
+    fontFamily: typography.fonts.semibold,
+    color: colors.neutral.white,
+    textAlign: 'center',
+  },
+  datePickerButtonTextCancel: {
+    fontSize: 12.8,
+    fontFamily: typography.fonts.semibold,
+    color: colors.text.secondary,
+    textAlign: 'center',
   },
 });

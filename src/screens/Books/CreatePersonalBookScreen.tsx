@@ -237,7 +237,10 @@ export const CreatePersonalBookScreen: React.FC<CreatePersonalBookScreenProps> =
   const [selectedContacts, setSelectedContacts] = useState<string[]>([]);
   const [recentContacts, setRecentContacts] = useState<Contact[]>(initialContacts);
   const [isSettingsExpanded, setIsSettingsExpanded] = useState(false);
-  const [splitOption, setSplitOption] = useState<'equal' | 'later'>('equal');
+  const [splitOption, setSplitOption] = useState<'equal' | 'later' | 'by-person' | 'custom-amount' | 'percentage'>('equal');
+  const [selectedSplitPersons, setSelectedSplitPersons] = useState<string[]>([]);
+  const [customAmounts, setCustomAmounts] = useState<{[key: string]: string}>({});
+  const [percentages, setPercentages] = useState<{[key: string]: string}>({});
 
   // Animation values for accordion
   const animatedHeight = useRef(new Animated.Value(0)).current;
@@ -274,6 +277,22 @@ export const CreatePersonalBookScreen: React.FC<CreatePersonalBookScreenProps> =
 
   const handleRemoveContact = (contactId: string) => {
     setSelectedContacts(selectedContacts.filter(id => id !== contactId));
+  };
+
+  const handleToggleSplitPerson = (contactId: string) => {
+    if (selectedSplitPersons.includes(contactId)) {
+      setSelectedSplitPersons(selectedSplitPersons.filter(id => id !== contactId));
+    } else {
+      setSelectedSplitPersons([...selectedSplitPersons, contactId]);
+    }
+  };
+
+  const handleCustomAmountChange = (contactId: string, amount: string) => {
+    setCustomAmounts({...customAmounts, [contactId]: amount});
+  };
+
+  const handlePercentageChange = (contactId: string, percentage: string) => {
+    setPercentages({...percentages, [contactId]: percentage});
   };
 
   const handleInvite = () => {
@@ -544,7 +563,7 @@ export const CreatePersonalBookScreen: React.FC<CreatePersonalBookScreenProps> =
                   {
                     maxHeight: animatedHeight.interpolate({
                       inputRange: [0, 1],
-                      outputRange: [0, 120],
+                      outputRange: [0, 250],
                     }),
                     opacity: animatedHeight,
                   },
@@ -560,6 +579,30 @@ export const CreatePersonalBookScreen: React.FC<CreatePersonalBookScreenProps> =
 
                   <TouchableOpacity
                     style={styles.radioOption}
+                    onPress={() => setSplitOption('by-person')}
+                    activeOpacity={0.7}>
+                    {splitOption === 'by-person' ? <CheckCircleFilledIcon /> : <CircleIcon />}
+                    <Text style={styles.radioLabel}>By Person</Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={styles.radioOption}
+                    onPress={() => setSplitOption('custom-amount')}
+                    activeOpacity={0.7}>
+                    {splitOption === 'custom-amount' ? <CheckCircleFilledIcon /> : <CircleIcon />}
+                    <Text style={styles.radioLabel}>Custom Amount</Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={styles.radioOption}
+                    onPress={() => setSplitOption('percentage')}
+                    activeOpacity={0.7}>
+                    {splitOption === 'percentage' ? <CheckCircleFilledIcon /> : <CircleIcon />}
+                    <Text style={styles.radioLabel}>Percentage</Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={styles.radioOption}
                     onPress={() => setSplitOption('later')}
                     activeOpacity={0.7}>
                     {splitOption === 'later' ? <CheckCircleFilledIcon /> : <CircleIcon />}
@@ -567,6 +610,109 @@ export const CreatePersonalBookScreen: React.FC<CreatePersonalBookScreenProps> =
                   </TouchableOpacity>
                 </View>
               </Animated.View>
+
+              {/* By Person - Select People */}
+              {isSettingsExpanded && splitOption === 'by-person' && (
+                <View style={styles.byPersonContainer}>
+                  <Text style={styles.byPersonLabel}>Select people to split with:</Text>
+                  {selectedContacts.length > 0 ? (
+                    recentContacts
+                      .filter(contact => selectedContacts.includes(contact.id))
+                      .map((contact) => (
+                        <TouchableOpacity
+                          key={contact.id}
+                          style={styles.personCheckbox}
+                          onPress={() => handleToggleSplitPerson(contact.id)}
+                          activeOpacity={0.7}>
+                          {selectedSplitPersons.includes(contact.id) ?
+                            <CheckCircleFilledIcon /> : <CircleIcon />}
+                          <Image
+                            source={contact.avatarImage}
+                            style={styles.personAvatar}
+                            resizeMode="cover"
+                          />
+                          <Text style={styles.personName}>{contact.name}</Text>
+                        </TouchableOpacity>
+                      ))
+                  ) : (
+                    <Text style={styles.byPersonHint}>
+                      Add members first to select people for split
+                    </Text>
+                  )}
+                </View>
+              )}
+
+              {/* Custom Amount - Enter amounts for each person */}
+              {isSettingsExpanded && splitOption === 'custom-amount' && (
+                <View style={styles.byPersonContainer}>
+                  <Text style={styles.byPersonLabel}>Enter amount for each person:</Text>
+                  {selectedContacts.length > 0 ? (
+                    recentContacts
+                      .filter(contact => selectedContacts.includes(contact.id))
+                      .map((contact) => (
+                        <View key={contact.id} style={styles.amountInputRow}>
+                          <Image
+                            source={contact.avatarImage}
+                            style={styles.personAvatar}
+                            resizeMode="cover"
+                          />
+                          <Text style={styles.amountPersonName}>{contact.name}</Text>
+                          <View style={styles.amountInputContainer}>
+                            <Text style={styles.currencySymbol}>₹</Text>
+                            <TextInput
+                              style={styles.amountInput}
+                              placeholder="0"
+                              placeholderTextColor={colors.text.tertiary}
+                              value={customAmounts[contact.id] || ''}
+                              onChangeText={(text) => handleCustomAmountChange(contact.id, text)}
+                              keyboardType="numeric"
+                            />
+                          </View>
+                        </View>
+                      ))
+                  ) : (
+                    <Text style={styles.byPersonHint}>
+                      Add members first to set custom amounts
+                    </Text>
+                  )}
+                </View>
+              )}
+
+              {/* Percentage - Enter percentage for each person */}
+              {isSettingsExpanded && splitOption === 'percentage' && (
+                <View style={styles.byPersonContainer}>
+                  <Text style={styles.byPersonLabel}>Enter percentage for each person:</Text>
+                  {selectedContacts.length > 0 ? (
+                    recentContacts
+                      .filter(contact => selectedContacts.includes(contact.id))
+                      .map((contact) => (
+                        <View key={contact.id} style={styles.amountInputRow}>
+                          <Image
+                            source={contact.avatarImage}
+                            style={styles.personAvatar}
+                            resizeMode="cover"
+                          />
+                          <Text style={styles.amountPersonName}>{contact.name}</Text>
+                          <View style={styles.percentageInputContainer}>
+                            <TextInput
+                              style={styles.percentageInput}
+                              placeholder="0"
+                              placeholderTextColor={colors.text.tertiary}
+                              value={percentages[contact.id] || ''}
+                              onChangeText={(text) => handlePercentageChange(contact.id, text)}
+                              keyboardType="numeric"
+                            />
+                            <Text style={styles.percentageSymbol}>%</Text>
+                          </View>
+                        </View>
+                      ))
+                  ) : (
+                    <Text style={styles.byPersonHint}>
+                      Add members first to set percentages
+                    </Text>
+                  )}
+                </View>
+              )}
             </View>
           </View>
           {/* Create Book Button */}
@@ -632,8 +778,8 @@ const styles = StyleSheet.create({
   stickyHeaderContent: {
     position: 'absolute',
     top: 0,
-    left: spacing.lg,
-    right: spacing.lg,
+    left: 0,
+    right: 0,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -641,6 +787,7 @@ const styles = StyleSheet.create({
   },
   infoBox: {
     flexDirection: 'row',
+    alignItems: 'center',
     backgroundColor: 'rgba(255, 255, 255, 0.7)',
     borderRadius: 12,
     padding: spacing.sm,
@@ -923,7 +1070,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: spacing.sm,
-    paddingVertical: spacing.xs,
+    paddingVertical: 4,
   },
   radioLabel: {
     fontSize: 12.8,
@@ -952,5 +1099,104 @@ const styles = StyleSheet.create({
     fontSize: 14.4,
     fontFamily: typography.fonts.bold,
     color: colors.neutral.white,
+  },
+  byPersonContainer: {
+    marginTop: spacing.sm,
+    paddingTop: spacing.sm,
+    borderTopWidth: 1,
+    borderTopColor: colors.neutral.gray200,
+  },
+  byPersonLabel: {
+    fontSize: 11.2,
+    fontFamily: typography.fonts.semibold,
+    color: colors.text.primary,
+    marginBottom: spacing.xs,
+  },
+  byPersonHint: {
+    fontSize: 11.2,
+    fontFamily: typography.fonts.regular,
+    color: colors.text.secondary,
+    fontStyle: 'italic',
+    marginTop: spacing.xs,
+  },
+  personCheckbox: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
+    paddingVertical: spacing.xs,
+  },
+  personAvatar: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: 'white',
+  },
+  personName: {
+    fontSize: 12.8,
+    fontFamily: typography.fonts.regular,
+    color: colors.text.primary,
+  },
+  amountInputRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.xs,
+    paddingVertical: spacing.xs,
+  },
+  amountPersonName: {
+    fontSize: 12.8,
+    fontFamily: typography.fonts.regular,
+    color: colors.text.primary,
+    flex: 1,
+  },
+  amountInputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: `${colors.secondary.darkBlueGray}33`,
+    paddingHorizontal: spacing.xs,
+    paddingVertical: 4,
+    gap: 4,
+    minWidth: 80,
+  },
+  currencySymbol: {
+    fontSize: 12.8,
+    fontFamily: typography.fonts.semibold,
+    color: colors.text.primary,
+  },
+  amountInput: {
+    fontSize: 12.8,
+    fontFamily: typography.fonts.regular,
+    color: colors.text.primary,
+    padding: 0,
+    minWidth: 40,
+    textAlign: 'right',
+  },
+  percentageInputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: `${colors.secondary.darkBlueGray}33`,
+    paddingHorizontal: spacing.xs,
+    paddingVertical: 4,
+    gap: 4,
+    minWidth: 60,
+  },
+  percentageInput: {
+    fontSize: 12.8,
+    fontFamily: typography.fonts.regular,
+    color: colors.text.primary,
+    padding: 0,
+    minWidth: 30,
+    textAlign: 'right',
+  },
+  percentageSymbol: {
+    fontSize: 12.8,
+    fontFamily: typography.fonts.semibold,
+    color: colors.text.primary,
   },
 });

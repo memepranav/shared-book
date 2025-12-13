@@ -383,12 +383,14 @@ export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({navigation,
               <Text style={styles.dateHeader}>Dec 08, 2023</Text>
               <TouchableOpacity activeOpacity={0.7} onPress={() => navigation.navigate('RecordDetails', {recordId: '1'})}>
                 <View style={styles.transactionCard}>
-                  <View style={styles.avatarColumn}>
-                    <Image source={avatarImages[0]} style={styles.transactionAvatarImage} resizeMode="cover" />
-                  </View>
-                  <View style={styles.transactionInfo}>
-                    <Text style={styles.transactionTitle}>Hotel Booking</Text>
-                    <Text style={styles.transactionMeta}>Added by Arun @ 2:30 PM</Text>
+                  <View style={styles.transactionLeft}>
+                    <View style={styles.avatarColumn}>
+                      <Image source={avatarImages[0]} style={styles.transactionAvatarImage} resizeMode="cover" />
+                    </View>
+                    <View style={styles.transactionInfo}>
+                      <Text style={styles.transactionTitle}>Hotel Booking</Text>
+                      <Text style={styles.transactionMeta}>Added by Arun @ 2:30 PM</Text>
+                    </View>
                   </View>
                   <View style={styles.transactionRight}>
                     <ExpenseIcon />
@@ -401,12 +403,14 @@ export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({navigation,
               <Text style={styles.dateHeader}>Dec 07, 2023</Text>
               <TouchableOpacity activeOpacity={0.7} onPress={() => navigation.navigate('RecordDetails', {recordId: '2'})}>
                 <View style={styles.transactionCard}>
-                  <View style={styles.avatarColumn}>
-                    <Image source={avatarImages[1]} style={styles.transactionAvatarImage} resizeMode="cover" />
-                  </View>
-                  <View style={styles.transactionInfo}>
-                    <Text style={styles.transactionTitle}>Dinner Split Payment</Text>
-                    <Text style={styles.transactionMeta}>Added by Sanjay @ 8:45 PM</Text>
+                  <View style={styles.transactionLeft}>
+                    <View style={styles.avatarColumn}>
+                      <Image source={avatarImages[1]} style={styles.transactionAvatarImage} resizeMode="cover" />
+                    </View>
+                    <View style={styles.transactionInfo}>
+                      <Text style={styles.transactionTitle}>Dinner Split Payment</Text>
+                      <Text style={styles.transactionMeta}>Added by Sanjay @ 8:45 PM</Text>
+                    </View>
                   </View>
                   <View style={styles.transactionRight}>
                     <IncomeIcon />
@@ -417,12 +421,14 @@ export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({navigation,
 
               <TouchableOpacity activeOpacity={0.7} onPress={() => navigation.navigate('RecordDetails', {recordId: '3'})}>
                 <View style={styles.transactionCard}>
-                  <View style={styles.avatarColumn}>
-                    <Image source={avatarImages[3]} style={styles.transactionAvatarImage} resizeMode="cover" />
-                  </View>
-                  <View style={styles.transactionInfo}>
-                    <Text style={styles.transactionTitle}>Fuel Expense</Text>
-                    <Text style={styles.transactionMeta}>Added by Manoj @ 3:15 PM</Text>
+                  <View style={styles.transactionLeft}>
+                    <View style={styles.avatarColumn}>
+                      <Image source={avatarImages[3]} style={styles.transactionAvatarImage} resizeMode="cover" />
+                    </View>
+                    <View style={styles.transactionInfo}>
+                      <Text style={styles.transactionTitle}>Fuel Expense</Text>
+                      <Text style={styles.transactionMeta}>Added by Manoj @ 3:15 PM</Text>
+                    </View>
                   </View>
                   <View style={styles.transactionRight}>
                     <ExpenseIcon />
@@ -435,12 +441,14 @@ export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({navigation,
               <Text style={styles.dateHeader}>Dec 06, 2023</Text>
               <TouchableOpacity activeOpacity={0.7} onPress={() => navigation.navigate('RecordDetails', {recordId: '4'})}>
                 <View style={styles.transactionCard}>
-                  <View style={styles.avatarColumn}>
-                    <Image source={avatarImages[4]} style={styles.transactionAvatarImage} resizeMode="cover" />
-                  </View>
-                  <View style={styles.transactionInfo}>
-                    <Text style={styles.transactionTitle}>Cab Fare Reimbursement</Text>
-                    <Text style={styles.transactionMeta}>Added by John @ 11:20 AM</Text>
+                  <View style={styles.transactionLeft}>
+                    <View style={styles.avatarColumn}>
+                      <Image source={avatarImages[4]} style={styles.transactionAvatarImage} resizeMode="cover" />
+                    </View>
+                    <View style={styles.transactionInfo}>
+                      <Text style={styles.transactionTitle}>Cab Fare Reimbursement</Text>
+                      <Text style={styles.transactionMeta}>Added by John @ 11:20 AM</Text>
+                    </View>
                   </View>
                   <View style={styles.transactionRight}>
                     <IncomeIcon />
@@ -771,23 +779,30 @@ const styles = StyleSheet.create({
     marginHorizontal: -spacing.lg,
   },
   transactionCard: {
-    backgroundColor: 'rgba(255, 255, 255, 0.8)',
-    borderRadius: 12,
-    padding: spacing.xs,
-    marginBottom: spacing.sm,
     flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    gap: spacing.sm,
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    borderRadius: 16,
+    padding: spacing.sm,
+    marginBottom: spacing.sm,
     borderWidth: 1,
     borderColor: `${colors.secondary.darkBlueGray}33`,
   },
-  avatarColumn: {
+  transactionLeft: {
+    flexDirection: 'row',
     alignItems: 'center',
+    flex: 1,
+  },
+  avatarColumn: {
+    marginRight: spacing.sm,
   },
   transactionAvatarImage: {
     width: 44.8,
     height: 44.8,
     borderRadius: 22.4,
+    borderWidth: 2,
+    borderColor: 'white',
   },
   transactionInfo: {
     flex: 1,
@@ -796,13 +811,14 @@ const styles = StyleSheet.create({
     fontSize: 12.8,
     fontFamily: typography.fonts.semibold,
     color: colors.text.primary,
-    marginBottom: 2,
+    marginBottom: 4,
   },
   transactionMeta: {
     fontSize: 9.6,
     fontFamily: typography.fonts.regular,
     color: colors.text.secondary,
-    marginBottom: 2,
+    includeFontPadding: false,
+    textAlignVertical: 'center',
   },
   transactionRight: {
     alignItems: 'flex-end',

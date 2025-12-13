@@ -6,6 +6,7 @@ import {
   ScrollView,
   TextInput,
   TouchableOpacity,
+  Image,
 } from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -13,6 +14,16 @@ import LinearGradient from 'react-native-linear-gradient';
 import Svg, {Path} from 'react-native-svg';
 import {colors, typography, spacing} from '../../theme';
 import {BooksStackParamList} from '../../navigation/BooksNavigator';
+
+// Avatar images
+const avatarImages = [
+  require('../../assets/images/avatars/1.png'),
+  require('../../assets/images/avatars/2.png'),
+  require('../../assets/images/avatars/3.png'),
+  require('../../assets/images/avatars/4.png'),
+  require('../../assets/images/avatars/5.png'),
+  require('../../assets/images/avatars/6.png'),
+];
 
 // Icons
 const BackIcon = () => (
@@ -96,6 +107,7 @@ interface Contact {
   name: string;
   phone: string;
   avatar: string;
+  avatarImage: any;
 }
 
 // Sample recent contacts
@@ -105,12 +117,14 @@ const recentContacts: Contact[] = [
     name: 'Rahul Kumar',
     phone: '+91 98765 43210',
     avatar: 'R',
+    avatarImage: avatarImages[0],
   },
   {
     id: '2',
     name: 'Priya Sharma',
     phone: '+91 98765 43211',
     avatar: 'P',
+    avatarImage: avatarImages[1],
   },
 ];
 
@@ -131,6 +145,10 @@ export const CreatePersonalBookScreen: React.FC<CreatePersonalBookScreenProps> =
     if (!selectedContacts.includes(contactId)) {
       setSelectedContacts([...selectedContacts, contactId]);
     }
+  };
+
+  const handleRemoveContact = (contactId: string) => {
+    setSelectedContacts(selectedContacts.filter(id => id !== contactId));
   };
 
   const handleCreateBook = () => {
@@ -205,15 +223,45 @@ export const CreatePersonalBookScreen: React.FC<CreatePersonalBookScreenProps> =
               />
             </View>
 
+            {/* Added Members - Avatar Group */}
+            {selectedContacts.length > 0 && (
+              <View style={styles.addedMembersContainer}>
+                <Text style={styles.contactsHeader}>ADDED MEMBERS</Text>
+                <ScrollView
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  contentContainerStyle={styles.avatarGroup}>
+                  {recentContacts
+                    .filter(contact => selectedContacts.includes(contact.id))
+                    .map((contact) => (
+                      <View key={contact.id} style={styles.avatarGroupItem}>
+                        <Image
+                          source={contact.avatarImage}
+                          style={styles.avatarLarge}
+                          resizeMode="cover"
+                        />
+                        <TouchableOpacity
+                          style={styles.removeIconButton}
+                          onPress={() => handleRemoveContact(contact.id)}>
+                          <Text style={styles.removeIcon}>×</Text>
+                        </TouchableOpacity>
+                      </View>
+                    ))}
+                </ScrollView>
+              </View>
+            )}
+
             {/* Recent Contacts */}
             <View style={styles.contactsSection}>
               <Text style={styles.contactsHeader}>RECENT CONTACTS</Text>
               {recentContacts.map((contact) => (
                 <View key={contact.id} style={styles.contactItem}>
                   <View style={styles.contactLeft}>
-                    <View style={[styles.avatar, {backgroundColor: contact.avatar === 'R' ? colors.accent.lightPink : colors.accent.lightPurple}]}>
-                      <Text style={styles.avatarText}>{contact.avatar}</Text>
-                    </View>
+                    <Image
+                      source={contact.avatarImage}
+                      style={styles.avatar}
+                      resizeMode="cover"
+                    />
                     <View style={styles.contactInfo}>
                       <Text style={styles.contactName}>{contact.name}</Text>
                       <Text style={styles.contactPhone}>{contact.phone}</Text>
@@ -400,13 +448,8 @@ const styles = StyleSheet.create({
     width: 32,
     height: 32,
     borderRadius: 16,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  avatarText: {
-    fontSize: 14.4,
-    fontFamily: typography.fonts.semibold,
-    color: colors.primary.pink,
+    borderWidth: 2,
+    borderColor: 'white',
   },
   contactInfo: {
     flex: 1,
@@ -430,6 +473,45 @@ const styles = StyleSheet.create({
     fontSize: 12.8,
     fontFamily: typography.fonts.semibold,
     color: colors.primary.pink,
+  },
+  addedMembersContainer: {
+    marginBottom: spacing.md,
+  },
+  avatarGroup: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: spacing.sm,
+    gap: spacing.sm,
+  },
+  avatarGroupItem: {
+    position: 'relative',
+  },
+  avatarLarge: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    borderWidth: 2,
+    borderColor: 'white',
+  },
+  removeIconButton: {
+    position: 'absolute',
+    top: -4,
+    right: -4,
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    backgroundColor: '#FF5252',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 2,
+    borderColor: 'white',
+  },
+  removeIcon: {
+    fontSize: 16,
+    fontFamily: typography.fonts.bold,
+    color: 'white',
+    lineHeight: 16,
+    textAlign: 'center',
   },
   inviteSection: {
     backgroundColor: 'rgba(255, 255, 255, 0.9)',

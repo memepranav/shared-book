@@ -41,31 +41,17 @@ const BackIcon = () => (
   </Svg>
 );
 
-const PersonalBookIcon = () => (
+const TripBookIcon = () => (
   <Svg width="19.2" height="19.2" viewBox="0 0 24 24" fill="none">
     <Path
-      d="M17 21V19C17 17.9391 16.5786 16.9217 15.8284 16.1716C15.0783 15.4214 14.0609 15 13 15H5C3.93913 15 2.92172 15.4214 2.17157 16.1716C1.42143 16.9217 1 17.9391 1 19V21"
+      d="M21 10C21 17 12 23 12 23C12 23 3 17 3 10C3 7.61305 3.94821 5.32387 5.63604 3.63604C7.32387 1.94821 9.61305 1 12 1C14.3869 1 16.6761 1.94821 18.364 3.63604C20.0518 5.32387 21 7.61305 21 10Z"
       stroke={colors.secondary.darkBlueGray}
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <Path
-      d="M9 11C11.2091 11 13 9.20914 13 7C13 4.79086 11.2091 3 9 3C6.79086 3 5 4.79086 5 7C5 9.20914 6.79086 11 9 11Z"
-      stroke={colors.secondary.darkBlueGray}
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <Path
-      d="M23 21V19C22.9993 18.1137 22.7044 17.2528 22.1614 16.5523C21.6184 15.8519 20.8581 15.3516 20 15.13"
-      stroke={colors.secondary.darkBlueGray}
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <Path
-      d="M16 3.13C16.8604 3.35031 17.623 3.85071 18.1676 4.55232C18.7122 5.25392 19.0078 6.11683 19.0078 7.005C19.0078 7.89318 18.7122 8.75608 18.1676 9.45769C17.623 10.1593 16.8604 10.6597 16 10.88"
+      d="M12 13C13.6569 13 15 11.6569 15 10C15 8.34315 13.6569 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13Z"
       stroke={colors.secondary.darkBlueGray}
       strokeWidth="2"
       strokeLinecap="round"
@@ -222,13 +208,13 @@ const initialContacts: Contact[] = [
   },
 ];
 
-type CreatePersonalBookScreenNavigationProp = StackNavigationProp<BooksStackParamList, 'CreatePersonalBook'>;
+type CreateTripBookScreenNavigationProp = StackNavigationProp<BooksStackParamList, 'CreateTripBook'>;
 
-interface CreatePersonalBookScreenProps {
-  navigation: CreatePersonalBookScreenNavigationProp;
+interface CreateTripBookScreenProps {
+  navigation: CreateTripBookScreenNavigationProp;
 }
 
-export const CreatePersonalBookScreen: React.FC<CreatePersonalBookScreenProps> = ({navigation}) => {
+export const CreateTripBookScreen: React.FC<CreateTripBookScreenProps> = ({navigation}) => {
   const insets = useSafeAreaInsets();
   const [bookName, setBookName] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
@@ -347,7 +333,7 @@ export const CreatePersonalBookScreen: React.FC<CreatePersonalBookScreenProps> =
               style={styles.backButton}>
               <BackIcon />
             </TouchableOpacity>
-            <Text style={styles.headerTitle}>Personal Book</Text>
+            <Text style={styles.headerTitle}>Trip Book</Text>
           </View>
         </Animated.View>
       </View>
@@ -379,7 +365,7 @@ export const CreatePersonalBookScreen: React.FC<CreatePersonalBookScreenProps> =
               <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
                 <BackIcon />
               </TouchableOpacity>
-              <Text style={styles.headerTitle}>Personal Book</Text>
+              <Text style={styles.headerTitle}>Trip Book</Text>
             </View>
           </View>
 
@@ -388,7 +374,7 @@ export const CreatePersonalBookScreen: React.FC<CreatePersonalBookScreenProps> =
 
           {/* Info Box */}
           <View style={styles.infoBox}>
-            <PersonalBookIcon />
+            <TripBookIcon />
             <Text style={styles.infoText}>
               Track expenses between two people effortlessly. Perfect for couples, roommates, or friends.
             </Text>

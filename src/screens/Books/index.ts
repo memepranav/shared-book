@@ -6,3 +6,4 @@ export {GroupDetailsScreen} from './GroupDetailsScreen';
 export {CreatePersonalBookScreen} from './CreatePersonalBookScreen';
 export {CreateTripBookScreen} from './CreateTripBookScreen';
 export {GroupRecurringExpenseScreen} from './GroupRecurringExpenseScreen';
+export {CreateSavingsBookScreen} from './CreateSavingsBookScreen';

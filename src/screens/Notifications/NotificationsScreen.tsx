@@ -425,23 +425,27 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
   },
   stickyHeaderContainer: {
-    paddingTop: spacing.sm,
-    paddingBottom: spacing.sm,
-    paddingHorizontal: spacing.lg,
+    height: 0,
   },
   stickyHeaderBackground: {
     position: 'absolute',
-    top: -spacing.md,
+    top: -spacing.sm,
     left: -500,
     right: -500,
-    bottom: 0,
+    height: 100,
     backgroundColor: 'rgba(254, 249, 249, 0.95)',
   },
   stickyHeaderMain: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: spacing.sm,
+    paddingTop: spacing.sm,
+    paddingBottom: spacing.sm,
+    paddingHorizontal: spacing.lg,
   },
   stickyHeaderTitle: {
     fontSize: 19.2,
@@ -459,7 +463,6 @@ const styles = StyleSheet.create({
   notificationsList: {
     paddingHorizontal: spacing.lg,
     paddingBottom: spacing.xl,
-    marginTop: -25,
   },
   dateHeader: {
     fontSize: 12.8,

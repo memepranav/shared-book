@@ -153,12 +153,19 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
   const getTabPosition = (index: number) => {
     // Base position + accumulated widths of previous items
     const baseSpacing = 6; // padding of navContainer
-    const itemSpacing = 0; // no gap between items in this design
+    const containerWidth = 348;
+    const activeWidth = 124;
 
     let position = baseSpacing;
     for (let i = 0; i < index; i++) {
       position += 52; // width of inactive items
     }
+
+    // For the last item, ensure equal right padding
+    if (index === navItems.length - 1) {
+      position = containerWidth - baseSpacing - activeWidth;
+    }
+
     return position;
   };
 

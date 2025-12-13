@@ -17,6 +17,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import Svg, {Path, Circle} from 'react-native-svg';
 import {colors, typography, spacing} from '../../theme';
 import {BooksStackParamList} from '../../navigation/BooksNavigator';
+import {DatePickerCalendar} from '../../components/DatePickerCalendar';
 
 // Avatar images
 const avatarImages = [
@@ -175,85 +176,6 @@ const CircleIcon = () => (
   </Svg>
 );
 
-const HomeIcon = () => (
-  <Svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-    <Path
-      d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z"
-      stroke={colors.text.secondary}
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <Path
-      d="M9 22V12H15V22"
-      stroke={colors.text.secondary}
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </Svg>
-);
-
-const TargetIcon = () => (
-  <Svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-    <Circle
-      cx="12"
-      cy="12"
-      r="10"
-      stroke={colors.text.secondary}
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <Circle
-      cx="12"
-      cy="12"
-      r="6"
-      stroke={colors.text.secondary}
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <Circle
-      cx="12"
-      cy="12"
-      r="2"
-      stroke={colors.text.secondary}
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </Svg>
-);
-
-const CurrencyIcon = () => (
-  <Svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-    <Circle
-      cx="12"
-      cy="12"
-      r="10"
-      stroke={colors.text.secondary}
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <Path
-      d="M16 8H10C9.20435 8 8.44129 8.31607 7.87868 8.87868C7.31607 9.44129 7 10.2043 7 11C7 11.7956 7.31607 12.5587 7.87868 13.1213C8.44129 13.6839 9.20435 14 10 14H14C14.7956 14 15.5587 14.3161 16.1213 14.8787C16.6839 15.4413 17 16.2043 17 17C17 17.7956 16.6839 18.5587 16.1213 19.1213C15.5587 19.6839 14.7956 20 14 20H7"
-      stroke={colors.text.secondary}
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <Path
-      d="M12 5V8M12 20V23"
-      stroke={colors.text.secondary}
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </Svg>
-);
-
 const ChevronDownIcon = ({rotation}: {rotation: Animated.Value}) => {
   const AnimatedSvg = Animated.createAnimatedComponent(Svg);
 
@@ -281,6 +203,96 @@ const ChevronDownIcon = ({rotation}: {rotation: Animated.Value}) => {
     </AnimatedSvg>
   );
 };
+
+const RecurringExpenseIcon = () => (
+  <Svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+    <Path
+      d="M19 4H5C3.89543 4 3 4.89543 3 6V20C3 21.1046 3.89543 22 5 22H19C20.1046 22 21 21.1046 21 20V6C21 4.89543 20.1046 4 19 4Z"
+      stroke={colors.primary.pink}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M16 2V6"
+      stroke={colors.primary.pink}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M8 2V6"
+      stroke={colors.primary.pink}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M3 10H21"
+      stroke={colors.primary.pink}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </Svg>
+);
+
+const HouseIcon = () => (
+  <Svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+    <Path
+      d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z"
+      stroke="#6B7CFF"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M9 22V12H15V22"
+      stroke="#6B7CFF"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </Svg>
+);
+
+const BulbIcon = () => (
+  <Svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+    <Path
+      d="M9 18H15"
+      stroke="#FFA726"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M10 22H14"
+      stroke="#FFA726"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M15.09 14C16.5274 12.7513 17.4708 11.0346 17.7485 9.15029C18.0262 7.26595 17.6193 5.34209 16.6027 3.72751C15.5861 2.11293 14.0253 0.91159 12.2047 0.342721C10.384 -0.226148 8.42015 -0.0786283 6.69829 0.770092C4.97643 1.61881 3.60886 3.05377 2.84623 4.82101C2.08361 6.58825 1.9789 8.57368 2.54447 10.4115C3.11004 12.2493 4.31025 13.8226 5.93119 14.8431C7.55212 15.8636 9.48874 16.2664 11.38 15.98"
+      stroke="#FFA726"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </Svg>
+);
+
+const PlusCircleIcon = () => (
+  <Svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+    <Circle cx="12" cy="12" r="10" stroke={colors.primary.pink} strokeWidth="2" />
+    <Path
+      d="M12 8V16M8 12H16"
+      stroke={colors.primary.pink}
+      strokeWidth="2"
+      strokeLinecap="round"
+    />
+  </Svg>
+);
 
 interface Contact {
   id: string;
@@ -319,6 +331,7 @@ export const GroupRecurringExpenseScreen: React.FC<GroupRecurringExpenseScreenPr
   const [groupName, setGroupName] = useState('');
   const [groupType, setGroupType] = useState<'roommates' | 'family' | 'apartment' | 'office' | 'other'>('roommates');
   const [currency, setCurrency] = useState('INR - Indian Rupee');
+  const [settlementCycle, setSettlementCycle] = useState('Monthly (on 1st)');
   const [searchQuery, setSearchQuery] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [inviteName, setInviteName] = useState('');
@@ -329,6 +342,12 @@ export const GroupRecurringExpenseScreen: React.FC<GroupRecurringExpenseScreenPr
   const [selectedSplitPersons, setSelectedSplitPersons] = useState<string[]>([]);
   const [customAmounts, setCustomAmounts] = useState<{[key: string]: string}>({});
   const [percentages, setPercentages] = useState<{[key: string]: string}>({});
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [tempDate, setTempDate] = useState(new Date());
+  const [expenseName, setExpenseName] = useState('');
+  const [expenseAmount, setExpenseAmount] = useState('');
+  const [expenseFrequency, setExpenseFrequency] = useState('Monthly');
+  const [regularExpenses, setRegularExpenses] = useState<Array<{id: string; name: string; amount: string; frequency: string; icon: string}>>([]);
 
   // Animation values for accordion
   const animatedHeight = useRef(new Animated.Value(0)).current;
@@ -413,8 +432,40 @@ export const GroupRecurringExpenseScreen: React.FC<GroupRecurringExpenseScreenPr
     }
   };
 
+  const handleAddRegularExpense = () => {
+    if (expenseName.trim() && expenseAmount.trim()) {
+      const newExpense = {
+        id: `expense-${Date.now()}`,
+        name: expenseName.trim(),
+        amount: expenseAmount.trim(),
+        frequency: expenseFrequency,
+        icon: expenseName.toLowerCase().includes('rent') || expenseName.toLowerCase().includes('house')
+          ? 'house'
+          : expenseName.toLowerCase().includes('electric') || expenseName.toLowerCase().includes('light')
+          ? 'bulb'
+          : 'house',
+      };
+      setRegularExpenses([...regularExpenses, newExpense]);
+      setExpenseName('');
+      setExpenseAmount('');
+      setExpenseFrequency('Monthly');
+    }
+  };
+
+  const handleRemoveRegularExpense = (expenseId: string) => {
+    setRegularExpenses(regularExpenses.filter(exp => exp.id !== expenseId));
+  };
+
   const handleCreateBook = () => {
     // TODO: Implement create book logic with splitOption
+  };
+
+  const handleDateConfirm = (date: Date) => {
+    // Format the selected date to show day of month (e.g., "Monthly (on 15th)")
+    const day = date.getDate();
+    const daySuffix = day === 1 ? 'st' : day === 2 ? 'nd' : day === 3 ? 'rd' : 'th';
+    setSettlementCycle(`Monthly (on ${day}${daySuffix})`);
+    setTempDate(date);
   };
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -503,12 +554,9 @@ export const GroupRecurringExpenseScreen: React.FC<GroupRecurringExpenseScreenPr
 
           {/* Group Name Section */}
           <View style={styles.section}>
-            <View style={styles.fieldHeader}>
-              <HomeIcon />
-              <Text style={styles.label}>
-                Group Name <Text style={styles.requiredText}>*</Text>
-              </Text>
-            </View>
+            <Text style={styles.label}>
+              Group Name <Text style={styles.requiredText}>*</Text>
+            </Text>
             <TextInput
               style={styles.input}
               placeholder="Flat 402 - Roommates"
@@ -523,10 +571,7 @@ export const GroupRecurringExpenseScreen: React.FC<GroupRecurringExpenseScreenPr
 
           {/* Group Type Section */}
           <View style={styles.section}>
-            <View style={styles.fieldHeader}>
-              <TargetIcon />
-              <Text style={styles.label}>Group Type</Text>
-            </View>
+            <Text style={styles.label}>Group Type</Text>
             <View style={styles.groupTypeContainer}>
               <TouchableOpacity
                 style={styles.radioOption}
@@ -572,10 +617,7 @@ export const GroupRecurringExpenseScreen: React.FC<GroupRecurringExpenseScreenPr
 
           {/* Currency Section */}
           <View style={styles.section}>
-            <View style={styles.fieldHeader}>
-              <CurrencyIcon />
-              <Text style={styles.label}>Currency</Text>
-            </View>
+            <Text style={styles.label}>Currency</Text>
             <View style={styles.currencyDisplay}>
               <Text style={styles.currencyText}>₹ {currency}</Text>
             </View>
@@ -692,6 +734,108 @@ export const GroupRecurringExpenseScreen: React.FC<GroupRecurringExpenseScreenPr
                 activeOpacity={0.8}>
                 <Text style={styles.inviteButtonText}>Send Invite</Text>
               </TouchableOpacity>
+            </View>
+
+            {/* Regular Monthly Expenses Section */}
+            <View style={styles.regularExpensesSection}>
+              <View style={styles.regularExpensesHeader}>
+                <RecurringExpenseIcon />
+                <Text style={styles.regularExpensesTitle}>Regular Monthly Expenses</Text>
+                <Text style={styles.optionalText}>(Optional)</Text>
+              </View>
+
+              <View style={styles.regularExpensesForm}>
+                <TextInput
+                  style={styles.expenseNameInput}
+                  placeholder="Expense Name (e.g. Rent)"
+                  placeholderTextColor={colors.text.tertiary}
+                  value={expenseName}
+                  onChangeText={setExpenseName}
+                />
+
+                <View style={styles.expenseInputRow}>
+                  <View style={styles.expenseAmountInputContainer}>
+                    <Text style={styles.currencySymbolLarge}>₹</Text>
+                    <TextInput
+                      style={styles.expenseAmountInput}
+                      placeholder="Amount"
+                      placeholderTextColor={colors.text.tertiary}
+                      value={expenseAmount}
+                      onChangeText={setExpenseAmount}
+                      keyboardType="numeric"
+                    />
+                  </View>
+
+                  <View style={styles.frequencyDropdown}>
+                    <Text style={styles.frequencyText}>{expenseFrequency}</Text>
+                    <Svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                      <Path
+                        d="M6 9L12 15L18 9"
+                        stroke={colors.text.secondary}
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </Svg>
+                  </View>
+                </View>
+
+                <TouchableOpacity
+                  style={styles.addExpenseButton}
+                  onPress={handleAddRegularExpense}
+                  activeOpacity={0.7}>
+                  <PlusCircleIcon />
+                  <Text style={styles.addExpenseButtonText}>Add Regular Expense</Text>
+                </TouchableOpacity>
+
+                {/* Added Expenses List */}
+                {regularExpenses.length > 0 && (
+                  <View style={styles.addedExpensesList}>
+                    {regularExpenses.map((expense) => (
+                      <View key={expense.id} style={styles.expenseCard}>
+                        <View style={[
+                          styles.expenseIconContainer,
+                          expense.icon === 'house' ? styles.houseIconBg : styles.bulbIconBg
+                        ]}>
+                          {expense.icon === 'house' ? <HouseIcon /> : <BulbIcon />}
+                        </View>
+                        <View style={styles.expenseCardContent}>
+                          <Text style={styles.expenseCardName}>{expense.name}</Text>
+                          <Text style={styles.expenseCardAmount}>
+                            ₹ {expense.amount} / {expense.frequency}
+                          </Text>
+                        </View>
+                        <TouchableOpacity
+                          style={styles.removeExpenseButton}
+                          onPress={() => handleRemoveRegularExpense(expense.id)}>
+                          <Text style={styles.removeExpenseIcon}>×</Text>
+                        </TouchableOpacity>
+                      </View>
+                    ))}
+                  </View>
+                )}
+              </View>
+            </View>
+
+            {/* Settlement Cycle Section */}
+            <View style={styles.settlementSection}>
+              <Text style={styles.settlementLabel}>Settlement Cycle (Optional)</Text>
+              <TouchableOpacity
+                style={styles.settlementDropdown}
+                onPress={() => setShowDatePicker(true)}
+                activeOpacity={0.7}>
+                <Text style={styles.settlementText}>{settlementCycle}</Text>
+                <Svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <Path
+                    d="M6 9L12 15L18 9"
+                    stroke={colors.text.secondary}
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </Svg>
+              </TouchableOpacity>
+              <Text style={styles.settlementHelper}>Auto-remind to settle every month</Text>
             </View>
 
             {/* Advanced Settings */}
@@ -876,6 +1020,14 @@ export const GroupRecurringExpenseScreen: React.FC<GroupRecurringExpenseScreenPr
             </TouchableOpacity>
           </View>
         </ScrollView>
+
+        <DatePickerCalendar
+          visible={showDatePicker}
+          onClose={() => setShowDatePicker(false)}
+          onConfirm={handleDateConfirm}
+          initialDate={tempDate}
+          title="Select Settlement Date"
+        />
     </LinearGradient>
   );
 };
@@ -957,16 +1109,11 @@ const styles = StyleSheet.create({
   section: {
     marginBottom: spacing.xl,
   },
-  fieldHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.xs,
-    marginBottom: spacing.sm,
-  },
   label: {
     fontSize: 12.8,
     fontFamily: typography.fonts.semibold,
     color: colors.text.primary,
+    marginBottom: spacing.sm,
   },
   requiredText: {
     fontSize: 12.8,
@@ -1214,6 +1361,184 @@ const styles = StyleSheet.create({
     fontSize: 12.8,
     fontFamily: typography.fonts.semibold,
     color: 'white',
+  },
+  regularExpensesSection: {
+    marginTop: spacing.md,
+    marginBottom: spacing.md,
+  },
+  regularExpensesHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.xs,
+    marginBottom: spacing.md,
+  },
+  regularExpensesTitle: {
+    fontSize: 14.4,
+    fontFamily: typography.fonts.bold,
+    color: colors.text.primary,
+  },
+  regularExpensesForm: {
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    borderRadius: 12,
+    padding: spacing.md,
+    borderWidth: 1,
+    borderColor: `${colors.secondary.darkBlueGray}33`,
+  },
+  expenseNameInput: {
+    backgroundColor: colors.neutral.white,
+    borderRadius: 8,
+    padding: spacing.sm,
+    fontSize: 12.8,
+    fontFamily: typography.fonts.regular,
+    color: colors.text.primary,
+    borderWidth: 1,
+    borderColor: colors.neutral.gray300,
+    marginBottom: spacing.sm,
+  },
+  expenseInputRow: {
+    flexDirection: 'row',
+    gap: spacing.sm,
+    marginBottom: spacing.sm,
+  },
+  expenseAmountInputContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: colors.neutral.white,
+    borderRadius: 8,
+    paddingHorizontal: spacing.sm,
+    borderWidth: 1,
+    borderColor: colors.neutral.gray300,
+  },
+  currencySymbolLarge: {
+    fontSize: 14.4,
+    fontFamily: typography.fonts.semibold,
+    color: colors.text.primary,
+    marginRight: spacing.xs,
+  },
+  expenseAmountInput: {
+    flex: 1,
+    fontSize: 12.8,
+    fontFamily: typography.fonts.regular,
+    color: colors.text.primary,
+    paddingVertical: spacing.sm,
+  },
+  frequencyDropdown: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: colors.neutral.white,
+    borderRadius: 8,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: spacing.sm,
+    borderWidth: 1,
+    borderColor: colors.neutral.gray300,
+  },
+  frequencyText: {
+    fontSize: 12.8,
+    fontFamily: typography.fonts.regular,
+    color: colors.text.primary,
+  },
+  addExpenseButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 2,
+    borderColor: colors.primary.pink,
+    borderStyle: 'dashed',
+    borderRadius: 8,
+    paddingVertical: spacing.sm,
+    gap: spacing.xs,
+    marginBottom: spacing.sm,
+  },
+  addExpenseButtonText: {
+    fontSize: 12.8,
+    fontFamily: typography.fonts.semibold,
+    color: colors.primary.pink,
+  },
+  addedExpensesList: {
+    gap: spacing.sm,
+  },
+  expenseCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+    borderRadius: 12,
+    padding: spacing.sm,
+    borderWidth: 1,
+    borderColor: colors.neutral.gray200,
+    gap: spacing.sm,
+  },
+  expenseIconContainer: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  houseIconBg: {
+    backgroundColor: '#E8EBFF',
+  },
+  bulbIconBg: {
+    backgroundColor: '#FFF3E0',
+  },
+  expenseCardContent: {
+    flex: 1,
+  },
+  expenseCardName: {
+    fontSize: 12.8,
+    fontFamily: typography.fonts.semibold,
+    color: colors.text.primary,
+    marginBottom: 2,
+  },
+  expenseCardAmount: {
+    fontSize: 11.2,
+    fontFamily: typography.fonts.regular,
+    color: colors.text.secondary,
+  },
+  removeExpenseButton: {
+    width: 24,
+    height: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  removeExpenseIcon: {
+    fontSize: 24,
+    fontFamily: typography.fonts.bold,
+    color: colors.text.secondary,
+    lineHeight: 24,
+  },
+  settlementSection: {
+    marginTop: spacing.md,
+    marginBottom: spacing.md,
+  },
+  settlementLabel: {
+    fontSize: 14.4,
+    fontFamily: typography.fonts.bold,
+    color: colors.text.primary,
+    marginBottom: spacing.sm,
+  },
+  settlementDropdown: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    borderRadius: 12,
+    padding: spacing.sm,
+    borderWidth: 1,
+    borderColor: `${colors.secondary.darkBlueGray}33`,
+    marginBottom: spacing.xs,
+  },
+  settlementText: {
+    fontSize: 14.4,
+    fontFamily: typography.fonts.regular,
+    color: colors.text.primary,
+  },
+  settlementHelper: {
+    fontSize: 11.2,
+    fontFamily: typography.fonts.regular,
+    color: colors.text.secondary,
   },
   settingsSection: {
     backgroundColor: 'rgba(255, 255, 255, 0.9)',

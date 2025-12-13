@@ -403,7 +403,6 @@ export const BooksScreen: React.FC<BooksScreenProps> = ({navigation, onScrollDir
         {/* Header */}
         <View style={styles.header}>
           <View style={styles.headerLeft}>
-            <BooksIcon />
             <Text style={styles.headerTitle}>My Books</Text>
           </View>
           <TouchableOpacity
@@ -472,7 +471,7 @@ export const BooksScreen: React.FC<BooksScreenProps> = ({navigation, onScrollDir
               {/* Header Section */}
               <View style={styles.bookHeader}>
                 <View style={styles.bookTitleRow}>
-                  <BookTypeIcon type={book.bookType} size={30} />
+                  <BookTypeIcon type={book.bookType} size={24} />
                   <Text style={styles.bookName} numberOfLines={1} ellipsizeMode="tail">{book.name}</Text>
                 </View>
                 <TouchableOpacity
@@ -487,9 +486,9 @@ export const BooksScreen: React.FC<BooksScreenProps> = ({navigation, onScrollDir
                       color: book.color,
                     }))}
                     maxVisible={2}
-                    size={44}
+                    size={35.2}
                     borderColor={colors.primary.pink}
-                    overlap={25}
+                    overlap={20}
                   />
                 </TouchableOpacity>
               </View>
@@ -574,7 +573,7 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
   },
   headerTitle: {
-    fontSize: typography.sizes.xl,
+    fontSize: 19.2,
     fontFamily: typography.fonts.bold,
     color: colors.text.primary,
   },
@@ -588,10 +587,10 @@ const styles = StyleSheet.create({
   },
   addBookButtonText: {
     color: 'white',
-    fontSize: 28,
+    fontSize: 22.4,
     fontFamily: typography.fonts.light,
     textAlign: 'center',
-    lineHeight: 28,
+    lineHeight: 22.4,
   },
   filterSection: {
     flexDirection: 'row',
@@ -613,10 +612,10 @@ const styles = StyleSheet.create({
     height: 24,
   },
   dropdownText: {
-    fontSize: 14,
+    fontSize: 11.2,
     fontFamily: typography.fonts.medium,
     color: colors.text.primary,
-    lineHeight: 16,
+    lineHeight: 12.8,
   },
   periodSelector: {
     flexDirection: 'row',
@@ -642,10 +641,10 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
   },
   periodText: {
-    fontSize: 11,
+    fontSize: 8.8,
     fontFamily: typography.fonts.medium,
     color: colors.text.secondary,
-    lineHeight: 16,
+    lineHeight: 12.8,
   },
   periodTextActive: {
     color: 'white',
@@ -685,13 +684,13 @@ const styles = StyleSheet.create({
     marginBottom: spacing.md,
   },
   booksListTitle: {
-    fontSize: typography.sizes.xl,
+    fontSize: 19.2,
     fontFamily: typography.fonts.bold,
     color: colors.text.primary,
     marginBottom: spacing.xs,
   },
   booksListSubtitle: {
-    fontSize: typography.sizes.sm,
+    fontSize: 11.2,
     fontFamily: typography.fonts.regular,
     color: colors.text.secondary,
   },
@@ -706,8 +705,8 @@ const styles = StyleSheet.create({
   bookItem: {
     backgroundColor: 'rgba(255, 255, 255, 0.9)',
     borderRadius: 20,
-    padding: spacing.lg,
-    marginBottom: spacing.md,
+    padding: spacing.md,
+    marginBottom: spacing.sm,
     borderWidth: 1,
     borderColor: `${colors.secondary.darkBlueGray}33`,
   },
@@ -715,7 +714,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: spacing.md,
+    marginBottom: spacing.sm,
   },
   bookTitleRow: {
     flexDirection: 'row',
@@ -725,7 +724,7 @@ const styles = StyleSheet.create({
     marginRight: spacing.sm,
   },
   bookName: {
-    fontSize: typography.sizes.lg,
+    fontSize: 14.4,
     fontFamily: typography.fonts.bold,
     color: colors.text.primary,
     flex: 1,
@@ -733,29 +732,29 @@ const styles = StyleSheet.create({
   separator: {
     height: 1,
     backgroundColor: '#E0E0E0',
-    marginBottom: spacing.md,
+    marginBottom: spacing.sm,
   },
   bookBalanceRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: spacing.md,
+    marginBottom: spacing.sm,
   },
   balanceSection: {
     flex: 1,
   },
   balanceLabel: {
-    fontSize: typography.sizes.sm,
+    fontSize: 11.2,
     fontFamily: typography.fonts.regular,
     color: colors.text.secondary,
     marginBottom: 2,
   },
   balanceAmount: {
-    fontSize: typography.sizes.xl,
+    fontSize: 19.2,
     fontFamily: typography.fonts.bold,
     marginBottom: 2,
   },
   balanceSubtext: {
-    fontSize: typography.sizes.xs,
+    fontSize: 9.6,
     fontFamily: typography.fonts.regular,
     color: colors.text.secondary,
   },
@@ -763,31 +762,31 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
   totalLabel: {
-    fontSize: typography.sizes.sm,
+    fontSize: 11.2,
     fontFamily: typography.fonts.regular,
     color: colors.text.secondary,
     marginBottom: 2,
   },
   totalAmount: {
-    fontSize: typography.sizes.xl,
+    fontSize: 19.2,
     fontFamily: typography.fonts.bold,
     color: colors.text.primary,
     marginBottom: 2,
   },
   totalSubtext: {
-    fontSize: typography.sizes.xs,
+    fontSize: 9.6,
     fontFamily: typography.fonts.regular,
     color: colors.text.secondary,
   },
   progressBarContainer: {
-    marginTop: spacing.sm,
+    marginTop: spacing.xs,
   },
   progressBar: {
-    height: 8,
+    height: 6,
     backgroundColor: '#E0E0E0',
     borderRadius: 4,
     overflow: 'hidden',
-    marginBottom: spacing.xs,
+    marginBottom: 4,
   },
   progressFill: {
     height: '100%',
@@ -795,7 +794,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   progressText: {
-    fontSize: typography.sizes.xs,
+    fontSize: 9.6,
     fontFamily: typography.fonts.regular,
     color: colors.text.secondary,
     textAlign: 'center',

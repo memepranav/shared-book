@@ -6,8 +6,8 @@ import {
   ScrollView,
   TextInput,
   TouchableOpacity,
-  StatusBar,
 } from 'react-native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {StackNavigationProp} from '@react-navigation/stack';
 import LinearGradient from 'react-native-linear-gradient';
 import Svg, {Path} from 'react-native-svg';
@@ -121,6 +121,7 @@ interface CreatePersonalBookScreenProps {
 }
 
 export const CreatePersonalBookScreen: React.FC<CreatePersonalBookScreenProps> = ({navigation}) => {
+  const insets = useSafeAreaInsets();
   const [bookName, setBookName] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -147,10 +148,9 @@ export const CreatePersonalBookScreen: React.FC<CreatePersonalBookScreenProps> =
       start={{x: 1, y: 0}}
       end={{x: 0, y: 1}}
       style={styles.container}>
-      <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent />
       <ScrollView
         style={styles.scrollView}
-        contentContainerStyle={styles.scrollContent}
+        contentContainerStyle={[styles.scrollContent, {paddingTop: insets.top + spacing.lg}]}
         showsVerticalScrollIndicator={false}
         bounces={false}
         overScrollMode="never">
@@ -272,7 +272,6 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     paddingHorizontal: spacing.lg,
-    paddingTop: spacing.xl,
     paddingBottom: spacing.xl,
   },
   header: {

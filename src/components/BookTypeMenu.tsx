@@ -196,27 +196,29 @@ export const BookTypeMenu: React.FC<BookTypeMenuProps> = ({
               <View style={styles.divider} />
 
               {/* Book Types */}
-              {bookTypes.map((bookType) => (
-                <TouchableOpacity
-                  key={bookType.type}
-                  style={styles.menuItem}
-                  onPress={() => handleSelectType(bookType.type)}
-                  activeOpacity={0.7}>
-                  <View style={styles.iconContainer}>
-                    <BookTypeIcon
-                      type={bookType.type}
-                      size={19.2}
-                      color={colors.secondary.darkBlueGray}
-                    />
-                  </View>
-                  <View style={styles.menuItemContent}>
-                    <Text style={styles.menuItemText}>{bookType.label}</Text>
-                    <Text style={styles.menuItemDescription}>
-                      {bookType.description}
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-              ))}
+              {bookTypes
+                .filter((bookType) => bookType.type !== 'business' && bookType.type !== 'event')
+                .map((bookType) => (
+                  <TouchableOpacity
+                    key={bookType.type}
+                    style={styles.menuItem}
+                    onPress={() => handleSelectType(bookType.type)}
+                    activeOpacity={0.7}>
+                    <View style={styles.iconContainer}>
+                      <BookTypeIcon
+                        type={bookType.type}
+                        size={24}
+                        color={colors.secondary.darkBlueGray}
+                      />
+                    </View>
+                    <View style={styles.menuItemContent}>
+                      <Text style={styles.menuItemText}>{bookType.label}</Text>
+                      <Text style={styles.menuItemDescription}>
+                        {bookType.description}
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                ))}
 
               {/* Bottom padding for safe area */}
               <View style={styles.bottomPadding} />
@@ -279,10 +281,10 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
   },
   iconContainer: {
-    width: 35.2,
-    height: 35.2,
-    borderRadius: 17.6,
-    backgroundColor: colors.neutral.gray100,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: `${colors.primary.pink}1A`,
     justifyContent: 'center',
     alignItems: 'center',
   },

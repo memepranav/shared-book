@@ -296,6 +296,8 @@ export const BooksScreen: React.FC<BooksScreenProps> = ({navigation, onScrollDir
       navigation.navigate('CreatePersonalBook');
     } else if (type === 'trip') {
       navigation.navigate('CreateTripBook');
+    } else if (type === 'group') {
+      navigation.navigate('GroupRecurringExpense');
     } else {
       // TODO: Navigate to create book screen for other types
       console.log('Create book screen for type:', type);

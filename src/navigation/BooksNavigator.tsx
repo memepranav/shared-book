@@ -8,6 +8,7 @@ import {
   GroupDetailsScreen,
   CreatePersonalBookScreen,
   CreateTripBookScreen,
+  GroupRecurringExpenseScreen,
 } from '../screens/Books';
 
 export type BooksStackParamList = {
@@ -18,6 +19,7 @@ export type BooksStackParamList = {
   GroupDetails: {groupId: string};
   CreatePersonalBook: undefined;
   CreateTripBook: undefined;
+  GroupRecurringExpense: undefined;
 };
 
 const Stack = createStackNavigator<BooksStackParamList>();
@@ -44,7 +46,7 @@ export const BooksNavigator: React.FC<BooksNavigatorProps> = ({
           const state = e.data.state;
           const currentRoute = state.routes[state.index];
           // Hide bottom navigation on detail screens
-          const screensToHideNav = ['CreatePersonalBook', 'CreateTripBook', 'BookDetails', 'GroupDetails', 'PendingRecords', 'RecordDetails'];
+          const screensToHideNav = ['CreatePersonalBook', 'CreateTripBook', 'GroupRecurringExpense', 'BookDetails', 'GroupDetails', 'PendingRecords', 'RecordDetails'];
           if (screensToHideNav.includes(currentRoute.name)) {
             onNavigationVisibilityChange?.(false);
           } else {
@@ -96,6 +98,9 @@ export const BooksNavigator: React.FC<BooksNavigatorProps> = ({
       </Stack.Screen>
       <Stack.Screen name="CreateTripBook">
         {(props) => <CreateTripBookScreen {...props} />}
+      </Stack.Screen>
+      <Stack.Screen name="GroupRecurringExpense">
+        {(props) => <GroupRecurringExpenseScreen {...props} />}
       </Stack.Screen>
     </Stack.Navigator>
   );

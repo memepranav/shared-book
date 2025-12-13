@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {RouteProp} from '@react-navigation/native';
+import {RouteProp, useIsFocused} from '@react-navigation/native';
 import Svg, {Path, Circle} from 'react-native-svg';
 import LinearGradient from 'react-native-linear-gradient';
 import {colors, typography, spacing} from '../../theme';
@@ -32,7 +32,7 @@ const avatarImages = [
 
 // Icons
 const BackIcon = () => (
-  <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <Svg width="19.2" height="19.2" viewBox="0 0 24 24" fill="none">
     <Path
       d="M15 18L9 12L15 6"
       stroke="white"
@@ -44,7 +44,7 @@ const BackIcon = () => (
 );
 
 const MoreIcon = () => (
-  <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <Svg width="19.2" height="19.2" viewBox="0 0 24 24" fill="none">
     <Circle cx="12" cy="5" r="1.5" fill="white" />
     <Circle cx="12" cy="12" r="1.5" fill="white" />
     <Circle cx="12" cy="19" r="1.5" fill="white" />
@@ -52,7 +52,7 @@ const MoreIcon = () => (
 );
 
 const ChevronDownIcon = () => (
-  <Svg width="16" height="16" viewBox="0 0 20 20" fill="none">
+  <Svg width="12.8" height="12.8" viewBox="0 0 20 20" fill="none">
     <Path
       d="M5 7.5L10 12.5L15 7.5"
       stroke="white"
@@ -64,7 +64,7 @@ const ChevronDownIcon = () => (
 );
 
 const BarChartIcon = () => (
-  <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <Svg width="19.2" height="19.2" viewBox="0 0 24 24" fill="none">
     <Path
       d="M12 20V10M18 20V4M6 20V16"
       stroke="#00BFA5"
@@ -76,7 +76,7 @@ const BarChartIcon = () => (
 );
 
 const OwedToYouIcon = () => (
-  <Svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+  <Svg width="16" height="16" viewBox="0 0 24 24" fill="none">
     <Path
       d="M20.84 4.61C20.3292 4.099 19.7228 3.69364 19.0554 3.41708C18.3879 3.14052 17.6725 2.99817 16.95 2.99817C16.2275 2.99817 15.5121 3.14052 14.8446 3.41708C14.1772 3.69364 13.5708 4.099 13.06 4.61L12 5.67L10.94 4.61C9.9083 3.57831 8.50903 2.99871 7.05 2.99871C5.59096 2.99871 4.19169 3.57831 3.16 4.61C2.1283 5.64169 1.54871 7.04096 1.54871 8.5C1.54871 9.95903 2.1283 11.3583 3.16 12.39L4.22 13.45L12 21.23L19.78 13.45L20.84 12.39C21.351 11.8792 21.7564 11.2728 22.0329 10.6054C22.3095 9.93789 22.4518 9.22248 22.4518 8.5C22.4518 7.77752 22.3095 7.06211 22.0329 6.39464C21.7564 5.72718 21.351 5.12084 20.84 4.61V4.61Z"
       fill="#4CAF50"
@@ -85,7 +85,7 @@ const OwedToYouIcon = () => (
 );
 
 const OwingByYouIcon = () => (
-  <Svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+  <Svg width="16" height="16" viewBox="0 0 24 24" fill="none">
     <Path
       d="M10.29 3.86L1.82 18C1.64537 18.3024 1.55296 18.6453 1.55199 18.9945C1.55101 19.3437 1.64151 19.6871 1.81445 19.9905C1.98738 20.2939 2.23675 20.5467 2.53773 20.7239C2.83871 20.9011 3.18082 20.9962 3.53 21H20.47C20.8192 20.9962 21.1613 20.9011 21.4623 20.7239C21.7633 20.5467 22.0126 20.2939 22.1856 19.9905C22.3585 19.6871 22.449 19.3437 22.448 18.9945C22.447 18.6453 22.3546 18.3024 22.18 18L13.71 3.86C13.5317 3.56611 13.2807 3.32312 12.9812 3.15448C12.6817 2.98585 12.3437 2.89725 12 2.89725C11.6563 2.89725 11.3183 2.98585 11.0188 3.15448C10.7193 3.32312 10.4683 3.56611 10.29 3.86V3.86Z"
       fill="#FF9800"
@@ -108,7 +108,7 @@ const OwingByYouIcon = () => (
 );
 
 const CheckCircleIcon = () => (
-  <Svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+  <Svg width="12.8" height="12.8" viewBox="0 0 24 24" fill="none">
     <Circle cx="12" cy="12" r="10" fill="#4CAF50" />
     <Path
       d="M9 12L11 14L15 10"
@@ -121,7 +121,7 @@ const CheckCircleIcon = () => (
 );
 
 const AlertIcon = () => (
-  <Svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+  <Svg width="12.8" height="12.8" viewBox="0 0 24 24" fill="none">
     <Path
       d="M10.29 3.86L1.82 18C1.64537 18.3024 1.55296 18.6453 1.55199 18.9945C1.55101 19.3437 1.64151 19.6871 1.81445 19.9905C1.98738 20.2939 2.23675 20.5467 2.53773 20.7239C2.83871 20.9011 3.18082 20.9962 3.53 21H20.47C20.8192 20.9962 21.1613 20.9011 21.4623 20.7239C21.7633 20.5467 22.0126 20.2939 22.1856 19.9905C22.3585 19.6871 22.449 19.3437 22.448 18.9945C22.447 18.6453 22.3546 18.3024 22.18 18L13.71 3.86C13.5317 3.56611 13.2807 3.32312 12.9812 3.15448C12.6817 2.98585 12.3437 2.89725 12 2.89725C11.6563 2.89725 11.3183 2.98585 11.0188 3.15448C10.7193 3.32312 10.4683 3.56611 10.29 3.86V3.86Z"
       fill="#FF5252"
@@ -137,7 +137,7 @@ const AlertIcon = () => (
 );
 
 const BellIcon = ({color = '#FF9800'}: {color?: string}) => (
-  <Svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+  <Svg width="12.8" height="12.8" viewBox="0 0 24 24" fill="none">
     <Path
       d="M18 8C18 6.4087 17.3679 4.88258 16.2426 3.75736C15.1174 2.63214 13.5913 2 12 2C10.4087 2 8.88258 2.63214 7.75736 3.75736C6.63214 4.88258 6 6.4087 6 8C6 15 3 17 3 17H21C21 17 18 15 18 8Z"
       fill={color}
@@ -153,7 +153,7 @@ const BellIcon = ({color = '#FF9800'}: {color?: string}) => (
 );
 
 const HeartIcon = () => (
-  <Svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+  <Svg width="12.8" height="12.8" viewBox="0 0 24 24" fill="none">
     <Path
       d="M20.84 4.61C20.3292 4.099 19.7228 3.69364 19.0554 3.41708C18.3879 3.14052 17.6725 2.99817 16.95 2.99817C16.2275 2.99817 15.5121 3.14052 14.8446 3.41708C14.1772 3.69364 13.5708 4.099 13.06 4.61L12 5.67L10.94 4.61C9.9083 3.57831 8.50903 2.99871 7.05 2.99871C5.59096 2.99871 4.19169 3.57831 3.16 4.61C2.1283 5.64169 1.54871 7.04096 1.54871 8.5C1.54871 9.95903 2.1283 11.3583 3.16 12.39L4.22 13.45L12 21.23L19.78 13.45L20.84 12.39C21.351 11.8792 21.7564 11.2728 22.0329 10.6054C22.3095 9.93789 22.4518 9.22248 22.4518 8.5C22.4518 7.77752 22.3095 7.06211 22.0329 6.39464C21.7564 5.72718 21.351 5.12084 20.84 4.61V4.61Z"
       fill="#4CAF50"
@@ -162,7 +162,7 @@ const HeartIcon = () => (
 );
 
 const CoinIcon = () => (
-  <Svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+  <Svg width="12.8" height="12.8" viewBox="0 0 24 24" fill="none">
     <Circle cx="12" cy="12" r="10" fill="#FF9800" />
     <Path
       d="M12 6V18M9 9H12.5C13.163 9 13.7989 9.26339 14.2678 9.73223C14.7366 10.2011 15 10.837 15 11.5C15 12.163 14.7366 12.7989 14.2678 13.2678C13.7989 13.7366 13.163 14 12.5 14H9"
@@ -192,6 +192,7 @@ interface GroupDetailsScreenProps {
 }
 
 export const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({navigation, route}) => {
+  const isFocused = useIsFocused();
   const insets = useSafeAreaInsets();
   const [groupName] = useState('Members');
   const [bookName] = useState('Goa Trip');
@@ -336,8 +337,8 @@ export const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({navigatio
 
   return (
     <View style={styles.container}>
-      {/* Sticky Header - Only shown when scrolled */}
-      {showStickyHeader && (
+      {/* Sticky Header - Only shown when scrolled and screen is focused */}
+      {isFocused && showStickyHeader && (
         <View style={[styles.stickyHeaderFixed, {paddingTop: insets.top + spacing.lg}]}>
           <View style={styles.stickyHeader}>
             <View style={styles.headerLeft}>
@@ -374,7 +375,7 @@ export const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({navigatio
           <View style={styles.expensesSection}>
             <View style={styles.expensesHeader}>
               <View style={styles.tripTypeContainer}>
-                <BookTypeIcon type={bookType} size={24} color="white" />
+                <BookTypeIcon type={bookType} size={19.2} color="white" />
                 <Text style={styles.expensesLabel}>{bookType.charAt(0).toUpperCase() + bookType.slice(1)}</Text>
               </View>
               <View style={styles.monthSelector}>
@@ -528,17 +529,18 @@ export const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({navigatio
         <View style={{height: 40}} />
       </ScrollView>
 
-      {/* Floating Add Button */}
-      <Animated.View
-        style={[
-          styles.floatingButton,
-          {
-            width: buttonWidth.interpolate({
-              inputRange: [0, 1],
-              outputRange: [56, 180], // 56px collapsed (circle), 180px expanded
-            }),
-          },
-        ]}>
+      {/* Floating Add Button - Only shown when screen is focused */}
+      {isFocused && (
+        <Animated.View
+          style={[
+            styles.floatingButton,
+            {
+              width: buttonWidth.interpolate({
+                inputRange: [0, 1],
+                outputRange: [44.8, 144], // 44.8px collapsed (circle), 144px expanded
+              }),
+            },
+          ]}>
         <TouchableOpacity style={styles.floatingButtonInner}>
           <View style={styles.plusCircle}>
             <Text style={styles.floatingButtonText}>+</Text>
@@ -550,13 +552,14 @@ export const GroupDetailsScreen: React.FC<GroupDetailsScreenProps> = ({navigatio
               justifyContent: 'center',
               maxWidth: buttonWidth.interpolate({
                 inputRange: [0, 1],
-                outputRange: [0, 120],
+                outputRange: [0, 96],
               }),
             }}>
             <Text style={styles.floatingButtonLabel}>Add Member</Text>
           </Animated.View>
         </TouchableOpacity>
-      </Animated.View>
+        </Animated.View>
+      )}
     </View>
   );
 };
@@ -583,17 +586,17 @@ const styles = StyleSheet.create({
     height: 40,
   },
   headerButton: {
-    width: 40,
-    height: 40,
+    width: 32,
+    height: 32,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 20,
+    borderRadius: 16,
   },
   headerTitle: {
-    fontSize: typography.sizes.xl,
+    fontSize: 19.2,
     fontFamily: typography.fonts.bold,
     color: 'white',
-    lineHeight: 40,
+    lineHeight: 32,
   },
   scrollView: {
     flex: 1,
@@ -627,7 +630,7 @@ const styles = StyleSheet.create({
     gap: spacing.xs,
   },
   expensesLabel: {
-    fontSize: typography.sizes.lg,
+    fontSize: 14.4,
     fontFamily: typography.fonts.semibold,
     color: 'white',
   },
@@ -637,14 +640,14 @@ const styles = StyleSheet.create({
     gap: spacing.xs,
   },
   monthText: {
-    fontSize: typography.sizes.base,
+    fontSize: 12.8,
     fontFamily: typography.fonts.medium,
     color: 'rgba(255, 255, 255, 0.7)',
   },
   summaryCard: {
     backgroundColor: 'white',
-    borderRadius: 16,
-    padding: spacing.md,
+    borderRadius: 12,
+    padding: spacing.sm,
     borderWidth: 1,
     borderColor: `${colors.secondary.darkBlueGray}33`,
   },
@@ -652,10 +655,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: spacing.sm,
-    marginBottom: spacing.sm,
+    marginBottom: spacing.xs,
   },
   summaryTitle: {
-    fontSize: typography.sizes.lg,
+    fontSize: 14.4,
     fontFamily: typography.fonts.bold,
     color: colors.text.primary,
   },
@@ -666,12 +669,12 @@ const styles = StyleSheet.create({
     marginBottom: spacing.xs,
   },
   summaryLabel: {
-    fontSize: typography.sizes.base,
+    fontSize: 12.8,
     fontFamily: typography.fonts.regular,
     color: colors.text.secondary,
   },
   summaryValue: {
-    fontSize: typography.sizes.lg,
+    fontSize: 14.4,
     fontFamily: typography.fonts.semibold,
     color: colors.text.primary,
   },
@@ -681,17 +684,17 @@ const styles = StyleSheet.create({
     gap: spacing.xs,
   },
   summaryPercentage: {
-    fontSize: typography.sizes.base,
+    fontSize: 12.8,
     fontFamily: typography.fonts.regular,
     color: colors.text.secondary,
   },
   progressBarContainer: {
     flexDirection: 'row',
-    height: 8,
-    borderRadius: 4,
+    height: 6.4,
+    borderRadius: 3.2,
     overflow: 'hidden',
     marginTop: spacing.xs,
-    marginBottom: spacing.md,
+    marginBottom: spacing.sm,
   },
   progressBarFilled: {
     height: '100%',
@@ -704,42 +707,42 @@ const styles = StyleSheet.create({
   balanceCardsContainer: {
     flexDirection: 'row',
     gap: spacing.sm,
-    marginBottom: spacing.md,
+    marginBottom: spacing.sm,
   },
   owedToYouCard: {
     flex: 1,
     backgroundColor: 'rgba(191, 94, 91, 0.1)',
-    borderRadius: 12,
+    borderRadius: 9.6,
     padding: spacing.xs,
     paddingHorizontal: spacing.sm,
   },
   owingByYouCard: {
     flex: 1,
     backgroundColor: 'rgba(44, 62, 80, 0.1)',
-    borderRadius: 12,
+    borderRadius: 9.6,
     padding: spacing.xs,
     paddingHorizontal: spacing.sm,
   },
   owedToYouTitle: {
-    fontSize: typography.sizes.sm,
+    fontSize: 11.2,
     fontFamily: typography.fonts.semibold,
     color: '#4CAF50',
     marginBottom: 2,
   },
   owingByYouTitle: {
-    fontSize: typography.sizes.sm,
+    fontSize: 11.2,
     fontFamily: typography.fonts.semibold,
     color: '#FF9800',
     marginBottom: 2,
   },
   balanceCardAmount: {
-    fontSize: typography.sizes.lg,
+    fontSize: 14.4,
     fontFamily: typography.fonts.bold,
     color: colors.text.primary,
     marginBottom: 2,
   },
   balanceCardSubtext: {
-    fontSize: typography.sizes.xs,
+    fontSize: 9.6,
     fontFamily: typography.fonts.regular,
     color: colors.text.secondary,
   },
@@ -753,18 +756,18 @@ const styles = StyleSheet.create({
     borderTopColor: colors.neutral.gray200,
   },
   netBalanceLabel: {
-    fontSize: typography.sizes.base,
+    fontSize: 12.8,
     fontFamily: typography.fonts.regular,
     color: colors.text.secondary,
-    lineHeight: typography.sizes.base * 1.5,
+    lineHeight: 12.8 * 1.5,
     includeFontPadding: false,
     textAlignVertical: 'center',
   },
   netBalanceValue: {
-    fontSize: typography.sizes.base,
+    fontSize: 12.8,
     fontFamily: typography.fonts.semibold,
     color: '#4CAF50',
-    lineHeight: typography.sizes.base * 1.5,
+    lineHeight: 12.8 * 1.5,
     includeFontPadding: false,
     textAlignVertical: 'center',
   },
@@ -774,49 +777,49 @@ const styles = StyleSheet.create({
     paddingTop: spacing.xl,
   },
   membersSectionHeader: {
-    marginBottom: spacing.lg,
+    marginBottom: spacing.md,
   },
   membersSectionTitle: {
-    fontSize: typography.sizes.lg,
+    fontSize: 14.4,
     fontFamily: typography.fonts.bold,
     color: colors.text.primary,
   },
   memberCard: {
     backgroundColor: 'white',
-    borderRadius: 16,
-    padding: spacing.md,
-    marginBottom: spacing.md,
+    borderRadius: 12,
+    padding: spacing.sm,
+    marginBottom: spacing.sm,
     borderWidth: 1,
     borderColor: `${colors.secondary.darkBlueGray}33`,
   },
   memberHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: spacing.sm,
+    marginBottom: spacing.xs,
   },
   memberSeparator: {
     height: 1,
     backgroundColor: colors.neutral.gray200,
-    marginBottom: spacing.sm,
+    marginBottom: spacing.xs,
   },
   avatarContainer: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
+    width: 38.4,
+    height: 38.4,
+    borderRadius: 19.2,
     borderWidth: 2,
     borderColor: 'rgba(44, 62, 80, 0.2)',
-    marginRight: spacing.md,
+    marginRight: spacing.sm,
     backgroundColor: 'white',
     overflow: 'hidden',
     justifyContent: 'center',
     alignItems: 'center',
   },
   avatarImage: {
-    width: 48,
-    height: 48,
+    width: 38.4,
+    height: 38.4,
   },
   memberName: {
-    fontSize: typography.sizes.base,
+    fontSize: 12.8,
     fontFamily: typography.fonts.semibold,
     color: colors.text.primary,
     flex: 1,
@@ -827,28 +830,28 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: spacing.sm,
     paddingVertical: 4,
-    borderRadius: 16,
+    borderRadius: 12.8,
     gap: 4,
   },
   statusBadgeText: {
-    fontSize: typography.sizes.sm,
+    fontSize: 11.2,
     fontFamily: typography.fonts.semibold,
-    lineHeight: typography.sizes.sm * 1.5,
+    lineHeight: 11.2 * 1.5,
     includeFontPadding: false,
     textAlignVertical: 'center',
   },
   paymentInfo: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: spacing.sm,
+    marginBottom: spacing.xs,
   },
   paymentLabel: {
-    fontSize: typography.sizes.base,
+    fontSize: 12.8,
     fontFamily: typography.fonts.regular,
     color: colors.text.secondary,
   },
   paymentValue: {
-    fontSize: typography.sizes.lg,
+    fontSize: 14.4,
     fontFamily: typography.fonts.semibold,
     color: colors.text.primary,
   },
@@ -859,29 +862,29 @@ const styles = StyleSheet.create({
     marginBottom: 0,
   },
   balanceText: {
-    fontSize: typography.sizes.base,
+    fontSize: 12.8,
     fontFamily: typography.fonts.medium,
-    lineHeight: typography.sizes.base * 1.5,
+    lineHeight: 12.8 * 1.5,
     includeFontPadding: false,
     textAlignVertical: 'center',
   },
   actionButtons: {
     flexDirection: 'row',
-    gap: spacing.md,
-    marginTop: spacing.md,
+    gap: spacing.sm,
+    marginTop: spacing.sm,
   },
   remindButton: {
     flex: 1,
-    paddingVertical: spacing.sm,
-    borderRadius: 20,
+    paddingVertical: 9.6,
+    borderRadius: 12.8,
     backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 1,
+    borderWidth: 0.8,
     borderColor: colors.text.tertiary,
   },
   remindButtonText: {
-    fontSize: typography.sizes.base,
+    fontSize: 12.8,
     fontFamily: typography.fonts.semibold,
     color: colors.text.secondary,
     textAlign: 'center',
@@ -890,14 +893,14 @@ const styles = StyleSheet.create({
   },
   settleButton: {
     flex: 1,
-    paddingVertical: spacing.sm,
-    borderRadius: 20,
+    paddingVertical: 9.6,
+    borderRadius: 12.8,
     backgroundColor: colors.primary.pink,
     alignItems: 'center',
     justifyContent: 'center',
   },
   settleButtonText: {
-    fontSize: typography.sizes.base,
+    fontSize: 12.8,
     fontFamily: typography.fonts.semibold,
     color: 'white',
     textAlign: 'center',
@@ -906,16 +909,16 @@ const styles = StyleSheet.create({
   },
   sendReminderButton: {
     flex: 1,
-    paddingVertical: spacing.sm,
-    borderRadius: 20,
+    paddingVertical: 9.6,
+    borderRadius: 12.8,
     backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 1,
+    borderWidth: 0.8,
     borderColor: colors.text.tertiary,
   },
   sendReminderButtonText: {
-    fontSize: typography.sizes.base,
+    fontSize: 12.8,
     fontFamily: typography.fonts.semibold,
     color: colors.text.secondary,
     textAlign: 'center',
@@ -924,16 +927,16 @@ const styles = StyleSheet.create({
   },
   viewDetailsButton: {
     flex: 1,
-    paddingVertical: spacing.sm,
-    borderRadius: 20,
+    paddingVertical: 9.6,
+    borderRadius: 12.8,
     backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 1,
+    borderWidth: 0.8,
     borderColor: colors.text.tertiary,
   },
   viewDetailsButtonText: {
-    fontSize: typography.sizes.base,
+    fontSize: 12.8,
     fontFamily: typography.fonts.semibold,
     color: colors.text.secondary,
     textAlign: 'center',
@@ -945,8 +948,8 @@ const styles = StyleSheet.create({
     bottom: spacing.xl,
     right: spacing.lg,
     backgroundColor: colors.secondary.darkBlueGray,
-    height: 56,
-    borderRadius: 28,
+    height: 44.8,
+    borderRadius: 22.4,
     justifyContent: 'center',
     alignItems: 'center',
     elevation: 4,
@@ -959,27 +962,27 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    height: 56,
+    height: 44.8,
     width: '100%',
   },
   plusCircle: {
-    width: 56,
-    height: 56,
+    width: 44.8,
+    height: 44.8,
     justifyContent: 'center',
     alignItems: 'center',
   },
   floatingButtonText: {
     color: 'white',
-    fontSize: 28,
+    fontSize: 22.4,
     fontFamily: typography.fonts.light,
     textAlign: 'center',
-    lineHeight: 28,
+    lineHeight: 22.4,
   },
   floatingButtonLabel: {
     color: 'white',
-    fontSize: typography.sizes.sm,
+    fontSize: 11.2,
     fontFamily: typography.fonts.medium,
-    lineHeight: 18,
+    lineHeight: 14.4,
     marginTop: -2,
   },
   stickyHeaderFixed: {
@@ -1007,20 +1010,20 @@ const styles = StyleSheet.create({
     height: 40,
   },
   stickyHeaderButton: {
-    width: 40,
-    height: 40,
+    width: 32,
+    height: 32,
     justifyContent: 'center',
     alignItems: 'center',
   },
   stickyHeaderTitle: {
-    fontSize: typography.sizes.xl,
+    fontSize: 19.2,
     fontFamily: typography.fonts.bold,
     color: 'white',
-    lineHeight: 40,
+    lineHeight: 32,
   },
   backButton: {
-    width: 40,
-    height: 40,
+    width: 32,
+    height: 32,
     justifyContent: 'center',
     alignItems: 'center',
   },

@@ -11,10 +11,12 @@ const Stack = createStackNavigator<FriendsStackParamList>();
 
 interface FriendsNavigatorProps {
   onScrollDirectionChange?: (isScrollingDown: boolean) => void;
+  onNavigationVisibilityChange?: (isVisible: boolean) => void;
 }
 
 export const FriendsNavigator: React.FC<FriendsNavigatorProps> = ({
   onScrollDirectionChange,
+  onNavigationVisibilityChange,
 }) => {
   return (
     <Stack.Navigator
@@ -23,6 +25,18 @@ export const FriendsNavigator: React.FC<FriendsNavigatorProps> = ({
         gestureEnabled: true,
         ...TransitionPresets.SlideFromRightIOS,
         gestureDirection: 'horizontal',
+      }}
+      screenListeners={{
+        state: (e) => {
+          const state = e.data.state;
+          const currentRoute = state.routes[state.index];
+          // Hide bottom navigation on FriendProfile screen
+          if (currentRoute.name === 'FriendProfile') {
+            onNavigationVisibilityChange?.(false);
+          } else {
+            onNavigationVisibilityChange?.(true);
+          }
+        },
       }}>
       <Stack.Screen name="FriendsList">
         {(props) => (

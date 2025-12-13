@@ -20,7 +20,7 @@ import {BooksStackParamList} from '../../navigation/BooksNavigator';
 
 // Icons
 const BackIcon = () => (
-  <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <Svg width="19.2" height="19.2" viewBox="0 0 24 24" fill="none">
     <Path
       d="M15 18L9 12L15 6"
       stroke="white"
@@ -32,7 +32,7 @@ const BackIcon = () => (
 );
 
 const CalendarIcon = () => (
-  <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <Svg width="19.2" height="19.2" viewBox="0 0 24 24" fill="none">
     <Rect
       x="3"
       y="4"
@@ -69,7 +69,7 @@ const CalendarIcon = () => (
 );
 
 const BillIcon = () => (
-  <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <Svg width="19.2" height="19.2" viewBox="0 0 24 24" fill="none">
     <Path
       d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z"
       stroke={colors.text.secondary}
@@ -107,7 +107,7 @@ export const RecordDetailsScreen: React.FC<RecordDetailsScreenProps> = ({navigat
 
   // Calculate number of semicircles based on screen width
   const screenWidth = Dimensions.get('window').width;
-  const semicircleWidth = 10;
+  const semicircleWidth = 8;
   const semicircleCount = Math.ceil(screenWidth / semicircleWidth);
 
   const lastScrollY = useRef(0);
@@ -251,82 +251,82 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background.primary,
   },
   topSection: {
-    paddingHorizontal: spacing.lg,
-    paddingBottom: spacing.md,
+    paddingHorizontal: spacing.md,
+    paddingBottom: spacing.sm,
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: spacing.md,
-    paddingTop: spacing.sm,
+    gap: spacing.sm,
+    paddingTop: spacing.xs,
     paddingBottom: spacing.xs,
     marginBottom: spacing.xs,
     marginLeft: -4,
-    height: 40,
+    height: 32,
   },
   headerLeft: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: spacing.xs,
-    height: 40,
+    height: 32,
   },
   backButton: {
-    width: 40,
-    height: 40,
+    width: 32,
+    height: 32,
     justifyContent: 'center',
     alignItems: 'center',
   },
   headerTitle: {
-    fontSize: typography.sizes.xl,
+    fontSize: 19.2,
     fontFamily: typography.fonts.bold,
     color: 'white',
-    lineHeight: 40,
+    lineHeight: 32,
   },
   statusBadge: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: 'white',
-    paddingHorizontal: spacing.sm,
-    paddingVertical: 4,
-    borderRadius: 16,
-    gap: 4,
+    paddingHorizontal: spacing.xs,
+    paddingVertical: 3.2,
+    borderRadius: 12,
+    gap: 3.2,
     marginBottom: spacing.xs,
   },
   statusDot: {
-    width: 6,
-    height: 6,
-    borderRadius: 3,
+    width: 4.8,
+    height: 4.8,
+    borderRadius: 2.4,
     backgroundColor: '#f59e0b',
   },
   statusText: {
-    fontSize: typography.sizes.xs,
+    fontSize: 9.6,
     fontFamily: typography.fonts.semibold,
     color: colors.text.primary,
   },
   totalSection: {
     alignItems: 'center',
-    marginTop: spacing.md,
+    marginTop: spacing.sm,
     marginBottom: spacing.xs,
   },
   billEdgeContainer: {
     backgroundColor: 'white',
-    height: 6,
+    height: 4.8,
   },
   billEdge: {
     flexDirection: 'row',
     backgroundColor: colors.secondary.darkBlueGray,
-    height: 6,
+    height: 4.8,
     alignItems: 'center',
   },
   semicircle: {
-    width: 10,
-    height: 10,
-    borderRadius: 5,
+    width: 8,
+    height: 8,
+    borderRadius: 4,
     backgroundColor: 'white',
-    marginTop: 5,
+    marginTop: 4,
   },
   totalAmount: {
-    fontSize: 30,
+    fontSize: 24,
     fontFamily: typography.fonts.bold,
     color: 'white',
     marginBottom: spacing.xs,
@@ -334,7 +334,7 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
   },
   paymentDate: {
-    fontSize: typography.sizes.base,
+    fontSize: 12.8,
     fontFamily: typography.fonts.regular,
     color: 'rgba(255, 255, 255, 0.8)',
   },
@@ -346,129 +346,129 @@ const styles = StyleSheet.create({
   },
   detailsContainer: {
     backgroundColor: 'white',
-    paddingHorizontal: spacing.lg,
-    paddingTop: spacing.xl,
-    paddingBottom: spacing.xxl,
+    paddingHorizontal: spacing.md,
+    paddingTop: spacing.lg,
+    paddingBottom: spacing.xl,
     flex: 1,
   },
   userInfoSection: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: spacing.lg,
+    marginBottom: spacing.md,
   },
   avatarContainer: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    borderWidth: 2,
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    borderWidth: 1.6,
     borderColor: 'rgba(44, 62, 80, 0.2)',
-    marginRight: spacing.md,
+    marginRight: spacing.sm,
     backgroundColor: 'white',
     overflow: 'hidden',
     justifyContent: 'center',
     alignItems: 'center',
   },
   avatarImage: {
-    width: 60,
-    height: 60,
+    width: 48,
+    height: 48,
   },
   userDetails: {
     flex: 1,
   },
   userName: {
-    fontSize: typography.sizes.lg,
+    fontSize: 14.4,
     fontFamily: typography.fonts.bold,
     color: colors.text.primary,
   },
   userSubtext: {
-    fontSize: typography.sizes.sm,
+    fontSize: 11.2,
     fontFamily: typography.fonts.regular,
     color: colors.text.secondary,
-    marginTop: 2,
+    marginTop: 1.6,
   },
   scheduleSection: {
     backgroundColor: '#F8F9FA',
-    borderRadius: 12,
-    padding: spacing.lg,
-    marginBottom: spacing.lg,
+    borderRadius: 9.6,
+    padding: spacing.md,
+    marginBottom: spacing.md,
   },
   scheduleHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: spacing.sm,
-    marginBottom: spacing.md,
+    gap: spacing.xs,
+    marginBottom: spacing.sm,
   },
   scheduleTitle: {
-    fontSize: typography.sizes.lg,
+    fontSize: 14.4,
     fontFamily: typography.fonts.bold,
     color: colors.text.primary,
   },
   scheduleText: {
-    fontSize: typography.sizes.base,
+    fontSize: 12.8,
     fontFamily: typography.fonts.regular,
     color: colors.text.secondary,
-    marginBottom: spacing.md,
+    marginBottom: spacing.sm,
   },
   scheduleDateText: {
     fontFamily: typography.fonts.bold,
     color: colors.text.primary,
   },
   changeScheduleButton: {
-    borderWidth: 1.5,
+    borderWidth: 1.2,
     borderColor: colors.primary.pink,
-    borderRadius: 8,
-    paddingVertical: spacing.sm,
-    paddingHorizontal: spacing.md,
+    borderRadius: 6.4,
+    paddingVertical: spacing.xs,
+    paddingHorizontal: spacing.sm,
     alignSelf: 'flex-start',
   },
   changeScheduleText: {
-    fontSize: typography.sizes.base,
+    fontSize: 12.8,
     fontFamily: typography.fonts.semibold,
     color: colors.primary.pink,
   },
   billsSection: {
-    marginTop: spacing.md,
+    marginTop: spacing.sm,
   },
   billsHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: spacing.sm,
-    marginBottom: spacing.lg,
+    gap: spacing.xs,
+    marginBottom: spacing.md,
   },
   billsTitle: {
-    fontSize: typography.sizes.lg,
+    fontSize: 14.4,
     fontFamily: typography.fonts.bold,
     color: colors.text.primary,
   },
   billsContent: {
     flexDirection: 'row',
-    gap: spacing.lg,
+    gap: spacing.md,
   },
   billsLeft: {
     flex: 1,
   },
   billRow: {
-    marginBottom: spacing.lg,
+    marginBottom: spacing.md,
   },
   billRowFullWidth: {
-    marginTop: spacing.lg,
+    marginTop: spacing.md,
   },
   billLabel: {
-    fontSize: typography.sizes.sm,
+    fontSize: 11.2,
     fontFamily: typography.fonts.regular,
     color: colors.text.secondary,
     marginBottom: spacing.xs,
   },
   billValue: {
-    fontSize: typography.sizes.lg,
+    fontSize: 14.4,
     fontFamily: typography.fonts.semibold,
     color: colors.text.primary,
   },
   billDetailsValue: {
-    fontSize: typography.sizes.base,
+    fontSize: 12.8,
     fontFamily: typography.fonts.regular,
     color: colors.text.secondary,
-    lineHeight: typography.sizes.base * 1.5,
+    lineHeight: 19.2,
     marginTop: spacing.xs,
   },
   vendorRow: {
@@ -477,21 +477,21 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   splitLabel: {
-    fontSize: typography.sizes.sm,
+    fontSize: 11.2,
     fontFamily: typography.fonts.medium,
     color: colors.primary.pink,
   },
   billsRight: {
-    width: 120,
+    width: 96,
   },
   receiptContainer: {
     position: 'relative',
-    width: 120,
-    height: 160,
-    borderRadius: 8,
+    width: 96,
+    height: 128,
+    borderRadius: 6.4,
     overflow: 'hidden',
     backgroundColor: '#F0F0F0',
-    borderWidth: 1,
+    borderWidth: 0.8,
     borderColor: 'rgba(44, 62, 80, 0.2)',
   },
   receiptImage: {
@@ -501,17 +501,17 @@ const styles = StyleSheet.create({
   },
   attachmentBadge: {
     position: 'absolute',
-    top: spacing.sm,
-    right: spacing.sm,
-    width: 32,
-    height: 32,
-    borderRadius: 16,
+    top: spacing.xs,
+    right: spacing.xs,
+    width: 25.6,
+    height: 25.6,
+    borderRadius: 12.8,
     backgroundColor: colors.secondary.darkBlueGray,
     justifyContent: 'center',
     alignItems: 'center',
   },
   attachmentCount: {
-    fontSize: typography.sizes.sm,
+    fontSize: 11.2,
     fontFamily: typography.fonts.bold,
     color: 'white',
   },

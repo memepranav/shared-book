@@ -16,7 +16,7 @@ import {BooksStackParamList} from '../../navigation/BooksNavigator';
 
 // Icons
 const BackIcon = () => (
-  <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <Svg width="19.2" height="19.2" viewBox="0 0 24 24" fill="none">
     <Path
       d="M15 18L9 12L15 6"
       stroke={colors.text.primary}
@@ -28,7 +28,7 @@ const BackIcon = () => (
 );
 
 const PersonalBookIcon = () => (
-  <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <Svg width="19.2" height="19.2" viewBox="0 0 24 24" fill="none">
     <Path
       d="M17 21V19C17 17.9391 16.5786 16.9217 15.8284 16.1716C15.0783 15.4214 14.0609 15 13 15H5C3.93913 15 2.92172 15.4214 2.17157 16.1716C1.42143 16.9217 1 17.9391 1 19V21"
       stroke={colors.secondary.darkBlueGray}
@@ -61,7 +61,7 @@ const PersonalBookIcon = () => (
 );
 
 const SearchIcon = () => (
-  <Svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+  <Svg width="16" height="16" viewBox="0 0 24 24" fill="none">
     <Path
       d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z"
       stroke={colors.text.secondary}
@@ -80,7 +80,7 @@ const SearchIcon = () => (
 );
 
 const PhoneIcon = () => (
-  <Svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+  <Svg width="16" height="16" viewBox="0 0 24 24" fill="none">
     <Path
       d="M5 4H9L11 9L8.5 10.5C9.57096 12.6715 11.3285 14.429 13.5 15.5L15 13L20 15V19C20 19.5304 19.7893 20.0391 19.4142 20.4142C19.0391 20.7893 18.5304 21 18 21C14.0993 20.763 10.4202 19.1065 7.65683 16.3432C4.8935 13.5798 3.23705 9.90074 3 6C3 5.46957 3.21071 4.96086 3.58579 4.58579C3.96086 4.21071 4.46957 4 5 4Z"
       stroke={colors.text.secondary}
@@ -286,106 +286,106 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
   },
   backButton: {
-    width: 40,
-    height: 40,
+    width: 32,
+    height: 32,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 20,
+    borderRadius: 16,
   },
   headerTitle: {
-    fontSize: typography.sizes.xl,
+    fontSize: 19.2,
     fontFamily: typography.fonts.bold,
     color: colors.text.primary,
-    lineHeight: 40,
+    lineHeight: 32,
   },
   infoBox: {
     flexDirection: 'row',
     backgroundColor: 'rgba(255, 255, 255, 0.7)',
-    borderRadius: 16,
-    padding: spacing.md,
+    borderRadius: 12,
+    padding: spacing.sm,
     marginBottom: spacing.xl,
-    gap: spacing.md,
+    gap: spacing.sm,
     borderWidth: 1,
     borderColor: `${colors.secondary.darkBlueGray}33`,
   },
   infoText: {
     flex: 1,
-    fontSize: typography.sizes.sm,
+    fontSize: 11.2,
     fontFamily: typography.fonts.regular,
     color: colors.text.primary,
-    lineHeight: 20,
+    lineHeight: 16,
   },
   section: {
     marginBottom: spacing.xl,
   },
   label: {
-    fontSize: typography.sizes.base,
+    fontSize: 12.8,
     fontFamily: typography.fonts.semibold,
     color: colors.text.primary,
     marginBottom: spacing.sm,
   },
   optionalText: {
-    fontSize: typography.sizes.sm,
+    fontSize: 11.2,
     fontFamily: typography.fonts.regular,
     color: colors.text.secondary,
   },
   input: {
     backgroundColor: 'rgba(255, 255, 255, 0.9)',
     borderRadius: 12,
-    padding: spacing.md,
-    fontSize: typography.sizes.base,
+    padding: spacing.sm,
+    fontSize: 12.8,
     fontFamily: typography.fonts.regular,
     color: colors.text.primary,
     borderWidth: 1,
     borderColor: `${colors.secondary.darkBlueGray}33`,
   },
   helperText: {
-    fontSize: typography.sizes.sm,
+    fontSize: 11.2,
     fontFamily: typography.fonts.regular,
     color: colors.text.secondary,
     marginTop: spacing.xs,
   },
   sectionTitle: {
-    fontSize: typography.sizes.lg,
+    fontSize: 14.4,
     fontFamily: typography.fonts.bold,
     color: colors.text.primary,
-    marginBottom: spacing.md,
+    marginBottom: spacing.sm,
   },
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: 'rgba(255, 255, 255, 0.9)',
     borderRadius: 12,
-    padding: spacing.md,
+    padding: spacing.sm,
     borderWidth: 1,
     borderColor: `${colors.secondary.darkBlueGray}33`,
     gap: spacing.sm,
-    marginBottom: spacing.lg,
+    marginBottom: spacing.md,
   },
   searchInput: {
     flex: 1,
-    fontSize: typography.sizes.base,
+    fontSize: 12.8,
     fontFamily: typography.fonts.regular,
     color: colors.text.primary,
     padding: 0,
   },
   contactsSection: {
-    marginBottom: spacing.lg,
+    marginBottom: spacing.md,
   },
   contactsHeader: {
-    fontSize: typography.sizes.xs,
+    fontSize: 9.6,
     fontFamily: typography.fonts.semibold,
     color: colors.text.secondary,
     letterSpacing: 0.5,
-    marginBottom: spacing.md,
+    marginBottom: spacing.sm,
   },
   contactItem: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     backgroundColor: 'rgba(255, 255, 255, 0.9)',
-    borderRadius: 16,
-    padding: spacing.md,
+    borderRadius: 12,
+    padding: spacing.sm,
     marginBottom: spacing.sm,
     borderWidth: 1,
     borderColor: `${colors.secondary.darkBlueGray}33`,
@@ -394,17 +394,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     flex: 1,
-    gap: spacing.md,
+    gap: spacing.sm,
   },
   avatar: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: 32,
+    height: 32,
+    borderRadius: 16,
     justifyContent: 'center',
     alignItems: 'center',
   },
   avatarText: {
-    fontSize: typography.sizes.lg,
+    fontSize: 14.4,
     fontFamily: typography.fonts.semibold,
     color: colors.primary.pink,
   },
@@ -412,29 +412,29 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   contactName: {
-    fontSize: typography.sizes.base,
+    fontSize: 12.8,
     fontFamily: typography.fonts.semibold,
     color: colors.text.primary,
     marginBottom: 2,
   },
   contactPhone: {
-    fontSize: typography.sizes.sm,
+    fontSize: 11.2,
     fontFamily: typography.fonts.regular,
     color: colors.text.secondary,
   },
   addButton: {
-    paddingHorizontal: spacing.md,
+    paddingHorizontal: spacing.sm,
     paddingVertical: spacing.xs,
   },
   addButtonText: {
-    fontSize: typography.sizes.base,
+    fontSize: 12.8,
     fontFamily: typography.fonts.semibold,
     color: colors.primary.pink,
   },
   inviteSection: {
     backgroundColor: 'rgba(255, 255, 255, 0.9)',
-    borderRadius: 16,
-    padding: spacing.md,
+    borderRadius: 12,
+    padding: spacing.sm,
     borderWidth: 1,
     borderColor: `${colors.secondary.darkBlueGray}33`,
   },
@@ -442,10 +442,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: spacing.sm,
-    marginBottom: spacing.md,
+    marginBottom: spacing.sm,
   },
   inviteTitle: {
-    fontSize: typography.sizes.base,
+    fontSize: 12.8,
     fontFamily: typography.fonts.medium,
     color: colors.text.primary,
   },
@@ -455,21 +455,21 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.neutral.gray300,
     borderRadius: 8,
-    paddingHorizontal: spacing.md,
+    paddingHorizontal: spacing.sm,
     backgroundColor: colors.neutral.white,
   },
   countryCode: {
-    fontSize: typography.sizes.base,
+    fontSize: 12.8,
     fontFamily: typography.fonts.medium,
     color: colors.text.primary,
     marginRight: spacing.sm,
   },
   phoneInput: {
     flex: 1,
-    fontSize: typography.sizes.base,
+    fontSize: 12.8,
     fontFamily: typography.fonts.regular,
     color: colors.text.primary,
-    paddingVertical: spacing.sm,
+    paddingVertical: spacing.xs,
   },
   footer: {
     marginTop: spacing.xl,
@@ -477,8 +477,8 @@ const styles = StyleSheet.create({
   },
   createButton: {
     backgroundColor: colors.secondary.darkBlueGray,
-    borderRadius: 16,
-    padding: spacing.lg,
+    borderRadius: 12,
+    padding: spacing.md,
     alignItems: 'center',
     shadowColor: colors.neutral.black,
     shadowOffset: {
@@ -490,7 +490,7 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   createButtonText: {
-    fontSize: typography.sizes.lg,
+    fontSize: 14.4,
     fontFamily: typography.fonts.bold,
     color: colors.neutral.white,
   },

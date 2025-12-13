@@ -18,7 +18,7 @@ import {FriendsStackParamList} from '../../navigation/FriendsNavigator';
 
 // Icons
 const BackIcon = () => (
-  <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <Svg width="19.2" height="19.2" viewBox="0 0 24 24" fill="none">
     <Path
       d="M15 18L9 12L15 6"
       stroke={colors.text.primary}
@@ -30,7 +30,7 @@ const BackIcon = () => (
 );
 
 const MoreIcon = () => (
-  <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <Svg width="19.2" height="19.2" viewBox="0 0 24 24" fill="none">
     <Circle cx="12" cy="5" r="1.5" fill={colors.text.primary} />
     <Circle cx="12" cy="12" r="1.5" fill={colors.text.primary} />
     <Circle cx="12" cy="19" r="1.5" fill={colors.text.primary} />
@@ -38,7 +38,7 @@ const MoreIcon = () => (
 );
 
 const SendIcon = () => (
-  <Svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+  <Svg width="16" height="16" viewBox="0 0 24 24" fill="none">
     <Path
       d="M12 19V5M12 5L5 12M12 5L19 12"
       stroke="white"
@@ -50,7 +50,7 @@ const SendIcon = () => (
 );
 
 const ReceiveIcon = () => (
-  <Svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+  <Svg width="16" height="16" viewBox="0 0 24 24" fill="none">
     <Path
       d="M12 5V19M12 19L19 12M12 19L5 12"
       stroke={colors.text.primary}
@@ -62,7 +62,7 @@ const ReceiveIcon = () => (
 );
 
 const BellIcon = () => (
-  <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <Svg width="19.2" height="19.2" viewBox="0 0 24 24" fill="none">
     <Path
       d="M18 8C18 6.4087 17.3679 4.88258 16.2426 3.75736C15.1174 2.63214 13.5913 2 12 2C10.4087 2 8.88258 2.63214 7.75736 3.75736C6.63214 4.88258 6 6.4087 6 8C6 15 3 17 3 17H21C21 17 18 15 18 8Z"
       stroke="white"
@@ -81,7 +81,7 @@ const BellIcon = () => (
 );
 
 const ForkKnifeIcon = () => (
-  <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <Svg width="19.2" height="19.2" viewBox="0 0 24 24" fill="none">
     <Path
       d="M18 2L18 7C18 8.66 16.66 10 15 10C13.34 10 12 8.66 12 7V2M18 2V22M18 2L21 2M12 2V22M12 2L9 2M3 2V7C3 8.66 4.34 10 6 10C7.66 10 9 8.66 9 7V2M6 10V22"
       stroke="#FF9800"
@@ -93,7 +93,7 @@ const ForkKnifeIcon = () => (
 );
 
 const ShoppingBagIcon = () => (
-  <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <Svg width="19.2" height="19.2" viewBox="0 0 24 24" fill="none">
     <Path
       d="M6 2L3 6V20C3 20.5304 3.21071 21.0391 3.58579 21.4142C3.96086 21.7893 4.46957 22 5 22H19C19.5304 22 20.0391 21.7893 20.4142 21.4142C20.7893 21.0391 21 20.5304 21 20V6L18 2H6Z"
       stroke="#5B9EFF"
@@ -112,7 +112,7 @@ const ShoppingBagIcon = () => (
 );
 
 const TvIcon = () => (
-  <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <Svg width="19.2" height="19.2" viewBox="0 0 24 24" fill="none">
     <Rect
       x="2"
       y="7"
@@ -411,29 +411,29 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   contentContainer: {
-    paddingTop: spacing.xl,
+    paddingTop: spacing.lg,
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: spacing.lg,
-    marginBottom: spacing.lg,
-    height: 40,
+    paddingHorizontal: spacing.md,
+    marginBottom: spacing.md,
+    height: 32,
   },
   headerLeft: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: spacing.md,
+    gap: spacing.sm,
   },
   headerButton: {
-    width: 40,
-    height: 40,
+    width: 32,
+    height: 32,
     justifyContent: 'center',
     alignItems: 'center',
   },
   headerTitle: {
-    fontSize: typography.sizes.xl,
+    fontSize: 19.2,
     fontFamily: typography.fonts.bold,
     color: colors.text.primary,
     includeFontPadding: false,
@@ -441,17 +441,17 @@ const styles = StyleSheet.create({
   },
   profileSection: {
     alignItems: 'center',
-    marginBottom: spacing.xl,
+    marginBottom: spacing.lg,
   },
   avatarContainer: {
     position: 'relative',
-    marginBottom: spacing.md,
+    marginBottom: spacing.sm,
   },
   avatar: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    borderWidth: 4,
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    borderWidth: 3.2,
     borderColor: 'white',
   },
   proBadge: {
@@ -459,28 +459,28 @@ const styles = StyleSheet.create({
     bottom: 0,
     right: 0,
     backgroundColor: colors.primary.pink,
-    paddingHorizontal: spacing.sm,
-    paddingVertical: 4,
-    borderRadius: 12,
-    borderWidth: 2,
+    paddingHorizontal: spacing.xs,
+    paddingVertical: 3.2,
+    borderRadius: 9.6,
+    borderWidth: 1.6,
     borderColor: 'white',
   },
   proBadgeText: {
-    fontSize: typography.sizes.xs,
+    fontSize: 9.6,
     fontFamily: typography.fonts.semibold,
     color: 'white',
     includeFontPadding: false,
     textAlignVertical: 'center',
   },
   friendName: {
-    fontSize: typography.sizes['2xl'],
+    fontSize: 22.4,
     fontFamily: typography.fonts.bold,
     color: colors.text.primary,
-    marginBottom: spacing.lg,
+    marginBottom: spacing.md,
   },
   actionButtons: {
     flexDirection: 'row',
-    gap: spacing.sm,
+    gap: spacing.xs,
     justifyContent: 'center',
   },
   sendButton: {
@@ -489,12 +489,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: spacing.xs,
     backgroundColor: colors.primary.pink,
-    paddingVertical: spacing.sm,
-    paddingHorizontal: spacing.md,
-    borderRadius: 20,
+    paddingVertical: spacing.xs,
+    paddingHorizontal: spacing.sm,
+    borderRadius: 16,
   },
   sendButtonText: {
-    fontSize: typography.sizes.sm,
+    fontSize: 11.2,
     fontFamily: typography.fonts.semibold,
     color: 'white',
     textAlign: 'center',
@@ -507,14 +507,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: spacing.xs,
     backgroundColor: 'white',
-    paddingVertical: spacing.sm,
-    paddingHorizontal: spacing.md,
-    borderRadius: 20,
-    borderWidth: 1,
+    paddingVertical: spacing.xs,
+    paddingHorizontal: spacing.sm,
+    borderRadius: 16,
+    borderWidth: 0.8,
     borderColor: colors.neutral.gray300,
   },
   receiveButtonText: {
-    fontSize: typography.sizes.sm,
+    fontSize: 11.2,
     fontFamily: typography.fonts.semibold,
     color: colors.text.primary,
     textAlign: 'center',
@@ -523,11 +523,11 @@ const styles = StyleSheet.create({
   },
   balanceCard: {
     backgroundColor: 'white',
-    borderRadius: 16,
-    padding: spacing.md,
-    marginHorizontal: spacing.lg,
-    marginBottom: spacing.lg,
-    borderWidth: 1,
+    borderRadius: 12,
+    padding: spacing.sm,
+    marginHorizontal: spacing.md,
+    marginBottom: spacing.md,
+    borderWidth: 0.8,
     borderColor: `${colors.secondary.darkBlueGray}33`,
   },
   balanceHeader: {
@@ -537,38 +537,38 @@ const styles = StyleSheet.create({
     marginBottom: spacing.xs,
   },
   balanceLabel: {
-    fontSize: typography.sizes.sm,
+    fontSize: 11.2,
     fontFamily: typography.fonts.semibold,
     color: colors.text.secondary,
   },
   percentageBadge: {
     backgroundColor: `${colors.primary.pink}15`,
-    paddingHorizontal: spacing.sm,
-    paddingVertical: 4,
-    borderRadius: 12,
+    paddingHorizontal: spacing.xs,
+    paddingVertical: 3.2,
+    borderRadius: 9.6,
   },
   percentageText: {
-    fontSize: typography.sizes.xs,
+    fontSize: 9.6,
     fontFamily: typography.fonts.semibold,
     color: colors.primary.pink,
   },
   balanceAmount: {
-    fontSize: typography.sizes['2xl'],
+    fontSize: 22.4,
     fontFamily: typography.fonts.bold,
     color: colors.text.primary,
-    marginBottom: spacing.sm,
+    marginBottom: spacing.xs,
   },
   progressBar: {
     flexDirection: 'row',
-    height: 8,
-    borderRadius: 4,
+    height: 6.4,
+    borderRadius: 3.2,
     overflow: 'hidden',
-    marginBottom: spacing.sm,
+    marginBottom: spacing.xs,
     backgroundColor: colors.neutral.gray200,
   },
   progressSegment: {
     height: '100%',
-    borderRadius: 4,
+    borderRadius: 3.2,
   },
   balanceItems: {
     gap: spacing.xs,
@@ -581,29 +581,29 @@ const styles = StyleSheet.create({
   balanceItemLeft: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: spacing.sm,
+    gap: spacing.xs,
   },
   dot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
+    width: 6.4,
+    height: 6.4,
+    borderRadius: 3.2,
   },
   balanceItemLabel: {
-    fontSize: typography.sizes.sm,
+    fontSize: 11.2,
     fontFamily: typography.fonts.regular,
     color: colors.text.secondary,
   },
   balanceItemAmount: {
-    fontSize: typography.sizes.base,
+    fontSize: 12.8,
     fontFamily: typography.fonts.semibold,
     color: colors.text.primary,
   },
   reminderCard: {
     backgroundColor: colors.primary.pink,
-    borderRadius: 16,
-    padding: spacing.lg,
-    marginHorizontal: spacing.lg,
-    marginBottom: spacing.xl,
+    borderRadius: 12,
+    padding: spacing.md,
+    marginHorizontal: spacing.md,
+    marginBottom: spacing.lg,
   },
   reminderContent: {
     flexDirection: 'row',
@@ -611,68 +611,68 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   reminderTitle: {
-    fontSize: typography.sizes.lg,
+    fontSize: 14.4,
     fontFamily: typography.fonts.bold,
     color: 'white',
     marginBottom: spacing.xs,
   },
   reminderText: {
-    fontSize: typography.sizes.sm,
+    fontSize: 11.2,
     fontFamily: typography.fonts.regular,
     color: 'rgba(255, 255, 255, 0.9)',
-    maxWidth: 240,
+    maxWidth: 192,
   },
   reminderButton: {
-    width: 56,
-    height: 56,
-    borderRadius: 16,
+    width: 44.8,
+    height: 44.8,
+    borderRadius: 12,
     backgroundColor: 'rgba(255, 255, 255, 0.2)',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 4,
+    marginTop: 3.2,
   },
   activitySection: {
-    paddingHorizontal: spacing.lg,
+    paddingHorizontal: spacing.md,
   },
   activityHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: spacing.lg,
+    marginBottom: spacing.md,
   },
   activityTitle: {
-    fontSize: typography.sizes.lg,
+    fontSize: 14.4,
     fontFamily: typography.fonts.bold,
     color: colors.text.primary,
   },
   viewAllText: {
-    fontSize: typography.sizes.sm,
+    fontSize: 11.2,
     fontFamily: typography.fonts.medium,
     color: colors.primary.pink,
   },
   timeline: {
-    gap: spacing.lg,
+    gap: spacing.md,
   },
   timelineItem: {
     flexDirection: 'row',
-    gap: spacing.md,
+    gap: spacing.sm,
   },
   timelineDotContainer: {
     alignItems: 'center',
-    width: 24,
+    width: 19.2,
   },
   timelineDot: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-    borderWidth: 2,
+    width: 9.6,
+    height: 9.6,
+    borderRadius: 4.8,
+    borderWidth: 1.6,
     borderColor: 'white',
   },
   timelineLine: {
-    width: 2,
+    width: 1.6,
     flex: 1,
     backgroundColor: colors.neutral.gray300,
-    marginTop: 4,
+    marginTop: 3.2,
   },
   activityCard: {
     flex: 1,
@@ -680,21 +680,21 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: 'white',
-    borderRadius: 12,
-    padding: spacing.md,
-    borderWidth: 1,
+    borderRadius: 9.6,
+    padding: spacing.sm,
+    borderWidth: 0.8,
     borderColor: `${colors.secondary.darkBlueGray}33`,
   },
   activityLeft: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: spacing.md,
+    gap: spacing.sm,
     flex: 1,
   },
   activityIcon: {
-    width: 48,
-    height: 48,
-    borderRadius: 12,
+    width: 38.4,
+    height: 38.4,
+    borderRadius: 9.6,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -702,13 +702,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   activityName: {
-    fontSize: typography.sizes.base,
+    fontSize: 12.8,
     fontFamily: typography.fonts.semibold,
     color: colors.text.primary,
-    marginBottom: 4,
+    marginBottom: 3.2,
   },
   activityMeta: {
-    fontSize: typography.sizes.sm,
+    fontSize: 11.2,
     fontFamily: typography.fonts.regular,
     color: colors.text.secondary,
   },
@@ -716,12 +716,12 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
   activityAmount: {
-    fontSize: typography.sizes.lg,
+    fontSize: 14.4,
     fontFamily: typography.fonts.bold,
-    marginBottom: 4,
+    marginBottom: 3.2,
   },
   activityStatus: {
-    fontSize: typography.sizes.sm,
+    fontSize: 11.2,
     fontFamily: typography.fonts.regular,
     color: colors.text.secondary,
   },

@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {RouteProp} from '@react-navigation/native';
+import {RouteProp, useIsFocused} from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
 import Svg, {Path} from 'react-native-svg';
 import {colors, typography, spacing} from '../../theme';
@@ -33,7 +33,7 @@ const avatarImages = [
 
 // Icons
 const BackIcon = () => (
-  <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <Svg width="19.2" height="19.2" viewBox="0 0 24 24" fill="none">
     <Path
       d="M15 18L9 12L15 6"
       stroke={colors.text.primary}
@@ -45,7 +45,7 @@ const BackIcon = () => (
 );
 
 const BellIcon = () => (
-  <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <Svg width="19.2" height="19.2" viewBox="0 0 24 24" fill="none">
     <Path
       d="M18 8C18 6.4087 17.3679 4.88258 16.2426 3.75736C15.1174 2.63214 13.5913 2 12 2C10.4087 2 8.88258 2.63214 7.75736 3.75736C6.63214 4.88258 6 6.4087 6 8C6 15 3 17 3 17H21C21 17 18 15 18 8Z"
       stroke={colors.text.primary}
@@ -57,7 +57,7 @@ const BellIcon = () => (
 );
 
 const ChevronDownIcon = () => (
-  <Svg width="16" height="16" viewBox="0 0 20 20" fill="none">
+  <Svg width="12.8" height="12.8" viewBox="0 0 20 20" fill="none">
     <Path
       d="M5 7.5L10 12.5L15 7.5"
       stroke="white"
@@ -69,7 +69,7 @@ const ChevronDownIcon = () => (
 );
 
 const IncomeIcon = () => (
-  <Svg width="20" height="20" viewBox="0 0 64 64" fill="none">
+  <Svg width="16" height="16" viewBox="0 0 64 64" fill="none">
     <Path
       d="M42.5 21.5L53.5 32.5L42.5 43.5M52.5 32.5H21.5M21.5 10.5V54.5"
       stroke={colors.primary.pink}
@@ -81,7 +81,7 @@ const IncomeIcon = () => (
 );
 
 const ExpenseIcon = () => (
-  <Svg width="20" height="20" viewBox="0 0 64 64" fill="none">
+  <Svg width="16" height="16" viewBox="0 0 64 64" fill="none">
     <Path
       d="M21.5 21.5L10.5 32.5L21.5 43.5M11.5 32.5H42.5M42.5 10.5V54.5"
       stroke={colors.primary.pink}
@@ -93,7 +93,7 @@ const ExpenseIcon = () => (
 );
 
 const ExclamationIcon = () => (
-  <Svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+  <Svg width="16" height="16" viewBox="0 0 24 24" fill="none">
     <Path
       d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
       fill="#EF4444"
@@ -125,6 +125,7 @@ interface BookDetailsScreenProps {
 }
 
 export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({navigation, route, onScrollDirectionChange}) => {
+  const isFocused = useIsFocused();
   const insets = useSafeAreaInsets();
   const [selectedMonth, setSelectedMonth] = useState('Jan 2024');
   const [totalExpenses] = useState(2578000);
@@ -197,13 +198,13 @@ export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({navigation,
 
   return (
       <View style={styles.container}>
-      {/* Sticky Header - Only shown when scrolled */}
-      {showStickyHeader && (
+      {/* Sticky Header - Only shown when scrolled and screen is focused */}
+      {isFocused && showStickyHeader && (
         <View style={[styles.stickyHeaderFixed, {paddingTop: insets.top + spacing.lg}]}>
           <View style={styles.stickyHeader}>
             <View style={styles.headerLeft}>
               <TouchableOpacity onPress={() => navigation.goBack()} style={styles.stickyHeaderButton}>
-                <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <Svg width="19.2" height="19.2" viewBox="0 0 24 24" fill="none">
                   <Path
                     d="M15 18L9 12L15 6"
                     stroke="white"
@@ -234,7 +235,7 @@ export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({navigation,
             <View style={styles.header}>
               <View style={styles.headerLeft}>
                 <TouchableOpacity onPress={() => navigation.goBack()} style={styles.headerButton}>
-                  <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <Svg width="19.2" height="19.2" viewBox="0 0 24 24" fill="none">
                     <Path
                       d="M15 18L9 12L15 6"
                       stroke="white"
@@ -252,7 +253,7 @@ export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({navigation,
             <View style={styles.expensesSection}>
               <View style={styles.expensesHeader}>
                 <View style={styles.tripTypeContainer}>
-                  <BookTypeIcon type={bookType} size={24} color="white" />
+                  <BookTypeIcon type={bookType} size={19.2} color="white" />
                   <Text style={styles.expensesLabel}>{bookType.charAt(0).toUpperCase() + bookType.slice(1)}</Text>
                 </View>
                 <TouchableOpacity style={styles.monthSelector}>
@@ -276,9 +277,9 @@ export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({navigation,
                       {image: avatarImages[5], color: '#6B6D7A'},
                     ]}
                     maxVisible={3}
-                    size={44}
+                    size={35.2}
                     borderColor={colors.primary.pink}
-                    overlap={22}
+                    overlap={17.6}
                   />
                 </TouchableOpacity>
               </View>
@@ -300,7 +301,7 @@ export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({navigation,
             {/* Combined Income and Expenses Card */}
             <View style={styles.card}>
               {/* Income Section */}
-              <View style={[styles.cardSection, {paddingBottom: spacing.lg}]}>
+              <View style={[styles.cardSection, {paddingBottom: spacing.md}]}>
                 <View style={styles.cardTitleRow}>
                   <IncomeIcon />
                   <Text style={styles.cardTitle}>Income</Text>
@@ -454,17 +455,18 @@ export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({navigation,
         </View>
       </ScrollView>
 
-      {/* Floating Add Button */}
-      <Animated.View
-        style={[
-          styles.floatingButton,
-          {
-            width: buttonWidth.interpolate({
-              inputRange: [0, 1],
-              outputRange: [56, 170], // 56px collapsed (circle), 170px expanded
-            }),
-          },
-        ]}>
+      {/* Floating Add Button - Only shown when screen is focused */}
+      {isFocused && (
+        <Animated.View
+          style={[
+            styles.floatingButton,
+            {
+              width: buttonWidth.interpolate({
+                inputRange: [0, 1],
+                outputRange: [44.8, 136], // 44.8px collapsed (circle), 136px expanded
+              }),
+            },
+          ]}>
         <TouchableOpacity style={styles.floatingButtonInner}>
           <View style={styles.plusCircle}>
             <Text style={styles.floatingButtonText}>+</Text>
@@ -476,13 +478,14 @@ export const BookDetailsScreen: React.FC<BookDetailsScreenProps> = ({navigation,
               justifyContent: 'center',
               maxWidth: buttonWidth.interpolate({
                 inputRange: [0, 1],
-                outputRange: [0, 110],
+                outputRange: [0, 88],
               }),
             }}>
             <Text style={styles.floatingButtonLabel}>Add Record</Text>
           </Animated.View>
         </TouchableOpacity>
-      </Animated.View>
+        </Animated.View>
+      )}
     </View>
   );
 };
@@ -517,16 +520,16 @@ const styles = StyleSheet.create({
     height: 40,
   },
   stickyHeaderButton: {
-    width: 40,
-    height: 40,
+    width: 32,
+    height: 32,
     justifyContent: 'center',
     alignItems: 'center',
   },
   stickyHeaderTitle: {
-    fontSize: typography.sizes.xl,
+    fontSize: 19.2,
     fontFamily: typography.fonts.bold,
     color: 'white',
-    lineHeight: 40,
+    lineHeight: 32,
   },
   scrollView: {
     flex: 1,
@@ -560,17 +563,17 @@ const styles = StyleSheet.create({
     height: 40,
   },
   headerButton: {
-    width: 40,
-    height: 40,
+    width: 32,
+    height: 32,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 20,
+    borderRadius: 16,
   },
   headerTitle: {
-    fontSize: typography.sizes.xl,
+    fontSize: 19.2,
     fontFamily: typography.fonts.bold,
     color: 'white',
-    lineHeight: 40,
+    lineHeight: 32,
   },
   expensesSection: {
     marginTop: spacing.md,
@@ -588,7 +591,7 @@ const styles = StyleSheet.create({
     gap: spacing.xs,
   },
   expensesLabel: {
-    fontSize: typography.sizes.lg,
+    fontSize: 14.4,
     fontFamily: typography.fonts.semibold,
     color: 'white',
   },
@@ -598,7 +601,7 @@ const styles = StyleSheet.create({
     gap: spacing.xs,
   },
   monthText: {
-    fontSize: typography.sizes.base,
+    fontSize: 12.8,
     fontFamily: typography.fonts.medium,
     color: 'rgba(255, 255, 255, 0.7)',
   },
@@ -609,7 +612,7 @@ const styles = StyleSheet.create({
     marginBottom: spacing.sm,
   },
   expensesAmount: {
-    fontSize: 30,
+    fontSize: 24,
     fontFamily: typography.fonts.bold,
     color: 'white',
   },
@@ -617,27 +620,27 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   progressBar: {
-    height: 8,
+    height: 6.4,
     backgroundColor: 'rgba(255, 255, 255, 0.2)',
-    borderRadius: 4,
+    borderRadius: 3.2,
     overflow: 'hidden',
   },
   progressFill: {
     height: '100%',
     backgroundColor: colors.secondary.darkBlueGray,
-    borderRadius: 4,
+    borderRadius: 3.2,
   },
   budgetLimitText: {
-    fontSize: typography.sizes.sm,
+    fontSize: 11.2,
     fontFamily: typography.fonts.medium,
     color: 'rgba(255, 255, 255, 0.8)',
     textAlign: 'center',
   },
   card: {
     backgroundColor: '#FFFFFF',
-    borderRadius: 20,
-    padding: spacing.lg,
-    marginBottom: spacing.md,
+    borderRadius: 16,
+    padding: spacing.md,
+    marginBottom: spacing.sm,
     marginTop: -80,
     borderWidth: 1,
     borderColor: `${colors.secondary.darkBlueGray}33`,
@@ -648,16 +651,16 @@ const styles = StyleSheet.create({
   cardDivider: {
     height: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.1)',
-    marginVertical: spacing.md,
+    marginVertical: spacing.sm,
   },
   cardTitleRow: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: spacing.sm,
-    marginBottom: spacing.sm,
+    marginBottom: spacing.xs,
   },
   cardTitle: {
-    fontSize: typography.sizes.lg,
+    fontSize: 14.4,
     fontFamily: typography.fonts.semibold,
     color: colors.text.primary,
   },
@@ -685,8 +688,8 @@ const styles = StyleSheet.create({
   amountBox: {
     flex: 1,
     backgroundColor: `${colors.secondary.darkBlueGray}15`,
-    borderRadius: 12,
-    padding: spacing.sm,
+    borderRadius: 9.6,
+    padding: spacing.xs,
   },
   amountLabelRow: {
     flexDirection: 'row',
@@ -695,25 +698,25 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   dot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
+    width: 6.4,
+    height: 6.4,
+    borderRadius: 3.2,
   },
   amountLabel: {
-    fontSize: typography.sizes.sm,
+    fontSize: 11.2,
     fontFamily: typography.fonts.medium,
     color: colors.text.secondary,
   },
   amountValue: {
-    fontSize: typography.sizes.lg,
+    fontSize: 14.4,
     fontFamily: typography.fonts.bold,
     color: colors.text.primary,
   },
   pendingCard: {
     backgroundColor: 'rgba(255, 255, 255, 0.8)',
-    borderRadius: 16,
-    padding: spacing.lg,
-    marginBottom: spacing.xl,
+    borderRadius: 12,
+    padding: spacing.md,
+    marginBottom: spacing.lg,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -726,18 +729,18 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
   },
   pendingCardText: {
-    fontSize: typography.sizes.base,
+    fontSize: 12.8,
     fontFamily: typography.fonts.medium,
     color: colors.text.primary,
-    lineHeight: typography.sizes.base * 1.2,
+    lineHeight: 12.8 * 1.2,
   },
   viewAllText: {
-    fontSize: typography.sizes.base,
+    fontSize: 12.8,
     fontFamily: typography.fonts.semibold,
     color: colors.primary.pink,
   },
   sectionTitle: {
-    fontSize: typography.sizes.lg,
+    fontSize: 14.4,
     fontFamily: typography.fonts.bold,
     color: colors.text.primary,
     marginBottom: 0,
@@ -749,29 +752,29 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: spacing.md,
+    marginBottom: spacing.sm,
   },
   seeAllText: {
-    fontSize: typography.sizes.base,
+    fontSize: 12.8,
     fontFamily: typography.fonts.medium,
     color: colors.text.secondary,
   },
   dateHeader: {
-    fontSize: typography.sizes.base,
+    fontSize: 12.8,
     fontFamily: typography.fonts.bold,
     color: colors.text.primary,
-    marginTop: spacing.md,
-    marginBottom: spacing.md,
+    marginTop: spacing.sm,
+    marginBottom: spacing.sm,
     backgroundColor: `${colors.secondary.darkBlueGray}15`,
     paddingVertical: spacing.xs,
-    paddingHorizontal: spacing.md,
+    paddingHorizontal: spacing.sm,
     marginHorizontal: -spacing.lg,
   },
   transactionCard: {
     backgroundColor: 'rgba(255, 255, 255, 0.8)',
-    borderRadius: 16,
-    padding: spacing.sm,
-    marginBottom: spacing.md,
+    borderRadius: 12,
+    padding: spacing.xs,
+    marginBottom: spacing.sm,
     flexDirection: 'row',
     alignItems: 'center',
     gap: spacing.sm,
@@ -782,21 +785,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   transactionAvatarImage: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
+    width: 44.8,
+    height: 44.8,
+    borderRadius: 22.4,
   },
   transactionInfo: {
     flex: 1,
   },
   transactionTitle: {
-    fontSize: typography.sizes.base,
+    fontSize: 12.8,
     fontFamily: typography.fonts.semibold,
     color: colors.text.primary,
     marginBottom: 2,
   },
   transactionMeta: {
-    fontSize: typography.sizes.xs,
+    fontSize: 9.6,
     fontFamily: typography.fonts.regular,
     color: colors.text.secondary,
     marginBottom: 2,
@@ -806,7 +809,7 @@ const styles = StyleSheet.create({
     gap: spacing.xs,
   },
   transactionAmount: {
-    fontSize: typography.sizes.lg,
+    fontSize: 14.4,
     fontFamily: typography.fonts.bold,
     color: colors.primary.pink,
   },
@@ -815,8 +818,8 @@ const styles = StyleSheet.create({
     bottom: spacing.xl,
     right: spacing.lg,
     backgroundColor: colors.secondary.darkBlueGray,
-    height: 56,
-    borderRadius: 28,
+    height: 44.8,
+    borderRadius: 22.4,
     justifyContent: 'center',
     alignItems: 'center',
     elevation: 4,
@@ -829,27 +832,27 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    height: 56,
+    height: 44.8,
     width: '100%',
   },
   plusCircle: {
-    width: 56,
-    height: 56,
+    width: 44.8,
+    height: 44.8,
     justifyContent: 'center',
     alignItems: 'center',
   },
   floatingButtonText: {
     color: 'white',
-    fontSize: 28,
+    fontSize: 22.4,
     fontFamily: typography.fonts.light,
     textAlign: 'center',
-    lineHeight: 28,
+    lineHeight: 22.4,
   },
   floatingButtonLabel: {
     color: 'white',
-    fontSize: typography.sizes.sm,
+    fontSize: 11.2,
     fontFamily: typography.fonts.medium,
-    lineHeight: 18,
+    lineHeight: 14.4,
     marginTop: -2,
   },
 });

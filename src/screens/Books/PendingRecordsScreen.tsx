@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 import {StackNavigationProp} from '@react-navigation/stack';
+import {useIsFocused} from '@react-navigation/native';
 import Svg, {Path} from 'react-native-svg';
 import LinearGradient from 'react-native-linear-gradient';
 import {colors, typography, spacing} from '../../theme';
@@ -27,7 +28,7 @@ const avatarImages = [
 
 // Icons
 const BackIcon = ({color = colors.text.primary}: {color?: string}) => (
-  <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <Svg width="19.2" height="19.2" viewBox="0 0 24 24" fill="none">
     <Path
       d="M15 18L9 12L15 6"
       stroke={color}
@@ -39,7 +40,7 @@ const BackIcon = ({color = colors.text.primary}: {color?: string}) => (
 );
 
 const AttachmentIcon = () => (
-  <Svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+  <Svg width="12.8" height="12.8" viewBox="0 0 24 24" fill="none">
     <Path
       d="M21.44 11.05L12.25 20.24C11.1242 21.3658 9.59723 21.9983 8.005 21.9983C6.41277 21.9983 4.88581 21.3658 3.76 20.24C2.63419 19.1142 2.00166 17.5872 2.00166 15.995C2.00166 14.4028 2.63419 12.8758 3.76 11.75L12.33 3.18C13.0806 2.42944 14.0948 2.00671 15.155 2.00671C16.2152 2.00671 17.2294 2.42944 17.98 3.18C18.7306 3.93056 19.1533 4.94476 19.1533 6.005C19.1533 7.06524 18.7306 8.07944 17.98 8.83L9.41 17.4C9.03472 17.7753 8.52763 17.9866 8 17.9866C7.47237 17.9866 6.96528 17.7753 6.59 17.4C6.21472 17.0247 6.00339 16.5176 6.00339 15.99C6.00339 15.4624 6.21472 14.9553 6.59 14.58L15.07 6.1"
       stroke={colors.primary.pink}
@@ -51,7 +52,7 @@ const AttachmentIcon = () => (
 );
 
 const ExpenseArrow = () => (
-  <Svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+  <Svg width="12.8" height="12.8" viewBox="0 0 24 24" fill="none">
     <Path
       d="M19 12H5M12 19L5 12L12 5"
       stroke="#ed5f57"
@@ -63,7 +64,7 @@ const ExpenseArrow = () => (
 );
 
 const IncomeArrow = () => (
-  <Svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+  <Svg width="12.8" height="12.8" viewBox="0 0 24 24" fill="none">
     <Path
       d="M5 12H19M12 5L19 12L12 19"
       stroke="#22c55e"
@@ -82,6 +83,7 @@ interface PendingRecordsScreenProps {
 }
 
 export const PendingRecordsScreen: React.FC<PendingRecordsScreenProps> = ({navigation, onScrollDirectionChange}) => {
+  const isFocused = useIsFocused();
   const insets = useSafeAreaInsets();
   const [showStickyHeader, setShowStickyHeader] = useState(false);
   const stickyHeaderThreshold = 100;
@@ -109,8 +111,8 @@ export const PendingRecordsScreen: React.FC<PendingRecordsScreenProps> = ({navig
 
   return (
     <View style={styles.container}>
-      {/* Sticky Header - Only shown when scrolled */}
-      {showStickyHeader && (
+      {/* Sticky Header - Only shown when scrolled and screen is focused */}
+      {isFocused && showStickyHeader && (
         <View style={[styles.stickyHeaderFixed, {paddingTop: insets.top + spacing.lg}]}>
           <View style={styles.stickyHeader}>
             <View style={styles.headerLeft}>
@@ -327,7 +329,7 @@ const styles = StyleSheet.create({
     gap: spacing.md,
     paddingTop: spacing.sm,
     paddingBottom: spacing.xs,
-    marginBottom: spacing.xs,
+    marginBottom: spacing.lg,
     marginLeft: -4,
     height: 40,
   },
@@ -338,21 +340,21 @@ const styles = StyleSheet.create({
     height: 40,
   },
   backButton: {
-    width: 40,
-    height: 40,
+    width: 32,
+    height: 32,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 20,
+    borderRadius: 16,
   },
   headerTitle: {
-    fontSize: typography.sizes.xl,
+    fontSize: 19.2,
     fontFamily: typography.fonts.bold,
     color: colors.text.primary,
-    lineHeight: 40,
+    lineHeight: 32,
   },
   filterButton: {
-    width: 40,
-    height: 40,
+    width: 32,
+    height: 32,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -365,9 +367,9 @@ const styles = StyleSheet.create({
   },
   detailedCard: {
     backgroundColor: 'rgba(255, 255, 255, 0.8)',
-    borderRadius: 16,
-    padding: spacing.lg,
-    marginBottom: spacing.lg,
+    borderRadius: 12,
+    padding: spacing.md,
+    marginBottom: spacing.md,
     borderWidth: 1,
     borderColor: `${colors.secondary.darkBlueGray}33`,
   },
@@ -375,7 +377,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    marginBottom: spacing.md,
+    marginBottom: spacing.sm,
   },
   userInfo: {
     flexDirection: 'row',
@@ -383,30 +385,30 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   avatarContainer: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
+    width: 48,
+    height: 48,
+    borderRadius: 24,
     borderWidth: 2,
     borderColor: 'rgba(44, 62, 80, 0.2)',
-    marginRight: spacing.md,
+    marginRight: spacing.sm,
     backgroundColor: 'white',
     overflow: 'hidden',
     justifyContent: 'center',
     alignItems: 'center',
   },
   avatarImage: {
-    width: 60,
-    height: 60,
-  },
-  avatar: {
     width: 48,
     height: 48,
-    borderRadius: 24,
+  },
+  avatar: {
+    width: 38.4,
+    height: 38.4,
+    borderRadius: 19.2,
     justifyContent: 'center',
     alignItems: 'center',
   },
   avatarText: {
-    fontSize: typography.sizes.xl,
+    fontSize: 19.2,
     fontFamily: typography.fonts.bold,
     color: 'white',
   },
@@ -414,12 +416,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   userName: {
-    fontSize: typography.sizes.lg,
+    fontSize: 14.4,
     fontFamily: typography.fonts.bold,
     color: colors.text.primary,
   },
   userDepartment: {
-    fontSize: typography.sizes.sm,
+    fontSize: 11.2,
     fontFamily: typography.fonts.regular,
     color: colors.text.secondary,
     marginTop: 2,
@@ -427,32 +429,36 @@ const styles = StyleSheet.create({
   dateBadge: {
     backgroundColor: 'rgba(44, 62, 80, 0.1)',
     paddingHorizontal: spacing.sm,
-    paddingVertical: spacing.xs,
-    borderRadius: 8,
+    paddingVertical: 6.4,
+    borderRadius: 6.4,
     alignItems: 'center',
-    minWidth: 50,
+    minWidth: 40,
   },
   dateDay: {
-    fontSize: typography.sizes.xl,
+    fontSize: 19.2,
     fontFamily: typography.fonts.bold,
     color: colors.secondary.darkBlueGray,
-    lineHeight: typography.sizes.xl,
+    lineHeight: 22.4,
+    includeFontPadding: false,
+    textAlignVertical: 'center',
   },
   dateMonth: {
-    fontSize: typography.sizes.xs,
+    fontSize: 9.6,
     fontFamily: typography.fonts.medium,
     color: colors.secondary.darkBlueGray,
     marginTop: -2,
+    includeFontPadding: false,
+    textAlignVertical: 'center',
   },
   transactionHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: spacing.md,
+    marginTop: spacing.sm,
     marginBottom: 4,
   },
   transactionTitle: {
-    fontSize: typography.sizes.lg,
+    fontSize: 14.4,
     fontFamily: typography.fonts.bold,
     color: colors.text.primary,
   },
@@ -462,26 +468,26 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   expenseAmount: {
-    fontSize: typography.sizes.lg,
+    fontSize: 14.4,
     fontFamily: typography.fonts.bold,
     color: '#ed5f57',
   },
   incomeAmount: {
-    fontSize: typography.sizes.lg,
+    fontSize: 14.4,
     fontFamily: typography.fonts.bold,
     color: '#22c55e',
   },
   addedAt: {
-    fontSize: typography.sizes.sm,
+    fontSize: 11.2,
     fontFamily: typography.fonts.regular,
     color: colors.text.secondary,
-    marginBottom: spacing.md,
+    marginBottom: spacing.sm,
   },
   linkRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: spacing.sm,
+    paddingVertical: spacing.xs,
     borderBottomWidth: 1,
     borderBottomColor: '#f0f0f0',
   },
@@ -491,12 +497,12 @@ const styles = StyleSheet.create({
     gap: spacing.xs,
   },
   linkText: {
-    fontSize: typography.sizes.base,
+    fontSize: 12.8,
     fontFamily: typography.fonts.medium,
     color: colors.text.primary,
   },
   viewLink: {
-    fontSize: typography.sizes.sm,
+    fontSize: 11.2,
     fontFamily: typography.fonts.semibold,
     color: colors.primary.pink,
   },
@@ -505,34 +511,34 @@ const styles = StyleSheet.create({
   },
   actionButtons: {
     flexDirection: 'row',
-    gap: spacing.md,
-    marginTop: spacing.md,
+    gap: spacing.sm,
+    marginTop: spacing.sm,
   },
   rejectButton: {
     flex: 1,
-    paddingVertical: spacing.sm,
-    borderRadius: 20,
+    paddingVertical: 9.6,
+    borderRadius: 12.8,
     backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 1,
+    borderWidth: 0.8,
     borderColor: colors.text.tertiary,
   },
   rejectText: {
-    fontSize: typography.sizes.base,
+    fontSize: 12.8,
     fontFamily: typography.fonts.semibold,
     color: colors.text.secondary,
   },
   approveButton: {
     flex: 1,
-    paddingVertical: spacing.sm,
-    borderRadius: 20,
+    paddingVertical: 9.6,
+    borderRadius: 12.8,
     backgroundColor: colors.primary.pink,
     alignItems: 'center',
     justifyContent: 'center',
   },
   approveText: {
-    fontSize: typography.sizes.base,
+    fontSize: 12.8,
     fontFamily: typography.fonts.semibold,
     color: 'white',
   },
@@ -561,15 +567,15 @@ const styles = StyleSheet.create({
     height: 40,
   },
   stickyHeaderButton: {
-    width: 40,
-    height: 40,
+    width: 32,
+    height: 32,
     justifyContent: 'center',
     alignItems: 'center',
   },
   stickyHeaderTitle: {
-    fontSize: typography.sizes.xl,
+    fontSize: 19.2,
     fontFamily: typography.fonts.bold,
     color: 'white',
-    lineHeight: 40,
+    lineHeight: 32,
   },
 });

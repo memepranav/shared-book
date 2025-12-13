@@ -205,7 +205,7 @@ export const BookTypeMenu: React.FC<BookTypeMenuProps> = ({
                   <View style={styles.iconContainer}>
                     <BookTypeIcon
                       type={bookType.type}
-                      size={24}
+                      size={19.2}
                       color={colors.secondary.darkBlueGray}
                     />
                   </View>
@@ -235,8 +235,8 @@ const styles = StyleSheet.create({
   },
   bottomSheet: {
     backgroundColor: colors.background.card,
-    borderTopLeftRadius: 24,
-    borderTopRightRadius: 24,
+    borderTopLeftRadius: 19.2,
+    borderTopRightRadius: 19.2,
     shadowColor: colors.neutral.black,
     shadowOffset: {
       width: 0,
@@ -247,24 +247,24 @@ const styles = StyleSheet.create({
     elevation: 12,
   },
   sheetContent: {
-    paddingHorizontal: spacing.lg,
+    paddingHorizontal: spacing.md,
   },
   handleContainer: {
-    paddingVertical: spacing.sm,
-    paddingHorizontal: spacing.xl,
+    paddingVertical: spacing.xs,
+    paddingHorizontal: spacing.lg,
     alignItems: 'center',
   },
   handle: {
-    width: 60,
-    height: 4,
+    width: 48,
+    height: 3.2,
     backgroundColor: colors.neutral.gray300,
     borderRadius: 2,
   },
   title: {
-    fontSize: typography.sizes.xl,
+    fontSize: 19.2,
     fontFamily: typography.fonts.bold,
     color: colors.text.primary,
-    marginBottom: spacing.md,
+    marginBottom: spacing.sm,
     marginTop: spacing.xs,
   },
   divider: {
@@ -275,13 +275,13 @@ const styles = StyleSheet.create({
   menuItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: spacing.sm,
-    gap: spacing.md,
+    paddingVertical: spacing.xs,
+    gap: spacing.sm,
   },
   iconContainer: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
+    width: 35.2,
+    height: 35.2,
+    borderRadius: 17.6,
     backgroundColor: colors.neutral.gray100,
     justifyContent: 'center',
     alignItems: 'center',
@@ -290,17 +290,17 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   menuItemText: {
-    fontSize: typography.sizes.base,
+    fontSize: 12.8,
     fontFamily: typography.fonts.semibold,
     color: colors.text.primary,
     marginBottom: 2,
   },
   menuItemDescription: {
-    fontSize: typography.sizes.sm,
+    fontSize: 11.2,
     fontFamily: typography.fonts.regular,
     color: colors.text.secondary,
   },
   bottomPadding: {
-    height: 30,
+    height: 24,
   },
 });

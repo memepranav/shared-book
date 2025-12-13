@@ -22,10 +22,12 @@ const Stack = createStackNavigator<BooksStackParamList>();
 
 interface BooksNavigatorProps {
   onScrollDirectionChange?: (isScrollingDown: boolean) => void;
+  onNavigationVisibilityChange?: (isVisible: boolean) => void;
 }
 
 export const BooksNavigator: React.FC<BooksNavigatorProps> = ({
   onScrollDirectionChange,
+  onNavigationVisibilityChange,
 }) => {
   return (
     <Stack.Navigator
@@ -34,6 +36,19 @@ export const BooksNavigator: React.FC<BooksNavigatorProps> = ({
         gestureEnabled: true,
         ...TransitionPresets.SlideFromRightIOS,
         gestureDirection: 'horizontal',
+      }}
+      screenListeners={{
+        state: (e) => {
+          const state = e.data.state;
+          const currentRoute = state.routes[state.index];
+          // Hide bottom navigation on detail screens
+          const screensToHideNav = ['CreatePersonalBook', 'BookDetails', 'GroupDetails', 'PendingRecords', 'RecordDetails'];
+          if (screensToHideNav.includes(currentRoute.name)) {
+            onNavigationVisibilityChange?.(false);
+          } else {
+            onNavigationVisibilityChange?.(true);
+          }
+        },
       }}>
       <Stack.Screen name="BooksList">
         {(props) => (

@@ -8,6 +8,8 @@ import {
   TouchableOpacity,
   Image,
   Animated,
+  NativeSyntheticEvent,
+  NativeScrollEvent,
 } from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -241,6 +243,12 @@ export const CreatePersonalBookScreen: React.FC<CreatePersonalBookScreenProps> =
   const animatedHeight = useRef(new Animated.Value(0)).current;
   const animatedRotation = useRef(new Animated.Value(0)).current;
 
+  // Sticky header animation
+  const scrollY = useRef(0);
+  const headerOpacity = useRef(new Animated.Value(0)).current;
+  const stickyHeaderThreshold = 100; // When header becomes sticky
+  const [isHeaderSticky, setIsHeaderSticky] = useState(false);
+
   useEffect(() => {
     Animated.parallel([
       Animated.spring(animatedHeight, {
@@ -302,6 +310,44 @@ export const CreatePersonalBookScreen: React.FC<CreatePersonalBookScreenProps> =
     // TODO: Implement create book logic with splitOption
   };
 
+  const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const currentScrollY = event.nativeEvent.contentOffset.y;
+
+    // Check if header has become sticky
+    const shouldBeSticky = currentScrollY >= stickyHeaderThreshold;
+    if (shouldBeSticky !== isHeaderSticky) {
+      setIsHeaderSticky(shouldBeSticky);
+      // Animate background when sticky state changes
+      Animated.timing(headerOpacity, {
+        toValue: shouldBeSticky ? 1 : 0,
+        duration: 200,
+        useNativeDriver: true,
+      }).start();
+    }
+
+    scrollY.current = currentScrollY;
+  };
+
+  const renderStickyHeader = () => {
+    return (
+      <View style={styles.stickyHeaderContainer}>
+        <Animated.View style={[styles.stickyHeaderBackground, {opacity: headerOpacity}]} />
+        {isHeaderSticky && (
+          <View style={[styles.header, {paddingTop: insets.top + spacing.lg, paddingHorizontal: 0}]}>
+            <View style={styles.headerLeft}>
+              <TouchableOpacity
+                onPress={() => navigation.goBack()}
+                style={styles.backButton}>
+                <BackIcon />
+              </TouchableOpacity>
+              <Text style={styles.headerTitle}>Personal Book</Text>
+            </View>
+          </View>
+        )}
+      </View>
+    );
+  };
+
   return (
     <LinearGradient
       colors={[
@@ -317,7 +363,10 @@ export const CreatePersonalBookScreen: React.FC<CreatePersonalBookScreenProps> =
         contentContainerStyle={[styles.scrollContent, {paddingTop: insets.top + spacing.lg}]}
         showsVerticalScrollIndicator={false}
         bounces={false}
-        overScrollMode="never">
+        overScrollMode="never"
+        onScroll={handleScroll}
+        scrollEventThrottle={16}
+        stickyHeaderIndices={[1]}>
           {/* Header */}
           <View style={styles.header}>
             <View style={styles.headerLeft}>
@@ -327,6 +376,9 @@ export const CreatePersonalBookScreen: React.FC<CreatePersonalBookScreenProps> =
               <Text style={styles.headerTitle}>Personal Book</Text>
             </View>
           </View>
+
+          {/* Sticky Header */}
+          {renderStickyHeader()}
 
           {/* Info Box */}
           <View style={styles.infoBox}>
@@ -559,6 +611,17 @@ const styles = StyleSheet.create({
     fontFamily: typography.fonts.bold,
     color: colors.text.primary,
     lineHeight: 32,
+  },
+  stickyHeaderContainer: {
+    paddingBottom: spacing.sm,
+  },
+  stickyHeaderBackground: {
+    position: 'absolute',
+    top: -spacing.xs,
+    left: -500,
+    right: -500,
+    bottom: 0,
+    backgroundColor: 'rgba(254, 249, 249, 0.95)',
   },
   infoBox: {
     flexDirection: 'row',

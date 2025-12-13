@@ -264,12 +264,16 @@ export const FriendProfileScreen: React.FC<FriendProfileScreenProps> = ({
           {/* Action Buttons */}
           <View style={styles.actionButtons}>
             <TouchableOpacity style={styles.sendButton}>
-              <SendIcon />
-              <Text style={styles.sendButtonText}>Send</Text>
+              <View style={styles.buttonContent}>
+                <SendIcon />
+                <Text style={styles.sendButtonText}>Send</Text>
+              </View>
             </TouchableOpacity>
             <TouchableOpacity style={styles.receiveButton}>
-              <ReceiveIcon />
-              <Text style={styles.receiveButtonText}>Receive</Text>
+              <View style={styles.buttonContent}>
+                <ReceiveIcon />
+                <Text style={styles.receiveButtonText}>Receive</Text>
+              </View>
             </TouchableOpacity>
           </View>
         </View>
@@ -483,43 +487,45 @@ const styles = StyleSheet.create({
     gap: spacing.xs,
     justifyContent: 'center',
   },
-  sendButton: {
+  buttonContent: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     gap: spacing.xs,
+  },
+  sendButton: {
     backgroundColor: colors.primary.pink,
-    paddingVertical: spacing.xs,
-    paddingHorizontal: spacing.sm,
     borderRadius: 16,
+    borderWidth: 0.8,
+    borderColor: colors.primary.pink,
+    height: 32,
+    width: 110,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   sendButtonText: {
     fontSize: 11.2,
     fontFamily: typography.fonts.semibold,
     color: 'white',
-    textAlign: 'center',
     includeFontPadding: false,
-    textAlignVertical: 'center',
+    lineHeight: 16,
   },
   receiveButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: spacing.xs,
     backgroundColor: 'white',
-    paddingVertical: spacing.xs,
-    paddingHorizontal: spacing.sm,
     borderRadius: 16,
     borderWidth: 0.8,
     borderColor: colors.neutral.gray300,
+    height: 32,
+    width: 110,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   receiveButtonText: {
     fontSize: 11.2,
     fontFamily: typography.fonts.semibold,
     color: colors.text.primary,
-    textAlign: 'center',
     includeFontPadding: false,
-    textAlignVertical: 'center',
+    lineHeight: 16,
   },
   balanceCard: {
     backgroundColor: 'white',

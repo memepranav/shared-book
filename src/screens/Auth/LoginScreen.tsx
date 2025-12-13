@@ -6,6 +6,11 @@ import {
   TextInput,
   TouchableOpacity,
   StatusBar,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
@@ -59,66 +64,77 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({onLoginComplete}) => {
         translucent
       />
       <SafeAreaView style={styles.safeArea} edges={['top']}>
-        <View style={styles.content}>
-          {/* Welcome Section */}
-          <View style={styles.welcomeSection}>
-            <Text style={styles.welcomeTitle}>Welcome!</Text>
-            <Text style={styles.welcomeSubtitle}>Please enter your phone number</Text>
-          </View>
+        <KeyboardAvoidingView
+          style={styles.keyboardAvoidingView}
+          behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+          keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}>
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <ScrollView
+              contentContainerStyle={styles.scrollContent}
+              keyboardShouldPersistTaps="handled"
+              showsVerticalScrollIndicator={false}
+              bounces={false}>
+              {/* Welcome Section */}
+              <View style={styles.welcomeSection}>
+                <Text style={styles.welcomeTitle}>Welcome!</Text>
+                <Text style={styles.welcomeSubtitle}>Please enter your phone number</Text>
+              </View>
 
-          {/* Phone Input */}
-          <View style={styles.phoneInputContainer}>
-            <Text style={styles.phoneLabel}>Phone</Text>
-            <View style={styles.phoneInputWrapper}>
-              {/* Country Code Selector */}
-              <TouchableOpacity style={styles.countryCodeButton}>
-                <Text style={styles.flagEmoji}>🇮🇳</Text>
-                <Text style={styles.countryCodeText}>{countryCode}</Text>
-                <ChevronDownIcon />
+              {/* Phone Input */}
+              <View style={styles.phoneInputContainer}>
+                <Text style={styles.phoneLabel}>Phone</Text>
+                <View style={styles.phoneInputWrapper}>
+                  {/* Country Code Selector */}
+                  <TouchableOpacity style={styles.countryCodeButton}>
+                    <Text style={styles.flagEmoji}>🇮🇳</Text>
+                    <Text style={styles.countryCodeText}>{countryCode}</Text>
+                    <ChevronDownIcon />
+                  </TouchableOpacity>
+
+                  {/* Phone Number Input */}
+                  <TextInput
+                    style={styles.phoneInput}
+                    value={phoneNumber}
+                    onChangeText={setPhoneNumber}
+                    placeholder="123456789"
+                    placeholderTextColor={colors.text.secondary}
+                    keyboardType="phone-pad"
+                    maxLength={10}
+                  />
+                </View>
+              </View>
+
+              {/* Terms and Conditions */}
+              <TouchableOpacity
+                style={styles.termsContainer}
+                onPress={() => setAgreedToTerms(!agreedToTerms)}
+                activeOpacity={0.7}>
+                <View style={styles.checkbox}>
+                  {agreedToTerms && <View style={styles.checkboxChecked} />}
+                </View>
+                <Text style={styles.termsText}>
+                  I agree to the{' '}
+                  <Text style={styles.termsLink}>Terms and Conditions</Text>
+                </Text>
               </TouchableOpacity>
 
-              {/* Phone Number Input */}
-              <TextInput
-                style={styles.phoneInput}
-                value={phoneNumber}
-                onChangeText={setPhoneNumber}
-                placeholder="123456789"
-                placeholderTextColor={colors.text.secondary}
-                keyboardType="phone-pad"
-                maxLength={10}
-              />
-            </View>
-          </View>
+              {/* Spacer */}
+              <View style={styles.spacer} />
 
-          {/* Terms and Conditions */}
-          <TouchableOpacity
-            style={styles.termsContainer}
-            onPress={() => setAgreedToTerms(!agreedToTerms)}
-            activeOpacity={0.7}>
-            <View style={styles.checkbox}>
-              {agreedToTerms && <View style={styles.checkboxChecked} />}
-            </View>
-            <Text style={styles.termsText}>
-              I agree to the{' '}
-              <Text style={styles.termsLink}>Terms and Conditions</Text>
-            </Text>
-          </TouchableOpacity>
-
-          {/* Spacer */}
-          <View style={styles.spacer} />
-
-          {/* Continue Button */}
-          <TouchableOpacity
-            style={[
-              styles.continueButton,
-              (!phoneNumber.trim() || !agreedToTerms) && styles.continueButtonDisabled,
-            ]}
-            onPress={handleContinue}
-            disabled={!phoneNumber.trim() || !agreedToTerms}
-            activeOpacity={0.8}>
-            <Text style={styles.continueButtonText}>Continue</Text>
-          </TouchableOpacity>
-        </View>
+              {/* Continue Button */}
+              <TouchableOpacity
+                style={[
+                  styles.continueButton,
+                  (!phoneNumber.trim() || !agreedToTerms) && styles.continueButtonDisabled,
+                ]}
+                onPress={handleContinue}
+                disabled={!phoneNumber.trim() || !agreedToTerms}
+                activeOpacity={0.8}>
+                <Text style={styles.continueButtonText}>Continue</Text>
+              </TouchableOpacity>
+            </ScrollView>
+          </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
       </SafeAreaView>
     </LinearGradient>
   );
@@ -131,8 +147,11 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
   },
-  content: {
+  keyboardAvoidingView: {
     flex: 1,
+  },
+  scrollContent: {
+    flexGrow: 1,
     paddingHorizontal: spacing.xl,
     paddingTop: spacing.xl,
   },
@@ -235,6 +254,7 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
   },
   spacer: {
+    minHeight: 40,
     flex: 1,
   },
   continueButton: {

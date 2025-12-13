@@ -9,6 +9,8 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
@@ -62,11 +64,12 @@ export const UserDetailsScreen: React.FC<UserDetailsScreenProps> = ({
           style={styles.keyboardAvoidingView}
           behavior={Platform.OS === 'ios' ? 'padding' : undefined}
           keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}>
-          <ScrollView
-            contentContainerStyle={styles.scrollContent}
-            keyboardShouldPersistTaps="handled"
-            showsVerticalScrollIndicator={false}
-            bounces={false}>
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <ScrollView
+              contentContainerStyle={styles.scrollContent}
+              keyboardShouldPersistTaps="handled"
+              showsVerticalScrollIndicator={false}
+              bounces={false}>
             {/* Welcome Section */}
             <View style={styles.welcomeSection}>
               <Text style={styles.welcomeTitle}>Your Details</Text>
@@ -135,7 +138,8 @@ export const UserDetailsScreen: React.FC<UserDetailsScreenProps> = ({
               activeOpacity={0.8}>
               <Text style={styles.continueButtonText}>Continue</Text>
             </TouchableOpacity>
-          </ScrollView>
+            </ScrollView>
+          </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
       </SafeAreaView>
     </LinearGradient>

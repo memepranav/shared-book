@@ -272,7 +272,6 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({onBack, onScrollDir
         {/* Header */}
         <View style={styles.header}>
           <View style={styles.headerLeft}>
-            <ProfileHeaderIcon />
             <Text style={styles.headerTitle}>My Profile</Text>
           </View>
         </View>
@@ -371,7 +370,7 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
   },
   headerTitle: {
-    fontSize: typography.sizes.xl,
+    fontSize: 19.2,
     fontFamily: typography.fonts.bold,
     color: colors.text.primary,
     includeFontPadding: false,
@@ -382,38 +381,38 @@ const styles = StyleSheet.create({
     marginBottom: spacing.xl,
   },
   avatarContainer: {
-    marginBottom: spacing.md,
+    marginBottom: spacing.sm,
     position: 'relative',
   },
   avatar: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
+    width: 96,
+    height: 96,
+    borderRadius: 48,
     backgroundColor: '#FFB800',
-    borderWidth: 10,
+    borderWidth: 8,
     borderColor: `${colors.secondary.darkBlueGray}80`,
   },
   editIconContainer: {
     position: 'absolute',
     bottom: 0,
     right: 0,
-    width: 30,
-    height: 30,
-    borderRadius: 15,
+    width: 24,
+    height: 24,
+    borderRadius: 12,
     backgroundColor: colors.primary.pink,
     justifyContent: 'center',
     alignItems: 'center',
-    borderWidth: 3,
+    borderWidth: 2,
     borderColor: 'white',
   },
   userName: {
-    fontSize: typography.sizes.xl,
+    fontSize: 19.2,
     fontFamily: typography.fonts.bold,
     color: colors.text.primary,
     marginBottom: 2,
   },
   userEmail: {
-    fontSize: typography.sizes.base,
+    fontSize: 12.8,
     fontFamily: typography.fonts.regular,
     color: colors.text.secondary,
   },
@@ -421,15 +420,15 @@ const styles = StyleSheet.create({
     marginBottom: spacing.lg,
   },
   sectionTitle: {
-    fontSize: typography.sizes.base,
+    fontSize: 12.8,
     fontFamily: typography.fonts.semibold,
     color: colors.text.tertiary,
     paddingHorizontal: spacing.lg,
-    marginBottom: spacing.md,
+    marginBottom: spacing.sm,
   },
   menuList: {
     backgroundColor: 'white',
-    borderRadius: 16,
+    borderRadius: 12,
     marginHorizontal: spacing.lg,
     paddingVertical: spacing.xs,
     borderWidth: 1,
@@ -439,17 +438,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: spacing.lg,
-    paddingHorizontal: spacing.md,
-    minHeight: 56,
+    paddingVertical: spacing.md,
+    paddingHorizontal: spacing.sm,
+    minHeight: 44.8,
   },
   menuItemLeft: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: spacing.md,
+    gap: spacing.sm,
   },
   menuItemText: {
-    fontSize: typography.sizes.base,
+    fontSize: 12.8,
     fontFamily: typography.fonts.regular,
     color: colors.text.primary,
   },

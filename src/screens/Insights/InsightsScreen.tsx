@@ -74,7 +74,7 @@ const MoreIcon = () => (
 );
 
 const TotalSpentIcon = () => (
-  <Svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+  <Svg width="25.6" height="25.6" viewBox="0 0 24 24" fill="none">
     <Circle cx="12" cy="12" r="10" fill="#FFB800" />
     <Path
       d="M9.5 9H14.5M9.5 10.5H14.5M9.5 9V15.5L13.5 11.5"
@@ -87,7 +87,7 @@ const TotalSpentIcon = () => (
 );
 
 const AvgMonthIcon = () => (
-  <Svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+  <Svg width="25.6" height="25.6" viewBox="0 0 24 24" fill="none">
     <Circle cx="12" cy="12" r="10" fill="#FF5252" />
     <Path
       d="M8 15L11 11L13 13L16 9M16 9H14M16 9V11"
@@ -100,7 +100,7 @@ const AvgMonthIcon = () => (
 );
 
 const YoureOwedIcon = () => (
-  <Svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+  <Svg width="25.6" height="25.6" viewBox="0 0 24 24" fill="none">
     <Circle cx="12" cy="12" r="10" fill="#4CAF50" />
     <Path
       d="M12 16V8M12 8L8 12M12 8L16 12"
@@ -113,7 +113,7 @@ const YoureOwedIcon = () => (
 );
 
 const YouOweIcon = () => (
-  <Svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+  <Svg width="25.6" height="25.6" viewBox="0 0 24 24" fill="none">
     <Circle cx="12" cy="12" r="10" fill="#FFB800" />
     <Path
       d="M12 8V16M12 16L16 12M12 16L8 12"
@@ -283,7 +283,6 @@ export const InsightsScreen: React.FC<InsightsScreenProps> = ({onBack, onScrollD
         {/* Header */}
         <View style={styles.header}>
           <View style={styles.headerLeft}>
-            <InsightsHeaderIcon />
             <Text style={styles.headerTitle}>Insights</Text>
           </View>
           <View style={styles.headerRight}>
@@ -357,8 +356,8 @@ export const InsightsScreen: React.FC<InsightsScreenProps> = ({onBack, onScrollD
             <PieChart
               data={pieData}
               donut
-              radius={90}
-              innerRadius={60}
+              radius={72}
+              innerRadius={48}
               innerCircleColor="white"
               focusOnPress
               onPress={handlePiePress}
@@ -435,7 +434,7 @@ export const InsightsScreen: React.FC<InsightsScreenProps> = ({onBack, onScrollD
               yAxisThickness={0}
               yAxisTextStyle={{
                 color: colors.text.tertiary,
-                fontSize: typography.sizes.xs,
+                fontSize: 9.6,
                 fontFamily: typography.fonts.regular,
               }}
               noOfSections={4}
@@ -443,7 +442,7 @@ export const InsightsScreen: React.FC<InsightsScreenProps> = ({onBack, onScrollD
               height={200}
               showValuesAsTopLabel
               topLabelTextStyle={{
-                fontSize: typography.sizes.sm,
+                fontSize: 11.2,
                 fontFamily: typography.fonts.semibold,
                 color: colors.text.primary,
               }}
@@ -461,7 +460,7 @@ export const InsightsScreen: React.FC<InsightsScreenProps> = ({onBack, onScrollD
               labelWidth={80}
               xAxisLabelTextStyle={{
                 color: colors.text.primary,
-                fontSize: typography.sizes.sm,
+                fontSize: 11.2,
                 fontFamily: typography.fonts.medium,
                 textAlign: 'center',
               }}
@@ -513,15 +512,15 @@ export const InsightsScreen: React.FC<InsightsScreenProps> = ({onBack, onScrollD
               endOpacity={0.1}
               hideDataPoints={false}
               dataPointsColor={colors.primary.pink}
-              dataPointsRadius={5}
+              dataPointsRadius={4}
               textColor1={colors.text.tertiary}
-              textFontSize={typography.sizes.sm}
+              textFontSize={11.2}
               yAxisColor="transparent"
               xAxisColor="transparent"
               hideRules
               yAxisTextStyle={{
                 color: colors.text.tertiary,
-                fontSize: typography.sizes.xs,
+                fontSize: 9.6,
                 fontFamily: typography.fonts.regular,
               }}
               noOfSections={4}
@@ -592,7 +591,7 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
   },
   headerTitle: {
-    fontSize: typography.sizes.xl,
+    fontSize: 19.2,
     fontFamily: typography.fonts.bold,
     color: colors.text.primary,
     lineHeight: 40,
@@ -627,13 +626,13 @@ const styles = StyleSheet.create({
     marginBottom: spacing.md,
   },
   insightsListTitle: {
-    fontSize: typography.sizes.xl,
+    fontSize: 19.2,
     fontFamily: typography.fonts.bold,
     color: colors.text.primary,
     marginBottom: 2,
   },
   insightsListSubtitle: {
-    fontSize: typography.sizes.sm,
+    fontSize: 11.2,
     fontFamily: typography.fonts.regular,
     color: colors.text.secondary,
   },
@@ -643,7 +642,7 @@ const styles = StyleSheet.create({
     marginTop: -100,
   },
   periodTitle: {
-    fontSize: typography.sizes.lg,
+    fontSize: 14.4,
     fontFamily: typography.fonts.bold,
     color: colors.text.primary,
   },
@@ -657,7 +656,7 @@ const styles = StyleSheet.create({
   summaryCard: {
     width: CARD_WIDTH,
     backgroundColor: 'white',
-    borderRadius: 16,
+    borderRadius: 12,
     padding: spacing.sm,
     borderWidth: 1,
     borderColor: `${colors.secondary.darkBlueGray}33`,
@@ -675,28 +674,28 @@ const styles = StyleSheet.create({
     marginLeft: spacing.xs,
   },
   cardLabel: {
-    fontSize: typography.sizes.sm,
+    fontSize: 11.2,
     fontFamily: typography.fonts.medium,
     color: colors.text.secondary,
     marginBottom: 4,
   },
   cardAmount: {
-    fontSize: typography.sizes.lg,
+    fontSize: 14.4,
     fontFamily: typography.fonts.bold,
     color: colors.text.primary,
     marginBottom: 2,
   },
   cardSubtitle: {
-    fontSize: typography.sizes.xs,
+    fontSize: 9.6,
     fontFamily: typography.fonts.regular,
     color: colors.text.tertiary,
   },
   sectionCard: {
     backgroundColor: 'white',
-    borderRadius: 16,
-    padding: spacing.md,
+    borderRadius: 12,
+    padding: spacing.sm,
     marginHorizontal: spacing.lg,
-    marginBottom: spacing.md,
+    marginBottom: spacing.sm,
     borderWidth: 1,
     borderColor: `${colors.secondary.darkBlueGray}33`,
   },
@@ -704,7 +703,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: spacing.md,
+    marginBottom: spacing.sm,
   },
   sectionTitleRow: {
     flexDirection: 'row',
@@ -712,31 +711,31 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
   },
   sectionTitle: {
-    fontSize: typography.sizes.lg,
+    fontSize: 14.4,
     fontFamily: typography.fonts.bold,
     color: colors.text.primary,
   },
   donutChartContainer: {
     alignItems: 'center',
-    marginVertical: spacing.sm,
+    marginVertical: spacing.xs,
   },
   donutCenterText: {
     alignItems: 'center',
     justifyContent: 'center',
   },
   donutCenterLabel: {
-    fontSize: typography.sizes.sm,
+    fontSize: 11.2,
     fontFamily: typography.fonts.regular,
     color: colors.text.secondary,
   },
   donutCenterAmount: {
-    fontSize: typography.sizes.xl,
+    fontSize: 19.2,
     fontFamily: typography.fonts.bold,
     color: colors.text.primary,
   },
   categoryList: {
-    gap: spacing.xs,
-    marginTop: spacing.sm,
+    gap: 6,
+    marginTop: spacing.xs,
   },
   categoryItem: {
     flexDirection: 'row',
@@ -749,12 +748,12 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
   },
   categoryDot: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
+    width: 9.6,
+    height: 9.6,
+    borderRadius: 4.8,
   },
   categoryName: {
-    fontSize: typography.sizes.base,
+    fontSize: 12.8,
     fontFamily: typography.fonts.regular,
     color: colors.text.primary,
   },
@@ -763,7 +762,7 @@ const styles = StyleSheet.create({
     color: colors.text.primary,
   },
   categoryPercentage: {
-    fontSize: typography.sizes.base,
+    fontSize: 12.8,
     fontFamily: typography.fonts.semibold,
     color: colors.text.primary,
   },
@@ -772,19 +771,19 @@ const styles = StyleSheet.create({
     color: colors.text.primary,
   },
   comparisonTitle: {
-    fontSize: typography.sizes.xl,
+    fontSize: 19.2,
     fontFamily: typography.fonts.bold,
     color: colors.text.primary,
     marginBottom: spacing.xs,
   },
   comparisonSubtitle: {
-    fontSize: typography.sizes.base,
+    fontSize: 12.8,
     fontFamily: typography.fonts.regular,
     color: colors.text.secondary,
-    marginBottom: spacing.sm,
+    marginBottom: spacing.xs,
   },
   comparisonChartContainer: {
-    marginVertical: spacing.sm,
+    marginVertical: spacing.xs,
     alignItems: 'center',
   },
   comparisonTooltip: {
@@ -794,7 +793,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   comparisonTooltipText: {
-    fontSize: typography.sizes.sm,
+    fontSize: 11.2,
     fontFamily: typography.fonts.semibold,
     color: 'white',
   },
@@ -802,9 +801,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    gap: spacing.xl,
-    marginTop: spacing.sm,
-    paddingTop: spacing.sm,
+    gap: spacing.lg,
+    marginTop: spacing.xs,
+    paddingTop: spacing.xs,
     borderTopWidth: 1,
     borderTopColor: `${colors.secondary.darkBlueGray}11`,
   },
@@ -814,30 +813,30 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
   },
   legendDot: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
+    width: 9.6,
+    height: 9.6,
+    borderRadius: 4.8,
   },
   legendText: {
-    fontSize: typography.sizes.base,
+    fontSize: 12.8,
     fontFamily: typography.fonts.medium,
     color: colors.text.secondary,
   },
   savingsSubtitle: {
-    fontSize: typography.sizes.base,
+    fontSize: 12.8,
     fontFamily: typography.fonts.regular,
     color: colors.text.secondary,
-    marginBottom: spacing.md,
+    marginBottom: spacing.sm,
   },
   savingsChartContainer: {
-    marginVertical: spacing.md,
+    marginVertical: spacing.sm,
     alignItems: 'center',
   },
   savingsTooltipSimple: {
     backgroundColor: 'transparent',
   },
   savingsTooltipValue: {
-    fontSize: typography.sizes.base,
+    fontSize: 12.8,
     fontFamily: typography.fonts.bold,
     color: colors.text.primary,
     textAlign: 'center',
@@ -845,23 +844,23 @@ const styles = StyleSheet.create({
   savingsFooter: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: spacing.md,
+    marginBottom: spacing.sm,
   },
   savingsProgress: {
-    fontSize: typography.sizes.sm,
+    fontSize: 11.2,
     fontFamily: typography.fonts.semibold,
     color: '#4ECDC4',
   },
   savingsRemaining: {
-    fontSize: typography.sizes.sm,
+    fontSize: 11.2,
     fontFamily: typography.fonts.regular,
     color: colors.text.tertiary,
   },
   savingsProjection: {
-    fontSize: typography.sizes.sm,
+    fontSize: 11.2,
     fontFamily: typography.fonts.regular,
     color: colors.text.secondary,
-    lineHeight: typography.sizes.sm * 1.5,
+    lineHeight: 11.2 * 1.5,
   },
   projectionDate: {
     fontFamily: typography.fonts.semibold,

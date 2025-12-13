@@ -333,7 +333,6 @@ export const FriendsScreen: React.FC<FriendsScreenProps> = ({navigation, onScrol
         {/* Header */}
         <View style={styles.header}>
           <View style={styles.headerLeft}>
-            <PeopleIcon />
             <Text style={styles.headerTitle}>Friends</Text>
           </View>
           <TouchableOpacity style={styles.addButton}>
@@ -475,7 +474,7 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
   },
   headerTitle: {
-    fontSize: typography.sizes.xl,
+    fontSize: 19.2,
     fontFamily: typography.fonts.bold,
     color: colors.text.primary,
     includeFontPadding: false,
@@ -491,10 +490,10 @@ const styles = StyleSheet.create({
   },
   addButtonText: {
     color: 'white',
-    fontSize: 28,
+    fontSize: 22.4,
     fontFamily: typography.fonts.light,
     textAlign: 'center',
-    lineHeight: 28,
+    lineHeight: 22.4,
   },
   activeFriendsSection: {
     marginBottom: spacing.xl,
@@ -511,9 +510,9 @@ const styles = StyleSheet.create({
     marginRight: spacing.xs,
   },
   searchAvatar: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
+    width: 44.8,
+    height: 44.8,
+    borderRadius: 22.4,
     backgroundColor: 'rgba(255, 255, 255, 0.8)',
     borderWidth: 2,
     borderColor: colors.neutral.gray300,
@@ -527,9 +526,9 @@ const styles = StyleSheet.create({
     marginBottom: spacing.xs,
   },
   topFriendAvatar: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
+    width: 44.8,
+    height: 44.8,
+    borderRadius: 22.4,
     borderWidth: 2,
     borderColor: 'white',
   },
@@ -537,14 +536,14 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     right: 0,
-    width: 14,
-    height: 14,
-    borderRadius: 7,
+    width: 11.2,
+    height: 11.2,
+    borderRadius: 5.6,
     borderWidth: 2,
     borderColor: 'white',
   },
   topFriendName: {
-    fontSize: typography.sizes.sm,
+    fontSize: 11.2,
     fontFamily: typography.fonts.medium,
     color: colors.text.primary,
   },
@@ -568,7 +567,7 @@ const styles = StyleSheet.create({
     marginBottom: spacing.md,
   },
   friendsListTitle: {
-    fontSize: typography.sizes.xl,
+    fontSize: 19.2,
     fontFamily: typography.fonts.bold,
     color: colors.text.primary,
     marginBottom: spacing.xs,
@@ -576,12 +575,12 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
   },
   friendsListSubtitle: {
-    fontSize: typography.sizes.sm,
+    fontSize: 11.2,
     fontFamily: typography.fonts.regular,
     color: colors.text.secondary,
   },
   sortByText: {
-    fontSize: typography.sizes.sm,
+    fontSize: 11.2,
     fontFamily: typography.fonts.medium,
     color: colors.primary.pink,
   },
@@ -599,9 +598,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'rgba(255, 255, 255, 0.8)',
     borderRadius: 16,
-    padding: spacing.md,
+    padding: spacing.sm,
     marginHorizontal: spacing.lg,
-    marginBottom: spacing.md,
+    marginBottom: spacing.sm,
     borderWidth: 1,
     borderColor: `${colors.secondary.darkBlueGray}33`,
   },
@@ -612,12 +611,12 @@ const styles = StyleSheet.create({
   },
   avatarContainer: {
     position: 'relative',
-    marginRight: spacing.md,
+    marginRight: spacing.sm,
   },
   avatarImage: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
+    width: 44.8,
+    height: 44.8,
+    borderRadius: 22.4,
     borderWidth: 2,
     borderColor: 'white',
   },
@@ -625,9 +624,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     right: 0,
-    width: 14,
-    height: 14,
-    borderRadius: 7,
+    width: 11.2,
+    height: 11.2,
+    borderRadius: 5.6,
     borderWidth: 2,
     borderColor: 'white',
   },
@@ -635,7 +634,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   friendName: {
-    fontSize: typography.sizes.base,
+    fontSize: 12.8,
     fontFamily: typography.fonts.semibold,
     color: colors.text.primary,
     marginBottom: 4,
@@ -647,7 +646,7 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   booksText: {
-    fontSize: typography.sizes.sm,
+    fontSize: 11.2,
     fontFamily: typography.fonts.regular,
     color: colors.text.secondary,
     includeFontPadding: false,
@@ -657,7 +656,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
   balanceAmount: {
-    fontSize: typography.sizes.lg,
+    fontSize: 14.4,
     fontFamily: typography.fonts.bold,
     marginBottom: 4,
   },
@@ -667,7 +666,7 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   statusText: {
-    fontSize: typography.sizes.sm,
+    fontSize: 11.2,
     fontFamily: typography.fonts.medium,
   },
 });

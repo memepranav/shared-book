@@ -55,7 +55,7 @@ const MoreIcon = () => (
 );
 
 const CoinIcon = () => (
-  <Svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+  <Svg width="25.6" height="25.6" viewBox="0 0 24 24" fill="none">
     <Circle cx="12" cy="12" r="10" fill="#FFB800" />
     <Path
       d="M12 6V18M9 9H12.5C13.163 9 13.7989 9.26339 14.2678 9.73223C14.7366 10.2011 15 10.837 15 11.5C15 12.163 14.7366 12.7989 14.2678 13.2678C13.7989 13.7366 13.163 14 12.5 14H9"
@@ -307,7 +307,6 @@ export const NotificationsScreen: React.FC<NotificationsScreenProps> = ({
         {/* Header */}
         <View style={styles.header}>
           <View style={styles.headerLeft}>
-            <BellIcon />
             <Text style={styles.headerTitle}>Notifications</Text>
           </View>
           <TouchableOpacity style={styles.headerButton}>
@@ -419,7 +418,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   headerTitle: {
-    fontSize: typography.sizes.xl,
+    fontSize: 19.2,
     fontFamily: typography.fonts.bold,
     color: colors.text.primary,
     includeFontPadding: false,
@@ -442,10 +441,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: spacing.md,
+    marginBottom: spacing.sm,
   },
   stickyHeaderTitle: {
-    fontSize: typography.sizes.xl,
+    fontSize: 19.2,
     fontFamily: typography.fonts.bold,
     color: colors.text.primary,
     marginBottom: spacing.xs,
@@ -453,7 +452,7 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
   },
   stickyHeaderDate: {
-    fontSize: typography.sizes.sm,
+    fontSize: 11.2,
     fontFamily: typography.fonts.regular,
     color: colors.text.secondary,
   },
@@ -463,17 +462,17 @@ const styles = StyleSheet.create({
     marginTop: -25,
   },
   dateHeader: {
-    fontSize: typography.sizes.base,
+    fontSize: 12.8,
     fontFamily: typography.fonts.bold,
     color: colors.text.primary,
-    marginTop: spacing.sm,
-    marginBottom: spacing.md,
+    marginTop: spacing.xs,
+    marginBottom: spacing.sm,
   },
   notificationCard: {
     backgroundColor: 'white',
-    borderRadius: 16,
-    padding: spacing.md,
-    marginBottom: spacing.md,
+    borderRadius: 12,
+    padding: spacing.sm,
+    marginBottom: spacing.sm,
     borderWidth: 1,
     borderColor: `${colors.secondary.darkBlueGray}33`,
   },
@@ -481,27 +480,27 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: spacing.xs,
+    marginBottom: 6,
   },
   notificationTitle: {
-    fontSize: typography.sizes.lg,
+    fontSize: 14.4,
     fontFamily: typography.fonts.bold,
     color: colors.text.primary,
   },
   notificationTime: {
-    fontSize: typography.sizes.sm,
+    fontSize: 11.2,
     fontFamily: typography.fonts.regular,
     color: colors.text.tertiary,
   },
   notificationMessage: {
-    fontSize: typography.sizes.base,
+    fontSize: 12.8,
     fontFamily: typography.fonts.regular,
     color: colors.text.secondary,
-    lineHeight: typography.sizes.base * 1.5,
-    marginBottom: spacing.sm,
+    lineHeight: 12.8 * 1.5,
+    marginBottom: spacing.xs,
   },
   readMoreText: {
-    fontSize: typography.sizes.base,
+    fontSize: 12.8,
     fontFamily: typography.fonts.medium,
     color: '#FF9800',
   },
@@ -509,26 +508,26 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: spacing.sm,
+    marginTop: spacing.xs,
   },
   pointsBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: spacing.sm,
+    gap: spacing.xs,
   },
   pointsText: {
-    fontSize: typography.sizes.base,
+    fontSize: 12.8,
     fontFamily: typography.fonts.semibold,
     color: colors.text.primary,
   },
   actionButton: {
     backgroundColor: '#FF9800',
-    paddingVertical: spacing.sm,
-    paddingHorizontal: spacing.xl,
-    borderRadius: 20,
+    paddingVertical: spacing.xs,
+    paddingHorizontal: spacing.lg,
+    borderRadius: 16,
   },
   actionButtonText: {
-    fontSize: typography.sizes.base,
+    fontSize: 12.8,
     fontFamily: typography.fonts.semibold,
     color: 'white',
     textAlign: 'center',
